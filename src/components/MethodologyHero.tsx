@@ -70,12 +70,12 @@ export default function MethodologyHero() {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute bottom-6 left-6 flex items-center gap-3 z-10">
-                            <span className="text-white font-medium text-sm">
+                            {/* <span className="text-white font-medium text-sm">
                                 {t("methodology.hero.videoOverlay")}
-                            </span>
-                            <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white">
+                            </span> */}
+                            {/* <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white">
                                 <Play size={16} fill="white" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </FadeInUp>
@@ -85,11 +85,22 @@ export default function MethodologyHero() {
             <FadeInUp delay={0.2}>
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 items-end">
                     {/* Left: Button */}
-                    <div>
-                        <a href="/cv.pdf" target="_blank" className="inline-flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-white no-underline font-medium transition-all duration-200 bg-transparent hover:bg-white/5 hover:border-white">
+                    <div className="relative group inline-block">
+                        <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="inline-flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-white/50 no-underline font-medium transition-all duration-200 bg-transparent cursor-not-allowed"
+                        >
                             <Download size={18} />
                             {t("methodology.hero.downloadCV")}
                         </a>
+
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-[#18181b] border border-white/10 rounded-lg text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
+                            {t("methodology.hero.downloadCV.tooltip")}
+                            {/* Arrow */}
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#18181b]"></div>
+                        </div>
                     </div>
 
                     {/* Right: Text */}

@@ -52,6 +52,7 @@ export default function Footer() {
                         </h4>
                         <div className="flex flex-col gap-4">
                             <Link href="/about" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.about")}</Link>
+                            <Link href="/methodology" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.methodology")}</Link>
                             <Link href="/case-studies" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("cases.title")}</Link>
                             <Link href="/blog" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.blog")}</Link>
                         </div>
