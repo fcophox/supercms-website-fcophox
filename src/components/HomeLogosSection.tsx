@@ -28,7 +28,7 @@ export default function HomeLogosSection() {
         <section className="w-full max-w-[1200px] mx-auto px-8 py-16 mb-16">
             {/* Header */}
             <FadeInUp>
-                <h2 className="text-[clamp(1.5rem,4vw,2rem)] font-extralight text-white mb-12 text-left">
+                <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-extralight text-white mb-12 text-left">
                     {t("home.logos.title")}
                 </h2>
             </FadeInUp>

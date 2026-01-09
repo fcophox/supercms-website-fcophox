@@ -156,7 +156,7 @@ export default function HomeProjectsSection() {
         <section className="w-full py-16 overflow-hidden select-none bg-[#09090b]">
             <FadeInUp>
                 <div className="max-w-[1200px] mx-auto px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-                    <h2 className="text-[clamp(1.5rem,4vw,2rem)] font-light text-white leading-tight text-left w-full md:max-w-[660px]">
+                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-white leading-tight text-left w-full md:max-w-[750px]">
                         {language === 'es'
                             ? "Selección de algunos proyectos digitales desde 2018 hasta hoy"
                             : "Selection of digital projects from 2018 to today"}
@@ -175,22 +175,13 @@ export default function HomeProjectsSection() {
             <FadeInUp delay={0.2}>
                 <div
                     ref={sliderRef}
-                    className="overflow-x-auto flex gap-6 px-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-12"
+                    className="overflow-x-auto flex gap-6 px-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-12 scrollbar-hide"
                     onMouseDown={handleMouseDown}
                     onMouseLeave={handleMouseLeave}
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                     onScroll={handleScroll}
-                    style={{
-                        scrollbarWidth: 'none',
-                        msOverflowStyle: 'none',
-                    }}
                 >
-                    <style jsx>{`
-                        div::-webkit-scrollbar {
-                            display: none;
-                        }
-                     `}</style>
 
                     {/* Responsive Spacer to align first item with centered header on large screens */}
                     <div className="shrink-0 w-[calc(max(0px,calc((100vw-1260px)/2)))]" />
@@ -215,7 +206,7 @@ export default function HomeProjectsSection() {
                                                 </div>
                                             )}
 
-                                            <h3 className="text-2xl md:text-2xl font-normal text-white mb-6 leading-tight group-hover:text-primary transition-colors text-left">
+                                            <h3 className="text-[clamp(1.25rem,3vw,1.8rem)] font-normal text-white mb-6 leading-tight group-hover:text-primary transition-colors text-left">
                                                 {title}
                                             </h3>
 

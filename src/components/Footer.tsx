@@ -94,7 +94,7 @@ export default function Footer() {
                             alt="Logo"
                             className="h-[23px] w-auto opacity-70"
                         />
-                        <span>fcophox.com - {t("footer.rights")} - 2025</span>
+                        <span>fcophox.com - {t("footer.rights")} - 2026</span>
                     </div>
                 </div>
             </div>

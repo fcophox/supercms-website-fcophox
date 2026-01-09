@@ -17,6 +17,7 @@ interface Article {
     content_en?: string;
     image_url: string;
     created_at: string;
+    published_at?: string;
     status: string;
     category?: string;
 }
@@ -36,7 +37,7 @@ export default function HomeBlogSection() {
             .from('articles')
             .select('*')
             .eq('status', 'published')
-            .order('created_at', { ascending: false })
+            .order('published_at', { ascending: false })
             .limit(2);
 
         if (error) {
@@ -63,7 +64,7 @@ export default function HomeBlogSection() {
             {/* Header */}
             <FadeInUp>
                 <div className="flex justify-between items-end mb-12 gap-8 flex-wrap">
-                    <h2 className="text-[clamp(1.5rem,4vw,2rem)] font-extralight text-white max-w-[700px] leading-tight text-left">
+                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-extralight text-white max-w-[700px] leading-tight text-left">
                         {t("home.blog.title")}
                     </h2>
 
@@ -103,14 +104,14 @@ export default function HomeBlogSection() {
 
                                     {/* Content */}
                                     <div className="p-6 flex-1 flex flex-col text-left">
-                                        <h3 className="text-white text-xl font-medium mb-4 leading-snug transition-colors duration-200">
+                                        <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-medium mb-4 leading-snug transition-colors duration-200">
                                             {title}
                                         </h3>
 
                                         <div className="flex items-center gap-4 font-mono text-[0.9rem] text-zinc-600 mb-4">
                                             <div className="flex items-center gap-2">
                                                 <Calendar size={14} />
-                                                <span>{new Date(article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                                <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                                             </div>
 
                                             {article.category && (

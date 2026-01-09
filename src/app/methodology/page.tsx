@@ -1,45 +1,27 @@
-"use client";
+import type { Metadata } from 'next';
+import MethodologyClient from './MethodologyClient';
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import MethodologyCertifications from "@/components/MethodologyCertifications";
-import MethodologyHero from "@/components/MethodologyHero";
-
-import Image from "next/image";
-import FadeInUp from "@/components/FadeInUp";
-
-import { useLanguage } from "@/context/LanguageContext";
+export const metadata: Metadata = {
+    title: 'Metodología y Certificaciones | fcoPhox',
+    description: 'Conoce mi metodología de trabajo y certificaciones profesionales. Un enfoque basado en datos, UX Research y diseño centrado en el usuario.',
+    openGraph: {
+        title: 'Metodología y Certificaciones | fcoPhox',
+        description: 'Conoce mi metodología de trabajo y certificaciones profesionales. Un enfoque basado en datos, UX Research y diseño centrado en el usuario.',
+        url: 'https://fcophox.com/methodology',
+        siteName: 'fcoPhox',
+        images: [
+            {
+                url: '/methodology/methodology.png',
+                width: 1200,
+                height: 630,
+                alt: 'Metodología de trabajo fcoPhox',
+            },
+        ],
+        locale: 'es_ES',
+        type: 'website',
+    },
+};
 
 export default function MethodologyPage() {
-    const { t } = useLanguage();
-
-    return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#09090b" }}>
-            <Navbar />
-
-            <main style={{ flex: 1, padding: "2rem", maxWidth: "1100px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
-                <MethodologyHero />
-
-                <FadeInUp delay={0.2}>
-                    <div className="w-full mb-24 rounded-3xl overflow-hidden border border-white/10 bg-white/5">
-                        <Image
-                            src="/methodology/methodology.png"
-                            alt="Methodology Process"
-                            width={1100}
-                            height={600}
-                            className="w-full h-auto object-cover"
-                            priority
-                        />
-                    </div>
-                    <p className="text-left text-based text-white/80 -mt-16 mb-24 mx-auto leading-relaxed">
-                        {t("methodology.process.caption")}
-                    </p>
-                </FadeInUp>
-
-                <MethodologyCertifications />
-            </main>
-
-            <Footer />
-        </div>
-    );
+    return <MethodologyClient />;
 }

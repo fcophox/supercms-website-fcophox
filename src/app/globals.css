@@ -115,6 +115,18 @@ a {
 
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
-  /* Important: Start hidden */
+
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
