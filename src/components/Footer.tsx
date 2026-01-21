@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Linkedin, Github, ExternalLink } from "lucide-react";
+import { Linkedin, Github, ExternalLink, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import ContactCTA from "./ContactCTA";
 
@@ -38,13 +38,17 @@ export default function Footer() {
                                 </div>
                             </div>
 
-                            <div className="mt-4">
-                                <h4 className="text-white text-[0.8rem] font-bold mb-2">
-                                    {t("nav.contact")}
-                                </h4>
-                                <a href="mailto:hi@fcophox.com" className="text-primary hover:text-primary/80 no-underline flex items-center gap-2 text-[0.9rem]">
-                                    hi@fcophox.com
-                                </a>
+                            <div className="mt-4 flex flex-col gap-3 items-start">
+                                <p className="text-[#a1a1aa] text-[0.9rem]">
+                                    {t("footer.cta.text")}
+                                </p>
+                                <Link
+                                    href="/contact"
+                                    className="bg-primary/10 border border-primary/20 hover:bg-primary hover:text-white text-primary text-[0.85rem] font-medium px-5 py-2.5 rounded-full transition-all duration-300 flex items-center gap-2 group"
+                                >
+                                    {t("footer.cta.button")}
+                                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </Link>
                             </div>
                         </div>
 

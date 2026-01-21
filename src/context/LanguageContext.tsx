@@ -115,6 +115,8 @@ const translations: Record<string, Record<Language, string>> = {
     "footer.sitemap": { es: "Mapa del sitio", en: "Sitemap" },
     "footer.socials": { es: "Redes sociales", en: "Socials" },
     "footer.role": { es: "Sr. Product Designer | UX & CRO Consultant | UX Engineer", en: "Sr. Product Designer | UX & CRO Consultant | UX Engineer" },
+    "footer.cta.text": { es: "¿Tienes un proyecto en mente?", en: "Have a project in mind?" },
+    "footer.cta.button": { es: "Contáctame", en: "Contact me" },
     "methodology.process.caption": {
         es: "Este proceso creado desde la experiencia empírica y de manera autónoma, tras años de experiencias en Consultoria en UX y usabilidad, abordando diferentes proyectos con diferentes profesionales y diferentes clientes. Product Experience Optimization Engineer (PEOE), tiene un enfoque disciplinado y cíclico que combina, la investigación, los datos, el desarrollo de prototipos y codificación, y medición de experiencias, todo desde un mismo perfil, con la experiencias, la visión y expertise del Product Designer.", en: "This process, created from empirical experience and independently, after years of experience in UX and usability consulting, tackling different projects with different professionals and different clients, is called Product Experience Optimization Engineer (PEOE). It has a disciplined and cyclical approach that combines research, data, prototype development and coding, and experience measurement, all from the same profile, with the experience, vision, and expertise of the Product Designer."
     },

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { Send, Mail, User, MessageSquare } from "lucide-react";
+import { Send, Mail, User, MessageSquare, ArrowLeft } from "lucide-react";
+import FadeInUp from "@/components/FadeInUp";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -29,8 +31,21 @@ export default function ContactClient() {
         e.preventDefault();
         setStatus("sending");
 
-        // Simulate API call
-        setTimeout(() => {
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to send message");
+            }
+
             setStatus("success");
             setFormData({ name: "", email: "", message: "" });
 
@@ -38,173 +53,141 @@ export default function ContactClient() {
             setTimeout(() => {
                 setStatus("idle");
             }, 3000);
-        }, 1500);
+        } catch (error) {
+            console.error("Error sending message:", error);
+            setStatus("error");
+            // Reset status after 3 seconds so user can try again
+            setTimeout(() => {
+                setStatus("idle");
+            }, 3000);
+        }
     };
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#09090b" }}>
+        <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main style={{
-                flex: 1,
-                padding: "4rem 2rem",
-                maxWidth: "1200px",
-                margin: "0 auto",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center"
-            }}>
+            <main className="flex-1 p-8 max-w-[1100px] mx-auto w-full pt-24 pb-24">
 
-                {/* Header */}
-                <div style={{ textAlign: "center", marginBottom: "4rem", maxWidth: "600px" }}>
-                    <h1 style={{
-                        fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
-                        fontWeight: "700",
-                        marginBottom: "1rem",
-                        background: "linear-gradient(to right, #fff, #94a3b8)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent"
-                    }}>
-                        {t("contact.title")}
-                    </h1>
-                    <p style={{
-                        color: "var(--text-muted)",
-                        fontSize: "1.125rem",
-                        lineHeight: 1.6
-                    }}>
-                        {t("contact.subtitle")}
-                    </p>
-                </div>
+                {/* Back Link */}
+                <FadeInUp duration={0.5}>
+                    <Link href="/" className="inline-flex items-center gap-2 text-muted mb-12 no-underline text-sm opacity-70">
+                        <ArrowLeft size={16} /> {t("common.backHome")}
+                    </Link>
+                </FadeInUp>
+
+                {/* Header Section */}
+                <FadeInUp delay={0.1}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 items-start">
+                        <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-extralight text-white leading-[1.1] tracking-tight max-w-[12em]">
+                            {t("contact.title")}
+                        </h1>
+
+                        <p className="text-[#A1A1AA] text-lg leading-relaxed max-w-[50ch]">
+                            {t("contact.subtitle")}
+                        </p>
+                    </div>
+                </FadeInUp>
 
                 {/* Contact Form Container */}
-                <div className="glass-panel" style={{
-                    width: "100%",
-                    maxWidth: "600px",
-                    padding: "3rem",
-                    borderRadius: "24px",
-                    position: "relative",
-                    overflow: "hidden"
-                }}>
-                    {/* Background decoration */}
-                    <div style={{
-                        position: "absolute",
-                        top: "-50%",
-                        left: "-50%",
-                        width: "200%",
-                        height: "200%",
-                        background: "radial-gradient(circle at center, rgba(139, 92, 246, 0.03), transparent 70%)",
-                        pointerEvents: "none",
-                        zIndex: 0
-                    }} />
+                <FadeInUp delay={0.2}>
+                    <div className="glass-panel w-full p-8 rounded-3xl relative overflow-hidden">
+                        {/* Background decoration */}
+                        <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.03),transparent_70%)] pointer-events-none z-0" />
 
-                    <form onSubmit={handleSubmit} style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
 
-                        {/* Name Input */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            <label htmlFor="name" style={{ color: "white", fontWeight: 500, fontSize: "0.95rem", marginLeft: "0.25rem" }}>
-                                {t("contact.form.name")}
-                            </label>
-                            <div style={{ position: "relative" }}>
-                                <User size={18} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    className="input-field"
-                                    placeholder={t("contact.form.namePlaceholder")}
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    style={{ paddingLeft: "3rem" }}
-                                    required
-                                />
+                            <div className="lg:col-span-2 mx-auto w-full">
+                                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {/* Name Input */}
+                                        <div className="flex flex-col gap-2">
+                                            <label htmlFor="name" className="text-white font-medium text-[0.95rem] ml-1">
+                                                {t("contact.form.name")}
+                                            </label>
+                                            <div className="relative">
+                                                <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+                                                <input
+                                                    type="text"
+                                                    id="name"
+                                                    name="name"
+                                                    className="input-field !pl-12"
+                                                    placeholder={t("contact.form.namePlaceholder")}
+                                                    value={formData.name}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Email Input */}
+                                        <div className="flex flex-col gap-2">
+                                            <label htmlFor="email" className="text-white font-medium text-[0.95rem] ml-1">
+                                                {t("contact.form.email")}
+                                            </label>
+                                            <div className="relative">
+                                                <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+                                                <input
+                                                    type="email"
+                                                    id="email"
+                                                    name="email"
+                                                    className="input-field !pl-12"
+                                                    placeholder={t("contact.form.emailPlaceholder")}
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Message Input */}
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="message" className="text-white font-medium text-[0.95rem] ml-1">
+                                            {t("contact.form.message")}
+                                        </label>
+                                        <div className="relative">
+                                            <MessageSquare size={18} className="absolute left-3 top-3.5 text-muted pointer-events-none" />
+                                            <textarea
+                                                id="message"
+                                                name="message"
+                                                className="input-field !pl-12 resize-y min-h-[120px]"
+                                                placeholder={t("contact.form.messagePlaceholder")}
+                                                value={formData.message}
+                                                onChange={handleChange}
+                                                rows={5}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Submit Button */}
+                                    <button
+                                        type="submit"
+                                        className={`bg-primary rounded-full flex items-center justify-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(72,59,252,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4 w-fit self-end`}
+                                        disabled={status === "sending" || status === "success"}
+                                    >
+                                        {status === "sending" ? (
+                                            <>
+                                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                {t("contact.form.sending")}
+                                            </>
+                                        ) : status === "success" ? (
+                                            t("contact.form.success")
+                                        ) : status === "error" ? (
+                                            <span className="text-red-500">Error</span>
+                                        ) : (
+                                            <>
+                                                {t("contact.form.submit")} <Send size={18} />
+                                            </>
+                                        )}
+                                    </button>
+                                </form>
                             </div>
                         </div>
-
-                        {/* Email Input */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            <label htmlFor="email" style={{ color: "white", fontWeight: 500, fontSize: "0.95rem", marginLeft: "0.25rem" }}>
-                                {t("contact.form.email")}
-                            </label>
-                            <div style={{ position: "relative" }}>
-                                <Mail size={18} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    className="input-field"
-                                    placeholder={t("contact.form.emailPlaceholder")}
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    style={{ paddingLeft: "3rem" }}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Message Input */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            <label htmlFor="message" style={{ color: "white", fontWeight: 500, fontSize: "0.95rem", marginLeft: "0.25rem" }}>
-                                {t("contact.form.message")}
-                            </label>
-                            <div style={{ position: "relative" }}>
-                                <MessageSquare size={18} style={{ position: "absolute", left: "1rem", top: "1rem", color: "var(--text-muted)" }} />
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    className="input-field"
-                                    placeholder={t("contact.form.messagePlaceholder")}
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    rows={5}
-                                    style={{ paddingLeft: "3rem", resize: "vertical", minHeight: "120px" }}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="btn-primary"
-                            disabled={status === "sending" || status === "success"}
-                            style={{
-                                marginTop: "1rem",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: "0.5rem",
-                                opacity: status === "sending" ? 0.7 : 1
-                            }}
-                        >
-                            {status === "sending" ? (
-                                <>
-                                    <div style={{
-                                        width: "16px",
-                                        height: "16px",
-                                        border: "2px solid rgba(255,255,255,0.3)",
-                                        borderTopColor: "white",
-                                        borderRadius: "50%",
-                                        animation: "spin 1s linear infinite"
-                                    }} />
-                                    {t("contact.form.sending")}
-                                </>
-                            ) : status === "success" ? (
-                                t("contact.form.success")
-                            ) : (
-                                <>
-                                    {t("contact.form.submit")} <Send size={18} />
-                                </>
-                            )}
-                        </button>
-
-                        <style jsx>{`
-                            @keyframes spin {
-                                to { transform: rotate(360deg); }
-                            }
-                        `}</style>
-                    </form>
-                </div>
+                    </div>
+                </FadeInUp>
 
             </main>
 
