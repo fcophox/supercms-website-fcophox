@@ -1,0 +1,98 @@
+/* Basic Tiptap Editor Styles */
+.ProseMirror p.is-editor-empty:first-child::before {
+    color: #64748b;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+.ProseMirror {
+    outline: none !important;
+    line-height: 1.75;
+}
+
+.ProseMirror>*+* {
+    margin-top: 0.75em;
+}
+
+.ProseMirror ul {
+    padding: 0 1rem;
+    list-style-type: disc !important;
+}
+
+.ProseMirror ol {
+    padding: 0 1rem;
+    list-style-type: decimal !important;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+    line-height: 1.1;
+    font-weight: 700;
+    margin-top: 1.5em;
+    color: white;
+}
+
+.ProseMirror h1 {
+    font-size: 2em;
+}
+
+.ProseMirror h2 {
+    font-size: 1.5em;
+}
+
+.ProseMirror h3 {
+    font-size: 1.25em;
+}
+
+.ProseMirror code {
+    background-color: rgba(97, 97, 97, 0.2);
+    color: #e2e8f0;
+    border-radius: 0.25rem;
+    padding: 0.25em 0.3em;
+    font-family: monospace;
+}
+
+.ProseMirror blockquote {
+    border-left: 3px solid hsl(var(--primary));
+    padding-left: 1rem;
+    margin-left: 0;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.ProseMirror hr {
+    border: none;
+    border-top: 1px solid var(--glass-border);
+    margin: 2rem 0;
+}
+
+/* Image Styles */
+.ProseMirror img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0 0.5rem 0;
+    /* Adjusted margin to sit closer to caption */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Caption Styles - Target paragraph immediately following an image */
+/* Caption Styles - Target paragraph immediately following an image */
+.ProseMirror img+p,
+.ProseMirror p:has(> img)+p {
+    text-align: center !important;
+    color: var(--text-muted) !important;
+    font-size: 0.9rem !important;
+    font-style: italic;
+    margin-top: 0.5rem !important;
+    margin-bottom: 2rem !important;
+    opacity: 0.8;
+}

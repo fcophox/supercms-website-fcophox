@@ -1,0 +1,125 @@
+[00:00:02.942] Server  LOG     ✓ Ready in 2.4s
+[00:01:13.638] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:29.693] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:32.767] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:05.452] Server  LOG     ✓ Compiled in 3.2s
+[00:05:05.510] Browser ERROR   ./src/app/page.tsx:38:23
+Parsing ecmascript source code failed
+  36 |       <Navbar />
+  37 |
+> 38 |       <main className=">
+     |                       ^^
+> 39 |         <Hero />
+     | ^^^^^^^^^^^^^^^^
+> 40 |         <HomeProjectsSection />
+     | ^^^^^^^^^^^^^^^^
+> 41 |         <HomeLogosSection />
+     | ^^^^^^^^^^^^^^^^
+> 42 |         <HomeBlogSection />
+     | ^^^^^^^^^^^^^^^^
+> 43 |       </main>
+     | ^^^^^^^^^^^^^^^^
+> 44 |
+     | ^^^^^^^^^^^^^^^^
+> 45 |       <Footer />
+     | ^^^^^^^^^^^^^^^^
+> 46 |     </div>
+     | ^^^^^^^^^^^^^^^^
+> 47 |   );
+     | ^^^^^^^^^^^^^^^^
+> 48 | }
+     | ^^^^^^^^^^^^^^^^
+> 49 |
+     | ^
+
+Unterminated string constant
+[00:05:05.513] Browser ERROR   ./src/app/page.tsx:38:23
+Parsing ecmascript source code failed
+  36 |       <Navbar />
+  37 |
+> 38 |       <main className=">
+     |                       ^^
+> 39 |         <Hero />
+     | ^^^^^^^^^^^^^^^^
+> 40 |         <HomeProjectsSection />
+     | ^^^^^^^^^^^^^^^^
+> 41 |         <HomeLogosSection />
+     | ^^^^^^^^^^^^^^^^
+> 42 |         <HomeBlogSection />
+     | ^^^^^^^^^^^^^^^^
+> 43 |       </main>
+     | ^^^^^^^^^^^^^^^^
+> 44 |
+     | ^^^^^^^^^^^^^^^^
+> 45 |       <Footer />
+     | ^^^^^^^^^^^^^^^^
+> 46 |     </div>
+     | ^^^^^^^^^^^^^^^^
+> 47 |   );
+     | ^^^^^^^^^^^^^^^^
+> 48 | }
+     | ^^^^^^^^^^^^^^^^
+> 49 |
+     | ^
+
+Unterminated string constant
+[00:05:05.531] Browser ERROR   ./src/app/page.tsx:38:23
+Parsing ecmascript source code failed
+  36 |       <Navbar />
+  37 |
+> 38 |       <main className=">
+     |                       ^^
+> 39 |         <Hero />
+     | ^^^^^^^^^^^^^^^^
+> 40 |         <HomeProjectsSection />
+     | ^^^^^^^^^^^^^^^^
+> 41 |         <HomeLogosSection />
+     | ^^^^^^^^^^^^^^^^
+> 42 |         <HomeBlogSection />
+     | ^^^^^^^^^^^^^^^^
+> 43 |       </main>
+     | ^^^^^^^^^^^^^^^^
+> 44 |
+     | ^^^^^^^^^^^^^^^^
+> 45 |       <Footer />
+     | ^^^^^^^^^^^^^^^^
+> 46 |     </div>
+     | ^^^^^^^^^^^^^^^^
+> 47 |   );
+     | ^^^^^^^^^^^^^^^^
+> 48 | }
+     | ^^^^^^^^^^^^^^^^
+> 49 |
+     | ^
+
+Unterminated string constant
+[00:05:08.525] Server  LOG     ✓ Compiled in 286ms
+[00:05:11.853] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:12.901] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:59.984] Server  LOG     ✓ Compiled in 195ms
+[00:07:09.695] Server  WARN    Error: Route "/blog/[slug]" used `params.slug`. `params` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[00:07:27.629] Server  LOG     ✓ Compiled in 786ms
+[00:07:35.908] Server  LOG     ✓ Compiled in 342ms
+[00:07:40.522] Server  LOG     ✓ Compiled in 329ms
+[00:07:42.984] Server  LOG     ✓ Compiled in 322ms
+[00:07:46.371] Server  LOG     ✓ Compiled in 315ms
+[00:07:48.574] Server  LOG     ✓ Compiled in 323ms
+[00:07:51.568] Server  LOG     ✓ Compiled in 298ms
+[00:07:56.255] Server  LOG     ✓ Compiled in 308ms
+[00:07:58.160] Server  LOG     ✓ Compiled in 295ms
+[00:08:04.997] Server  LOG     ✓ Compiled in 504ms
+[00:08:13.944] Server  LOG     ✓ Compiled in 298ms
+[00:08:16.797] Server  LOG     ✓ Compiled in 315ms
+[00:08:21.350] Server  LOG     ✓ Compiled in 336ms
+[00:08:29.395] Server  LOG     ✓ Compiled in 732ms
+[00:08:38.296] Server  LOG     ✓ Compiled in 332ms
+[00:08:43.164] Server  LOG     ✓ Compiled in 302ms
+[00:08:47.933] Server  LOG     ✓ Compiled in 308ms
+[00:08:51.376] Server  LOG     ✓ Compiled in 320ms
+[00:08:55.589] Server  LOG     ✓ Compiled in 307ms
+[00:09:02.903] Server  LOG     ✓ Compiled in 696ms
+[00:09:08.903] Server  LOG     ✓ Compiled in 576ms
+[00:09:13.246] Server  LOG     ✓ Compiled in 585ms
+[00:09:20.264] Server  LOG     ✓ Compiled in 293ms
+[00:09:23.015] Server  LOG     ✓ Compiled in 281ms
+[00:09:29.385] Server  LOG     ✓ Compiled in 302ms
