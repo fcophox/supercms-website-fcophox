@@ -67,7 +67,7 @@ export default function ContactClient() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-[1100px] mx-auto w-full pt-24 pb-24">
+            <main className="flex-1 p-8 max-w-[1200px] mx-auto w-full pt-24 pb-24">
 
                 {/* Back Link */}
                 <FadeInUp duration={0.5}>

@@ -11,8 +11,8 @@ export default function Footer() {
     return (
         <>
             <ContactCTA />
-            <footer className="border-t border-white/10 pt-16 pb-8 mt-auto w-full max-w-[1100px] mx-auto bg-[#09090b]">
-                <div className="max-w-[1100px] mx-auto">
+            <footer className="border-t border-white/10 pt-16 pb-8 mt-auto w-full max-w-[1200px] mx-auto bg-[#09090b]">
+                <div className="max-w-[1200px] mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-[2.5fr_1fr_1fr] gap-16 mb-16 px-8">
                         {/* Left Column: Profile & Contact */}
                         <div className="flex flex-col gap-6">

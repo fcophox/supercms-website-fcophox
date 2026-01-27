@@ -93,7 +93,7 @@ export default function Navbar() {
                         href="/contact"
                         className="py-2.5 px-5 rounded-full border border-white/20 text-white no-underline text-[0.9rem] font-semibold flex items-center gap-2 transition-all duration-200 hover:bg-white/10"
                     >
-                        <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                        <span className="w-2 h-2 rounded-full bg-green-500 inline-block animate-status-pulse"></span>
                         {t("nav.contact")}
                     </Link>
                 </div>

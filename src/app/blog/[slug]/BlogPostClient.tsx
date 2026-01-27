@@ -93,7 +93,7 @@ export default function BlogPostClient() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-[1100px] mx-auto w-full pt-24">
+            <main className="flex-1 p-8 max-w-[1200px] mx-auto w-full pt-24">
                 <article>
 
                     {/* Back Link */}

@@ -185,14 +185,14 @@ export default function MethodologyCertifications() {
 
             {/* Filters */}
             <FadeInUp delay={0.1}>
-                <div className="flex gap-4 mb-12 flex-wrap">
+                <div className="flex gap-8 mb-12 border-b border-white/10 flex-wrap">
                     {categories.map((cat) => (
                         <button
                             key={cat.key}
                             onClick={() => setFilter(cat.key)}
-                            className={`px-6 py-3 rounded-full border-none cursor-pointer text-[0.95rem] font-medium transition-all duration-200 ease-in-out ${filter === cat.key
-                                ? "bg-primary text-white"
-                                : "bg-[#1f1f22] text-[#a1a1aa] hover:bg-[#27272a]"
+                            className={`pb-4 text-[0.95rem] font-medium transition-all duration-200 ease-in-out border-b whitespace-nowrap -mb-px ${filter === cat.key
+                                ? "border-white text-white"
+                                : "border-transparent text-white/50 hover:text-white/80"
                                 }`}
                         >
                             {cat.label}
