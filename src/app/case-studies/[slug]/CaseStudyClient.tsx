@@ -6,7 +6,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, ArrowLeft, Tag } from "lucide-react";
+import { Calendar, ArrowLeft, Tag, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
@@ -34,6 +34,8 @@ export default function CaseStudyClient() {
     const { slug } = params;
 
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
+    const [prevCase, setPrevCase] = useState<CaseStudy | null>(null);
+    const [nextCase, setNextCase] = useState<CaseStudy | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -44,18 +46,82 @@ export default function CaseStudyClient() {
 
     const fetchCaseStudy = async (slugStr: string) => {
         setIsLoading(true);
-        const { data, error } = await supabase
+        // Fetch current case study
+        const { data: currentData, error: currentError } = await supabase
             .from('case_studies')
             .select('*')
             .or(`slug.eq.${slugStr},slug_en.eq.${slugStr}`)
             .eq('status', 'published')
             .single();
 
-        if (error) {
-            console.error("Error fetching case study:", error);
-        } else {
-            setCaseStudy(data);
+        if (currentError) {
+            console.error("Error fetching case study:", currentError);
+            setIsLoading(false);
+            return;
         }
+
+        setCaseStudy(currentData);
+
+        // Fetch all published case studies to determine prev/next
+        // Ordered by created_at descending (newest first)
+        const { data: allCases, error: allError } = await supabase
+            .from('case_studies')
+            .select('id, title, title_en, slug, slug_en, created_at, image_url')
+            .eq('status', 'published')
+            .order('created_at', { ascending: false });
+
+        if (!allError && allCases) {
+            const currentIndex = allCases.findIndex(c => c.id === currentData.id);
+
+            if (currentIndex !== -1) {
+                // Next case (newer) is at index - 1 (if exists)
+                // Previous case (older) is at index + 1 (if exists)
+                // Note: User asked for "order of publications". 
+                // Usually "Previous" means "Older" and "Next" means "Newer".
+                // In a list [Newest, ..., Oldest]:
+                // Next (Newer) is index - 1
+                // Prev (Older) is index + 1
+
+                // Wait, typically "Next" in navigation flow means "the one that comes after this in the reading order".
+                // If reading order is Newest -> Oldest, then "Next" is older (index + 1).
+                // If reading order is Oldest -> Newest (chronological), then "Next" is newer (index - 1).
+                // Blogs usually go Next -> Older post. 
+                // Let's assume standard blog navigation:
+                // Left Card (Previous) -> Newer Post (index - 1)
+                // Right Card (Next) -> Older Post (index + 1)
+
+                // Let's check the requested visual order:
+                // "uno a la derecha y otro a la izquierda"
+                // Usually Left = Previous (Newer/Older?), Right = Next (Older/Newer?)
+
+                // Let's stick to:
+                // Previous (Left): Newer post (index - 1)
+                // Next (Right): Older post (index + 1)
+
+                const newerCase = currentIndex > 0 ? allCases[currentIndex - 1] : null;
+                const olderCase = currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null;
+
+                setPrevCase(olderCase as any); // Actually user asked order of publications. Let's make Left = Older, Right = Newer?
+                // Re-reading: "deberia tener el orden de las publicaciones"
+                // If I have Post 1, Post 2, Post 3 (ordered 1..3)
+                // If I am at Post 2.
+                // Previous should be Post 1. Next should be Post 3.
+                // If the list is ordered by created_at desc: [Post 3, Post 2, Post 1]
+                // Index of Post 2 is 1.
+                // Post 3 is index 0. Post 1 is index 2.
+
+                // Let's map "Previous" to "Bit Older" (Next in array) and "Next" to "Bit Newer" (Prev in array)?
+                // Or "Previous" means "Chronologically Previous" (Older).
+
+                // Let's try:
+                // Left Card (Previous): Older (index + 1)
+                // Right Card (Next): Newer (index - 1)
+
+                setPrevCase(olderCase as any);
+                setNextCase(newerCase as any);
+            }
+        }
+
         setIsLoading(false);
     };
 
@@ -209,6 +275,71 @@ export default function CaseStudyClient() {
                     {/* Like Section */}
                     <FadeInUp delay={0.5}>
                         <ArticleLikeSection articleId={caseStudy.id} initialLikes={caseStudy.likes || 0} tableName="case_studies" />
+                    </FadeInUp>
+
+                    {/* Navigation Cards */}
+                    <FadeInUp delay={0.6}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mt-16 pt-8 border-t border-white/10">
+                            {/* Previous Case */}
+                            {prevCase ? (
+                                <Link
+                                    href={`/case-studies/${language === 'en' && prevCase.slug_en ? prevCase.slug_en : prevCase.slug}`}
+                                    className="group flex flex-col items-start gap-2 rounded-2xl bg-white/[0.03] transition-all duration-300 hover:bg-white/[0.06] hover:border-white/10 no-underline h-full relative overflow-hidden"
+                                >
+                                    {prevCase.image_url && (
+                                        <div className="w-full h-48 rounded-lg overflow-hidden relative z-10">
+                                            <img
+                                                src={prevCase.image_url}
+                                                alt={language === 'en' && prevCase.title_en ? prevCase.title_en : prevCase.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="flex flex-col gap-2 w-full relative z-10 p-6">
+                                        <h3 className="text-md font-light text-white group-hover:text-[#a78bfa] transition-colors line-clamp-2">
+                                            {language === 'en' && prevCase.title_en ? prevCase.title_en : prevCase.title}
+                                        </h3>
+                                        <span className="text-sm text-[#a1a1aa] flex items-center gap-2 group-hover:text-primary transition-colors">
+                                            <ArrowLeft size={16} />
+                                            {t("cases.prev")}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <div className="hidden md:block"></div>
+                            )}
+
+                            {/* Next Case */}
+                            {nextCase ? (
+                                <Link
+                                    href={`/case-studies/${language === 'en' && nextCase.slug_en ? nextCase.slug_en : nextCase.slug}`}
+                                    className="group flex flex-col items-end gap-1 rounded-2xl bg-white/[0.03]  transition-all duration-300 hover:bg-white/[0.06] hover:border-white/10 no-underline h-full relative overflow-hidden text-right"
+                                >
+                                    {nextCase.image_url && (
+                                        <div className="w-full h-48 rounded-lg overflow-hidden relative z-10">
+                                            <img
+                                                src={nextCase.image_url}
+                                                alt={language === 'en' && nextCase.title_en ? nextCase.title_en : nextCase.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="flex flex-col gap-2 w-full relative z-10 items-end p-6">
+                                        <h3 className="text-md font-light text-white group-hover:text-[#a78bfa] transition-colors line-clamp-2">
+                                            {language === 'en' && nextCase.title_en ? nextCase.title_en : nextCase.title}
+                                        </h3>
+                                        <span className="text-sm text-[#a1a1aa] flex items-center gap-2 group-hover:text-primary transition-colors">
+                                            {t("cases.next")}
+                                            <ArrowRight size={16} />
+                                        </span>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <div className="hidden md:block"></div>
+                            )}
+                        </div>
                     </FadeInUp>
 
                 </article>

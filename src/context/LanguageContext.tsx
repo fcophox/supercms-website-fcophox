@@ -125,8 +125,31 @@ const translations: Record<string, Record<Language, string>> = {
     "contact.cta.desc": { es: "¿Interesado en colaborar? Estamos listos para impulsar tu próximo proyecto tecnológico.", en: "Interested in collaborating? We are ready to boost your next tech project." },
     "contact.cta.button": { es: "Estemos en contacto", en: "Get in touch" },
 
+    "contact.reason1": { es: "Asesoría experta en Producto Digital", en: "Expert advice on Digital Product" },
+    "contact.reason2": { es: "Diseño centrado en resultados", en: "Results-focused design" },
+    "contact.reason3": { es: "Respuesta rápida y personalizada", en: "Fast and personalized response" },
+    "contact.reason4": { es: "Soluciones escalables y mantenibles", en: "Scalable and maintainable solutions" },
+    "contact.reason5": { es: "Metodología probada", en: "Proven methodology" },
+    "contact.reason6": { es: "Compromiso con la calidad", en: "Commitment to quality" },
+
     "like.title": { es: "¿Te parece interesante este contenido?", en: "Do you find this content interesting?" },
     "like.description": { es: "Envía un aplauso si te parece interesante, con tu apoyo seguiré creando contenido.", en: "Send a clap if you find it interesting; with your support, I will continue creating content." },
+
+    "contact.extended.title": { es: "Otras formas de conectar", en: "Other ways to connect" },
+    "contact.card.schedule.title": { es: "Agenda Virtual", en: "Virtual Agenda" },
+    "contact.card.schedule.desc": { es: "Agenda una reunión virtual directamente en mi calendario disponible.", en: "Schedule a virtual meeting directly on my available calendar." },
+    "contact.card.schedule.button": { es: "Agendar reunión", en: "Schedule meeting" },
+    "contact.card.schedule.soon": { es: "Pronto estará disponible", en: "Coming soon" },
+    "contact.card.cases.title": { es: "Casos de Estudio", en: "Case Studies" },
+    "contact.card.cases.desc": { es: "Conoce mis Casos de estudio y cómo he resuelto problemas complejos.", en: "Explore my Case Studies and see how I've solved complex problems." },
+    "contact.card.cases.button": { es: "Ver Casos", en: "View Cases" },
+
+    "contact.error.invalidEmail": { es: "Por favor ingresa un correo electrónico válido.", en: "Please enter a valid email address." },
+    "contact.error.spamDetected": { es: "Mensaje no enviado. Se ha detectado contenido sospechoso.", en: "Message not sent. Suspicious content detected." },
+    "contact.error.invalidName": { es: "Por favor ingresa un nombre válido.", en: "Please enter a valid name." },
+
+    "cases.prev": { es: "Caso Anterior", en: "Previous Case" },
+    "cases.next": { es: "Siguiente Caso", en: "Next Case" },
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
