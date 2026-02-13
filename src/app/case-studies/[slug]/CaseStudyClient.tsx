@@ -38,12 +38,6 @@ export default function CaseStudyClient() {
     const [nextCase, setNextCase] = useState<CaseStudy | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (slug) {
-            fetchCaseStudy(slug as string);
-        }
-    }, [slug]);
-
     const fetchCaseStudy = async (slugStr: string) => {
         setIsLoading(true);
         // Fetch current case study
@@ -124,6 +118,14 @@ export default function CaseStudyClient() {
 
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        if (slug) {
+            fetchCaseStudy(slug as string);
+        }
+    }, [slug]);
+
+
 
     useEffect(() => {
         if (caseStudy) {
@@ -279,7 +281,7 @@ export default function CaseStudyClient() {
 
                     {/* Navigation Cards */}
                     <FadeInUp delay={0.6}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mt-16 pt-8 border-t border-white/10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 pt-8 border-t border-white/10">
                             {/* Previous Case */}
                             {prevCase ? (
                                 <Link

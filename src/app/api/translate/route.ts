@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server';
-const translate = require('google-translate-api-x');
+// @ts-ignore
+import translate from 'google-translate-api-x';
+
+interface TranslateResponse {
+    text: string;
+    from: {
+        language: {
+            didYouMean: boolean;
+            iso: string;
+        };
+        text: {
+            autoCorrected: boolean;
+            value: string;
+            didYouMean: boolean;
+        };
+    };
+    raw: string;
+}
 
 export async function POST(request: Request) {
     try {
-        const { text, title } = await request.json();
+        const { text, title, slug } = await request.json();
 
         if (!text && !title) {
             return NextResponse.json(
@@ -12,7 +29,7 @@ export async function POST(request: Request) {
             );
         }
 
-        console.log("Translating article using Google Translate (Free)...");
+        console.log("Translating content...");
 
         let translatedTitle = "";
         let translatedContent = "";
@@ -21,7 +38,7 @@ export async function POST(request: Request) {
         if (title) {
             try {
                 // @ts-ignore
-                const titleRes = await translate(title, { to: 'en' });
+                const titleRes = await translate(title, { to: 'en' }) as TranslateResponse;
                 translatedTitle = titleRes.text;
             } catch (e) {
                 console.error("Error translating title:", e);
@@ -33,7 +50,7 @@ export async function POST(request: Request) {
         if (text) {
             try {
                 // @ts-ignore
-                const contentRes = await translate(text, { to: 'en' });
+                const contentRes = await translate(text, { to: 'en' }) as TranslateResponse;
                 translatedContent = contentRes.text;
             } catch (e) {
                 console.error("Error translating content:", e);
@@ -41,7 +58,7 @@ export async function POST(request: Request) {
             }
         }
 
-        // Generate Slug from translated title
+        // Generate Slug from translated title if current slug is empty or we have a new title
         let translatedSlug = "";
         if (translatedTitle) {
             translatedSlug = translatedTitle
@@ -50,9 +67,10 @@ export async function POST(request: Request) {
                 .replace(/[^\w\s-]/g, '') // Remove non-word chars
                 .replace(/[\s_-]+/g, '-') // Replace spaces with -
                 .replace(/^-+|-+$/g, ''); // Trim -
+        } else if (slug) {
+            // Fallback to existing slug if translation failed for title but we have a slug
+            translatedSlug = slug;
         }
-
-        console.log("Translation complete");
 
         return NextResponse.json({
             title: translatedTitle,
@@ -60,10 +78,11 @@ export async function POST(request: Request) {
             content: translatedContent
         });
 
-    } catch (error: any) {
-        console.error('Translation error:', error);
+    } catch (error: unknown) {
+        console.error('Translation API error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Error occurred during translation';
         return NextResponse.json(
-            { error: error.message || 'Error occurred during translation' },
+            { error: errorMessage },
             { status: 500 }
         );
     }

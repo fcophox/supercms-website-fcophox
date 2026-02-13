@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
@@ -39,12 +40,14 @@ export default function HomeLogosSection() {
                     {logos.map((logo) => (
                         <div
                             key={logo.name}
-                            className="transition-all duration-300 grayscale brightness-[1.9] cursor-default hover:opacity-100 hover:grayscale-0 hover:brightness-100"
+                            className="transition-all duration-300 grayscale brightness-[1.9] cursor-default hover:opacity-100 hover:grayscale-0 hover:brightness-100 relative h-[60px] w-full"
                         >
-                            <img
+                            <Image
                                 src={logo.src}
                                 alt={logo.name}
-                                className="block max-w-full h-auto object-contain max-h-[60px]"
+                                fill
+                                className="object-contain object-left"
+                                unoptimized
                             />
                         </div>
                     ))}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
-import { Command, LayoutDashboard } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -45,8 +45,8 @@ export default function LoginPage() {
             <div className="flex flex-col justify-between p-8 lg:p-12 relative z-10 bg-background/95 backdrop-blur-sm lg:bg-background">
                 {/* Logo Area */}
                 <div className="flex items-center gap-2 text-white">
-                    <div className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white/10">
-                        <img src="/logotipo.svg" alt="fcoPhox Logo" className="w-8 h-8 opacity-90" />
+                    <div className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white/10 relative">
+                        <Image src="/logotipo.svg" alt="fcoPhox Logo" fill className="p-1 object-contain opacity-90" unoptimized />
                     </div>
                     <span className="font-bold text-lg tracking-tight">fcoPhox CMS</span>
                 </div>
@@ -122,15 +122,15 @@ export default function LoginPage() {
                 }} />
 
                 <div className="relative z-10 max-w-[500px]">
-                    <div className="mb-8 w-16 h-16 flex items-center justify-center rounded-full bg-white/10 text-white/40">
-                        <img src="/logotipo.svg" alt="fcoPhox Logo" className="w-8 h-8 opacity-90" />
+                    <div className="mb-8 w-16 h-16 flex items-center justify-center rounded-full bg-white/10 text-white/40 relative">
+                        <Image src="/logotipo.svg" alt="fcoPhox Logo" fill className="p-3 object-contain opacity-90" unoptimized />
                     </div>
                     <blockquote className="text-2xl font-medium text-white/90 leading-relaxed mb-8">
                         "Experience backed by knowledge. Designing with method, judgment, and impact vision to create digital products that connect."
                     </blockquote>
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 overflow-hidden">
-                            <img src="/francisco-avatar.png" alt="Avatar" className="w-full h-full object-cover" />
+                        <div className="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 overflow-hidden relative">
+                            <Image src="/francisco-avatar.png" alt="Avatar" fill className="object-cover" />
                         </div>
                         <div>
                             <div className="text-white font-medium text-sm">Francisco Hormazabal</div>

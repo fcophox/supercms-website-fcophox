@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
+import imageCompression from 'browser-image-compression';
 
 export default function ImageUploader({
     value,
@@ -23,13 +25,35 @@ export default function ImageUploader({
             }
 
             const file = event.target.files[0];
-            const fileExt = file.name.split('.').pop();
+
+            // Image compression options
+            const options = {
+                maxSizeMB: 0.8,          // Max size in MB
+                maxWidthOrHeight: 1200,  // Max width or height
+                useWebWorker: true,      // Use web worker for better performance
+                initialQuality: 0.8,     // Initial quality
+            };
+
+            let uploadFile = file;
+
+            try {
+                // Only compress if it's an image
+                if (file.type.startsWith('image/')) {
+                    console.log(`Original size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+                    uploadFile = await imageCompression(file, options);
+                    console.log(`Compressed size: ${(uploadFile.size / 1024 / 1024).toFixed(2)} MB`);
+                }
+            } catch (error) {
+                console.error("Image compression failed, uploading original file:", error);
+            }
+
+            const fileExt = uploadFile.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             const { error: uploadError } = await supabase.storage
                 .from('article-images')
-                .upload(filePath, file);
+                .upload(filePath, uploadFile);
 
             if (uploadError) {
                 throw uploadError;
@@ -41,8 +65,9 @@ export default function ImageUploader({
                 onChange(data.publicUrl);
             }
 
-        } catch (error: any) {
-            alert(`Error uploading image: ${error.message}`);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unknown error';
+            alert(`Error uploading image: ${message}`);
         } finally {
             setUploading(false);
         }
@@ -54,10 +79,12 @@ export default function ImageUploader({
 
             {value ? (
                 <div style={{ position: 'relative', width: '100%', height: '200px', borderRadius: '8px', overflow: 'hidden', marginBottom: '0.5rem', background: '#333' }}>
-                    <img
+                    <Image
                         src={value}
                         alt="Cover"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        fill
+                        className="object-cover"
+                        unoptimized
                     />
                     <button
                         onClick={() => onChange("")}

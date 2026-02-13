@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowLeft, Download, Play } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 import FadeInUp from "./FadeInUp";
@@ -42,10 +43,12 @@ export default function MethodologyHero() {
                 {/* Image 1: Computer/Creative */}
                 <FadeInUp delay={0.2} className="h-full">
                     <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <img
+                        <Image
                             src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop"
                             alt="Creative Workspace"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            unoptimized
                         />
                     </div>
                 </FadeInUp>
@@ -53,10 +56,12 @@ export default function MethodologyHero() {
                 {/* Image 2: Sketches/Wireframes */}
                 <FadeInUp delay={0.3} className="h-full">
                     <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <img
+                        <Image
                             src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop"
                             alt="Wireframing"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            unoptimized
                         />
                     </div>
                 </FadeInUp>
@@ -64,10 +69,12 @@ export default function MethodologyHero() {
                 {/* Image 3: Collaboration */}
                 <FadeInUp delay={0.4} className="h-full">
                     <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <img
+                        <Image
                             src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
                             alt="Team meeting"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            unoptimized
                         />
                         <div className="absolute bottom-6 left-6 flex items-center gap-3 z-10">
                             {/* <span className="text-white font-medium text-sm">

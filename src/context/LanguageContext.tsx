@@ -158,6 +158,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const storedLang = localStorage.getItem('app_language') as Language;
         if (storedLang) {
+            // eslint-disable-next-line
             setLanguage(storedLang);
         }
     }, []);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
 import FadeInUp from "./FadeInUp";
 
 export default function AboutHistory() {
@@ -61,12 +62,14 @@ export default function AboutHistory() {
                         aspectRatio: "4/2",
                         borderRadius: "16px",
                         overflow: "hidden",
-                        background: "#222"
+                        background: "#222",
+                        position: "relative"
                     }}>
-                        <img
+                        <Image
                             src="/about/cowork.png"
                             alt="Sticky notes on glass"
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            fill
+                            className="object-cover"
                         />
                     </div>
 
@@ -112,12 +115,14 @@ export default function AboutHistory() {
                         aspectRatio: "4/2",
                         borderRadius: "16px",
                         overflow: "hidden",
-                        background: "#222"
+                        background: "#222",
+                        position: "relative"
                     }}>
-                        <img
+                        <Image
                             src="/about/coffeeshop.png"
                             alt="Laptop on desk"
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            fill
+                            className="object-cover"
                         />
                     </div>
 

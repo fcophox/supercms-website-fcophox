@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
@@ -75,15 +76,11 @@ export default function AboutClient() {
                         position: "relative",
                         background: "#222"
                     }}>
-                        <img
+                        <Image
                             src="/about/desk.png"
                             alt={t("about.imageAlt")}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                                display: "block"
-                            }}
+                            fill
+                            className="object-cover"
                         />
                     </div>
                 </FadeInUp>

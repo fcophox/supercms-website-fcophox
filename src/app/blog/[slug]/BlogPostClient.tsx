@@ -35,12 +35,6 @@ export default function BlogPostClient() {
     const [article, setArticle] = useState<Article | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (slug) {
-            fetchArticle(slug as string);
-        }
-    }, [slug]);
-
     const fetchArticle = async (slugStr: string) => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -57,6 +51,14 @@ export default function BlogPostClient() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        if (slug) {
+            fetchArticle(slug as string);
+        }
+    }, [slug]);
+
+
 
     useEffect(() => {
         if (article) {

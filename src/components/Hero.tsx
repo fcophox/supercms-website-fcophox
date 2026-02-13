@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
@@ -13,10 +14,12 @@ export default function Hero() {
             <FadeInUp>
                 <div className="mb-8">
                     <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-transparent">
-                        <img
+                        <Image
                             src="/francisco-avatar.png"
                             alt="Profile"
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            sizes="80px"
                         />
                     </div>
                 </div>

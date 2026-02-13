@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import { ArrowUpRight, ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -35,10 +36,6 @@ export default function HomeProjectsSection() {
     const [isDragging, setIsDragging] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
     const fetchProjects = async () => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -55,6 +52,12 @@ export default function HomeProjectsSection() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!sliderRef.current) return;
@@ -256,10 +259,11 @@ export default function HomeProjectsSection() {
                                             <div className="w-full md:w-[55%] flex-1 md:flex-auto md:h-full relative overflow-hidden order-last md:order-last min-h-[200px]">
                                                 {project.image_url ? (
                                                     <div className="absolute inset-0 md:top-10 md:bottom-10 md:left-10 md:-right-20 transition-transform duration-500 ease-out group-hover:md:translate-x-[-20px]">
-                                                        <img
+                                                        <Image
                                                             src={project.image_url}
                                                             alt={title}
-                                                            className="w-full h-full object-cover object-top md:object-left-top md:rounded-l-[1.2rem] border-t md:border-t md:border-l md:border-b border-white/10 md:shadow-2xl pointer-events-none select-none transition-transform duration-500 ease-out group-hover:rotate-[-6deg]"
+                                                            fill
+                                                            className="object-cover object-top md:object-left-top md:rounded-l-[1.2rem] border-t md:border-t md:border-l md:border-b border-white/10 md:shadow-2xl pointer-events-none select-none transition-transform duration-500 ease-out group-hover:rotate-[-6deg]"
                                                         />
                                                     </div>
                                                 ) : (

@@ -20,6 +20,13 @@ export default function NewArticlePage() {
     const [publishedAt, setPublishedAt] = useState("");
     const [isSaving, setIsSaving] = useState(false);
 
+    // Downloadable Resource State
+    const [downloadTitle, setDownloadTitle] = useState("");
+    const [downloadDescription, setDownloadDescription] = useState("");
+    const [downloadUrl, setDownloadUrl] = useState("");
+    const [downloadType, setDownloadType] = useState<"banner" | "material">("material");
+    const [isUploading, setIsUploading] = useState(false);
+
     // Modal State
     const [modal, setModal] = useState<{
         isOpen: boolean;
@@ -32,6 +39,45 @@ export default function NewArticlePage() {
         title: '',
         content: ''
     });
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            return;
+        }
+
+        const file = e.target.files[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+        const filePath = `articles/${fileName}`;
+
+        setIsUploading(true);
+
+        try {
+            const { error: uploadError } = await supabase.storage
+                .from('documents')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            const { data } = supabase.storage
+                .from('documents')
+                .getPublicUrl(filePath);
+
+            setDownloadUrl(data.publicUrl);
+        } catch (error: any) {
+            console.error('Error uploading file:', error);
+            setModal({
+                isOpen: true,
+                type: 'error',
+                title: 'Error de Carga',
+                content: `No se pudo subir el archivo: ${error.message}`
+            });
+        } finally {
+            setIsUploading(false);
+        }
+    };
 
     const handleSave = async (status: 'published' | 'draft') => {
         setIsSaving(true);
@@ -48,7 +94,13 @@ export default function NewArticlePage() {
                         status,
                         image_url: imageUrl,
                         tags: tags,
-                        published_at: publishedAt || null
+                        published_at: publishedAt || null,
+
+                        // New fields
+                        download_title: downloadTitle,
+                        download_description: downloadDescription,
+                        download_url: downloadUrl,
+                        download_type: downloadType
                     }
                 ]);
 
@@ -81,38 +133,30 @@ export default function NewArticlePage() {
     };
 
     return (
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+
+        <div className="max-w-[900px] mx-auto">
             <Modal
                 isOpen={modal.isOpen}
                 onClose={closeModal}
                 title={modal.title}
-                actions={<button onClick={closeModal} className="btn-primary" style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Cerrar</button>}
+                actions={<button onClick={closeModal} className="btn-primary px-4 py-2 cursor-pointer">Cerrar</button>}
             >
                 {modal.content}
             </Modal>
 
-            <header style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Link href="/dashboard/articles" style={{
-                        color: 'var(--text-muted)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontSize: '1.25rem',
-                        padding: '0.5rem',
-                        borderRadius: '50%',
-                        background: 'rgba(255,255,255,0.05)'
-                    }}>
+            <header className="mb-8 flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                    <Link href="/dashboard/articles" className="text-[var(--text-muted)] flex items-center text-xl p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
                         ←
                     </Link>
-                    <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", color: "white" }}>
+                    <h1 className="text-2xl font-bold text-white">
                         Crear Nuevo Artículo
                     </h1>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <div className="flex gap-3">
                     <button
-                        className="btn-primary"
-                        style={{ background: 'transparent', border: '1px solid var(--border)' }}
+                        className="btn-primary bg-transparent border border-[var(--border)]"
                         onClick={() => handleSave('draft')}
                         disabled={isSaving}
                     >
@@ -128,68 +172,50 @@ export default function NewArticlePage() {
                 </div>
             </header>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="flex flex-col gap-6">
                 {/* Title Input */}
-                <div className="glass-panel" style={{ padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
                     <input
                         type="text"
                         placeholder="Título del Artículo..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        style={{
-                            width: '100%',
-                            background: 'transparent',
-                            border: 'none',
-                            fontSize: '2rem',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            outline: 'none'
-                        }}
+                        className="w-full bg-transparent border-none text-4xl font-bold text-white outline-none placeholder:text-white/20"
                     />
                     <ImageUploader
                         value={imageUrl}
                         onChange={setImageUrl}
                     />
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Slug</label>
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[var(--text-muted)] text-sm">Slug</label>
                         <input
                             type="text"
                             placeholder="url-amigable"
                             value={slug}
                             onChange={(e) => setSlug(e.target.value)}
-                            className="input-field"
-                            style={{ background: 'rgba(0,0,0,0.2)', border: 'none', padding: '0.75rem', borderRadius: '8px', color: 'white' }}
+                            className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
                         />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Categoría</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[var(--text-muted)] text-sm">Categoría</label>
                             <input
                                 type="text"
                                 placeholder="Ej: UX Design, React, Tutorial"
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="input-field"
-                                style={{ background: 'rgba(0,0,0,0.2)', border: 'none', padding: '0.75rem', borderRadius: '8px', color: 'white' }}
+                                className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
                             />
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Fecha de Publicación</label>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[var(--text-muted)] text-sm">Fecha de Publicación</label>
                             <input
                                 type="date"
                                 value={publishedAt}
                                 onChange={(e) => setPublishedAt(e.target.value)}
-                                className="input-field"
-                                style={{
-                                    background: 'rgba(0,0,0,0.2)',
-                                    border: 'none',
-                                    padding: '0.75rem',
-                                    borderRadius: '8px',
-                                    color: 'white',
-                                    colorScheme: 'dark'
-                                }}
+                                className="input-field bg-black/20 border-none p-3 rounded-lg text-white dark:[color-scheme:dark]"
                             />
                         </div>
                     </div>
@@ -200,6 +226,95 @@ export default function NewArticlePage() {
                         placeholder="Escribe una etiqueta y presiona Enter..."
                         label="Etiquetas Asociadas"
                     />
+                </div>
+
+                {/* Downloadable Resource Section */}
+                <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                        <span>📥</span> Recurso Descargable (PDF)
+                    </h3>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[var(--text-muted)] text-sm">Tipo de Recurso</label>
+                        <div className="flex gap-4 bg-black/20 p-2 rounded-lg">
+                            <label className="flex items-center gap-2 cursor-pointer text-white">
+                                <input
+                                    type="radio"
+                                    name="downloadType"
+                                    value="material"
+                                    checked={downloadType === 'material'}
+                                    onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
+                                />
+                                Material
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer text-white">
+                                <input
+                                    type="radio"
+                                    name="downloadType"
+                                    value="banner"
+                                    checked={downloadType === 'banner'}
+                                    onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
+                                />
+                                Banner
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[var(--text-muted)] text-sm">Título del Documento</label>
+                        <input
+                            type="text"
+                            placeholder="Ej: Guía Completa de UX"
+                            value={downloadTitle}
+                            onChange={(e) => setDownloadTitle(e.target.value)}
+                            className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[var(--text-muted)] text-sm">Descripción Corta</label>
+                        <input
+                            type="text"
+                            placeholder="Breve descripción del contenido del PDF..."
+                            value={downloadDescription}
+                            onChange={(e) => setDownloadDescription(e.target.value)}
+                            className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[var(--text-muted)] text-sm">Archivo PDF</label>
+                        <div className="flex items-center gap-4">
+                            <label className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-dashed border-white/20 rounded-lg cursor-pointer text-[var(--text-muted)] transition-all hover:bg-white/10 hover:border-white/40">
+                                <span>📄 Examinar...</span>
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={handleFileUpload}
+                                    style={{ display: 'none' }}
+                                    disabled={isUploading}
+                                />
+                            </label>
+                            {isUploading && <span className="text-[var(--primary)] text-sm">Subiendo...</span>}
+                            {downloadUrl && (
+                                <div className="flex items-center gap-2 bg-green-500/10 px-3 py-2 rounded-md">
+                                    <span className="text-green-500 text-sm">✓ Archivo cargado</span>
+                                    <button
+                                        onClick={() => setDownloadUrl("")}
+                                        className="bg-none border-none text-red-500 cursor-pointer ml-2 hover:text-red-400"
+                                        title="Eliminar archivo"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        {downloadUrl && (
+                            <div className="text-xs text-[var(--text-muted)] break-all">
+                                URL: {downloadUrl}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Editor */}

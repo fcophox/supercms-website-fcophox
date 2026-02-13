@@ -12,11 +12,15 @@ interface ModalProps {
     type?: 'info' | 'danger' | 'warning';
 }
 
-export default function Modal({ isOpen, onClose, title, children, actions, type = 'info' }: ModalProps) {
+export default function Modal({ isOpen, onClose, title, children, actions }: ModalProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line
         setMounted(true);
+    }, []);
+
+    useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -30,97 +34,39 @@ export default function Modal({ isOpen, onClose, title, children, actions, type 
     if (!mounted || !isOpen) return null;
 
     const modalContent = (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(0, 0, 0, 0.7)',
-            backdropFilter: 'blur(4px)',
-            animation: 'fadeIn 0.2s ease-out'
-        }} onClick={onClose}>
+        <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-[4px] animate-fade-in"
+            onClick={onClose}
+        >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="glass-panel"
-                style={{
-                    width: '90%',
-                    maxWidth: '450px',
-                    padding: '0',
-                    borderRadius: '16px',
-                    border: '1px solid var(--glass-border)',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                    transform: 'translateY(0)',
-                    animation: 'slideUp 0.3s ease-out',
-                    background: '#18181b'
-                }}
+                className="glass-panel w-[90%] max-w-[450px] p-0 rounded-2xl border border-[var(--glass-border)] shadow-2xl animate-slide-up bg-[#18181b]"
             >
                 {/* Header */}
-                <div style={{
-                    padding: '1.25rem 1.5rem',
-                    borderBottom: '1px solid var(--glass-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                }}>
-                    <h3 style={{
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        color: 'white',
-                        margin: 0
-                    }}>
+                <div className="p-5 border-b border-[var(--glass-border)] flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-white m-0">
                         {title}
                     </h3>
                     <button
                         onClick={onClose}
-                        style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: 'var(--text-muted)',
-                            cursor: 'pointer',
-                            padding: '4px',
-                            display: 'flex',
-                            borderRadius: '4px'
-                        }}
+                        className="bg-transparent border-none text-[var(--text-muted)] cursor-pointer p-1 rounded hover:text-white transition-colors"
                     >
                         ✕
                     </button>
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: '1.5rem', color: '#e2e8f0', lineHeight: 1.6 }}>
+                <div className="p-6 text-slate-200 leading-relaxed">
                     {children}
                 </div>
 
                 {/* Footer */}
                 {actions && (
-                    <div style={{
-                        padding: '1rem 1.5rem',
-                        background: 'rgba(0,0,0,0.2)',
-                        borderTop: '1px solid var(--glass-border)',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        gap: '0.75rem',
-                        borderRadius: '0 0 16px 16px'
-                    }}>
+                    <div className="p-4 bg-black/20 border-t border-[var(--glass-border)] flex justify-end gap-3 rounded-b-2xl">
                         {actions}
                     </div>
                 )}
             </div>
-            <style jsx global>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                @keyframes slideUp {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
         </div>
     );
 

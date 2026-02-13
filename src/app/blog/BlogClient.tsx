@@ -36,18 +36,6 @@ export default function BlogClient() {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchArticles();
-    }, []);
-
-    useEffect(() => {
-        if (selectedCategory === "All") {
-            setFilteredArticles(articles);
-        } else {
-            setFilteredArticles(articles.filter(article => article.category === selectedCategory));
-        }
-    }, [selectedCategory, articles]);
-
     const fetchArticles = async () => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -68,6 +56,20 @@ export default function BlogClient() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory === "All") {
+            setFilteredArticles(articles);
+        } else {
+            setFilteredArticles(articles.filter(article => article.category === selectedCategory));
+        }
+    }, [selectedCategory, articles]);
+
+
 
     // Helper to strip HTML and get a snippet
     const getExcerpt = (html: string, length: number = 120) => {

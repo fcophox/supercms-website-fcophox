@@ -27,10 +27,6 @@ export default function HomeBlogSection() {
     const [articles, setArticles] = useState<Article[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchArticles();
-    }, []);
-
     const fetchArticles = async () => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -47,6 +43,12 @@ export default function HomeBlogSection() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+
 
     const getExcerpt = (html: string, length: number = 120) => {
         if (!html) return "";

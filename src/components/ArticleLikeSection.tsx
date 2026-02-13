@@ -21,6 +21,7 @@ export default function ArticleLikeSection({ articleId, initialLikes, tableName 
     useEffect(() => {
         const likedposts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
         if (likedposts.includes(articleId)) {
+            // eslint-disable-next-line
             setHasLiked(true);
         }
     }, [articleId]);

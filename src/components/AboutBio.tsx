@@ -3,6 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { Award, Linkedin, Github } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import FadeInUp from "./FadeInUp";
 
@@ -26,7 +27,14 @@ export default function AboutBio() {
 
                         {/* Certification */}
                         <div className="flex gap-4 items-center">
-                            <img src="/about/uxpm.svg" alt="UXPM Certification" className="w-12 shrink-0" />
+                            <Image
+                                src="/about/uxpm.svg"
+                                alt="UXPM Certification"
+                                width={48}
+                                height={48}
+                                className="shrink-0 h-auto w-12"
+                                unoptimized
+                            />
                             <p className="text-primary text-xl leading-relaxed font-normal">
                                 {t("about.bio.certification")}
                             </p>

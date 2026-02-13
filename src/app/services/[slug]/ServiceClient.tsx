@@ -33,12 +33,6 @@ export default function ServiceClient() {
     const [service, setService] = useState<Service | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (slug) {
-            fetchService(slug as string);
-        }
-    }, [slug]);
-
     const fetchService = async (slugStr: string) => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -54,6 +48,14 @@ export default function ServiceClient() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        if (slug) {
+            fetchService(slug as string);
+        }
+    }, [slug]);
+
+
 
     if (isLoading) {
         return (

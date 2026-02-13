@@ -1,92 +1,159 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
+interface ContentItem {
+    id: string;
+    title: string;
+    category: string;
+    likes: number;
+    type: string;
+}
+
 export default function DashboardPage() {
+    const [counts, setCounts] = useState({
+        articles: 0,
+        caseStudies: 0,
+        services: 0
+    });
+    const [contentItems, setContentItems] = useState<ContentItem[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                // Fetch counts
+                const [articlesCount, caseStudiesCount, servicesCount] = await Promise.all([
+                    supabase.from('articles').select('*', { count: 'exact', head: true }),
+                    supabase.from('case_studies').select('*', { count: 'exact', head: true }),
+                    supabase.from('services').select('*', { count: 'exact', head: true })
+                ]);
+
+                setCounts({
+                    articles: articlesCount.count || 0,
+                    caseStudies: caseStudiesCount.count || 0,
+                    services: servicesCount.count || 0
+                });
+
+                // Fetch items with likes
+                const [articlesResponse, caseStudiesResponse] = await Promise.all([
+                    supabase.from('articles').select('id, title, category, likes'),
+                    supabase.from('case_studies').select('id, title, category, likes')
+                ]);
+
+                const formattedArticles = (articlesResponse.data || []).map((item: any) => ({
+                    id: item.id,
+                    title: item.title,
+                    category: item.category || 'Opinion',
+                    likes: item.likes || 0,
+                    type: 'Article'
+                }));
+
+                const formattedCaseStudies = (caseStudiesResponse.data || []).map((item: any) => ({
+                    id: item.id,
+                    title: item.title,
+                    category: item.category || 'Project',
+                    likes: item.likes || 0,
+                    type: 'Case Study'
+                }));
+
+                // Combining and sorting
+                const allContent = [...formattedArticles, ...formattedCaseStudies].sort((a: ContentItem, b: ContentItem) => b.likes - a.likes);
+                setContentItems(allContent);
+
+            } catch (error) {
+                console.error("Error fetching dashboard counts:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchCounts();
+    }, []);
+
     return (
-        <div style={{ paddingBottom: "2rem" }}>
-            <header style={{ marginBottom: "2.5rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div className="pb-8">
+            <header className="mb-10 flex justify-between items-center">
                 <div>
-                    <h1 style={{ fontSize: "2rem", fontWeight: "bold", color: "white", marginBottom: "0.5rem" }}>
+                    <h1 className="text-3xl font-bold text-white mb-2">
                         Dashboard
                     </h1>
-                    <p style={{ color: "var(--text-muted)" }}>Overview of your content performance.</p>
+                    <p className="text-[var(--text-muted)]">Overview of your content performance.</p>
                 </div>
-                <button className="btn-primary" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>
-                    + New Post
-                </button>
             </header>
 
             {/* Stats Grid */}
-            <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: "1.5rem",
-                marginBottom: "2.5rem"
-            }}>
-                {/* Stat Card 1 */}
-                <div className="glass-panel" style={{ padding: "1.5rem", borderRadius: "12px" }}>
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: "0.5rem" }}>Total Posts</div>
-                    <div style={{ fontSize: "2rem", fontWeight: "bold", color: "white" }}>1,284</div>
-                    <div style={{ fontSize: "0.75rem", color: "#4ade80", marginTop: "0.25rem" }}>+12% from last month</div>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-10">
+                {/* Articles Card */}
+                <div className="glass-panel p-6 rounded-xl">
+                    <div className="text-[var(--text-muted)] text-sm mb-2">Articles</div>
+                    <div className="text-3xl font-bold text-white">
+                        {isLoading ? "-" : counts.articles}
+                    </div>
                 </div>
 
-                {/* Stat Card 2 */}
-                <div className="glass-panel" style={{ padding: "1.5rem", borderRadius: "12px" }}>
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: "0.5rem" }}>Media Assets</div>
-                    <div style={{ fontSize: "2rem", fontWeight: "bold", color: "white" }}>3,405</div>
-                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>2.4 GB Used</div>
+                {/* Case Studies Card */}
+                <div className="glass-panel p-6 rounded-xl">
+                    <div className="text-[var(--text-muted)] text-sm mb-2">Case Studies</div>
+                    <div className="text-3xl font-bold text-white">
+                        {isLoading ? "-" : counts.caseStudies}
+                    </div>
                 </div>
 
-                {/* Stat Card 3 */}
-                <div className="glass-panel" style={{ padding: "1.5rem", borderRadius: "12px" }}>
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: "0.5rem" }}>Active Users</div>
-                    <div style={{ fontSize: "2rem", fontWeight: "bold", color: "white" }}>892</div>
-                    <div style={{ fontSize: "0.75rem", color: "#4ade80", marginTop: "0.25rem" }}>+5% new users</div>
+                {/* Services Card */}
+                <div className="glass-panel p-6 rounded-xl">
+                    <div className="text-[var(--text-muted)] text-sm mb-2">Services</div>
+                    <div className="text-3xl font-bold text-white">
+                        {isLoading ? "-" : counts.services}
+                    </div>
                 </div>
             </div>
 
-            {/* Recent Activity Section */}
-            <div className="glass-panel" style={{ padding: "1.5rem", borderRadius: "16px" }}>
-                <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", marginBottom: "1.5rem", color: "white" }}>Recent Activity</h3>
+            {/* Top Content Table */}
+            <div className="glass-panel p-6 rounded-2xl">
+                <h3 className="text-xl font-bold mb-6 text-white">Top Content by Likes</h3>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            padding: "1rem",
-                            background: "rgba(255,255,255,0.03)",
-                            borderRadius: "8px",
-                            border: "1px solid rgba(255,255,255,0.05)"
-                        }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                                <div style={{
-                                    width: "40px",
-                                    height: "40px",
-                                    borderRadius: "8px",
-                                    background: "#1e293b",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: "1.25rem"
-                                }}>
-                                    📄
-                                </div>
-                                <div>
-                                    <div style={{ fontWeight: 500, color: "white" }}>Updated "Future of AI"</div>
-                                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>2 hours ago by Francisco</div>
-                                </div>
-                            </div>
-                            <div style={{
-                                padding: "0.25rem 0.75rem",
-                                borderRadius: "20px",
-                                background: "rgba(6, 182, 212, 0.1)",
-                                color: "#67e8f9",
-                                fontSize: "0.75rem",
-                                fontWeight: 500
-                            }}>
-                                Published
-                            </div>
-                        </div>
-                    ))}
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-[var(--text-muted)]">
+                        <thead>
+                            <tr className="border-b border-white/10 text-left">
+                                <th className="p-4 font-medium text-white">Title</th>
+                                <th className="p-4 font-medium text-white">Category</th>
+                                <th className="p-4 font-medium text-white text-right">Likes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan={3} className="p-8 text-center">Loading...</td>
+                                </tr>
+                            ) : contentItems.length > 0 ? (
+                                contentItems.map((item) => (
+                                    <tr key={`${item.type}-${item.id}`} className="border-b border-white/5 last:border-0">
+                                        <td className="p-4 text-white">{item.title}</td>
+                                        <td className="p-4">
+                                            <span
+                                                className={`px-3 py-1 rounded-full text-xs font-medium ${item.type === 'Article'
+                                                        ? "bg-violet-400/10 text-violet-400"
+                                                        : item.type === 'Case Study'
+                                                            ? "bg-sky-400/10 text-sky-400"
+                                                            : "bg-green-400/10 text-green-400"
+                                                    }`}
+                                            >
+                                                {item.type}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-right text-white font-medium">{item.likes || 0}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={3} className="p-8 text-center">No content found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

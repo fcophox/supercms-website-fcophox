@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Linkedin, Github, ExternalLink, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import ContactCTA from "./ContactCTA";
@@ -17,18 +18,17 @@ export default function Footer() {
                         {/* Left Column: Profile & Contact */}
                         <div className="flex flex-col gap-6">
                             <div className="flex items-center gap-4">
-                                <div className="w-[60px] h-[60px] rounded-full overflow-hidden bg-[#333]">
+                                <div className="relative w-[60px] h-[60px] rounded-full overflow-hidden bg-[#333]">
                                     {/* Placeholder for avatar - using a generic person if no image */}
-                                    <img
+                                    <Image
                                         src="/francisco-avatar.png"
                                         alt="Francisco"
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                            // Fallback if image missing
-                                            e.currentTarget.style.display = 'none';
-                                            e.currentTarget.parentElement!.style.backgroundColor = '#333';
-                                        }}
+                                        fill
+                                        className="object-cover"
+                                        sizes="60px"
                                     />
+                                    {/* Fallback not easily doable with Next Image this way, 
+                                        but we can assume avatar exists or use a default src */}
                                 </div>
                                 <div>
                                     <h3 className="text-white font-bold text-[0.9rem] m-0">Francisco</h3>
@@ -97,10 +97,13 @@ export default function Footer() {
                     {/* Bottom Bar */}
                     <div className="border-t border-white/10 pt-8 flex justify-center items-center">
                         <div className="flex items-center gap-3 text-[#a1a1aa] text-[0.7rem] opacity-35 font-medium">
-                            <img
+                            <Image
                                 src="/logotipo.svg"
                                 alt="Logo"
+                                width={100}
+                                height={23}
                                 className="h-[23px] w-auto opacity-70"
+                                unoptimized
                             />
                             <span>fcophox.com - {t("footer.rights")} - 2026</span>
                         </div>

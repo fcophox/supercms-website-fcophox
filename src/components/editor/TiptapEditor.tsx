@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
+import imageCompression from 'browser-image-compression';
 import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Image as ImageIcon } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import './styles.css'
@@ -72,13 +73,33 @@ export default function TiptapEditor({ content, onChange }: { content?: string, 
         if (!file || !editor) return
 
         try {
-            const fileExt = file.name.split('.').pop()
+            // Image compression options
+            const options = {
+                maxSizeMB: 1,            // Slightly larger max size for content images
+                maxWidthOrHeight: 1920,  // Full HD limit for content images
+                useWebWorker: true,
+                initialQuality: 0.85,
+            };
+
+            let uploadFile = file;
+
+            try {
+                if (file.type.startsWith('image/')) {
+                    console.log(`Original size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+                    uploadFile = await imageCompression(file, options);
+                    console.log(`Compressed size: ${(uploadFile.size / 1024 / 1024).toFixed(2)} MB`);
+                }
+            } catch (error) {
+                console.error("Image compression failed, uploading original file:", error);
+            }
+
+            const fileExt = uploadFile.name.split('.').pop()
             const fileName = `${Math.random()}.${fileExt}`
             const filePath = `${fileName}`
 
             const { error: uploadError } = await supabase.storage
                 .from('article-images')
-                .upload(filePath, file)
+                .upload(filePath, uploadFile)
 
             if (uploadError) throw uploadError
 
@@ -88,8 +109,9 @@ export default function TiptapEditor({ content, onChange }: { content?: string, 
                 setTempImageUrl(data.publicUrl);
                 setShowImageModal(true);
             }
-        } catch (error: any) {
-            alert(`Error uploading image: ${error.message}`)
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unknown error';
+            alert(`Error uploading image: ${message}`)
         } finally {
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';

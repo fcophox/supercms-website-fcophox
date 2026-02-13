@@ -1,0 +1,520 @@
+
+> fcophox-website@0.1.0 lint
+> eslint
+
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/about/AboutClient.tsx
+  78:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/api/translate/route.ts
+   2:1   error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  24:17  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  25:74  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  36:17  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  37:75  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  65:21  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/BlogClient.tsx
+  40:9    error  Error: Cannot access variable before it is declared
+
+`fetchArticles` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/BlogClient.tsx:40:9
+  38 |
+  39 |     useEffect(() => {
+> 40 |         fetchArticles();
+     |         ^^^^^^^^^^^^^ `fetchArticles` accessed before it is declared
+  41 |     }, []);
+  42 |
+  43 |     useEffect(() => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/BlogClient.tsx:51:5
+  49 |     }, [selectedCategory, articles]);
+  50 |
+> 51 |     const fetchArticles = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 69 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 70 |     };
+     | ^^^^^^^ `fetchArticles` is declared here
+  71 |
+  72 |     // Helper to strip HTML and get a snippet
+  73 |     const getExcerpt = (html: string, length: number = 120) => {  react-hooks/immutability
+  66:81   error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  66:112  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/[slug]/BlogPostClient.tsx
+    9:31  warning  'Tag' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   40:13  error    Error: Cannot access variable before it is declared
+
+`fetchArticle` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/[slug]/BlogPostClient.tsx:40:13
+  38 |     useEffect(() => {
+  39 |         if (slug) {
+> 40 |             fetchArticle(slug as string);
+     |             ^^^^^^^^^^^^ `fetchArticle` accessed before it is declared
+  41 |         }
+  42 |     }, [slug]);
+  43 |
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/blog/[slug]/BlogPostClient.tsx:44:5
+  42 |     }, [slug]);
+  43 |
+> 44 |     const fetchArticle = async (slugStr: string) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 46 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 58 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 59 |     };
+     | ^^^^^^^ `fetchArticle` is declared here
+  60 |
+  61 |     useEffect(() => {
+  62 |         if (article) {  react-hooks/immutability
+  153:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/CaseStudiesClient.tsx
+  40:9    error  Error: Cannot access variable before it is declared
+
+`fetchCases` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/CaseStudiesClient.tsx:40:9
+  38 |
+  39 |     useEffect(() => {
+> 40 |         fetchCases();
+     |         ^^^^^^^^^^ `fetchCases` accessed before it is declared
+  41 |     }, []);
+  42 |
+  43 |     useEffect(() => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/CaseStudiesClient.tsx:51:5
+  49 |     }, [selectedCategory, cases]);
+  50 |
+> 51 |     const fetchCases = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 68 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 69 |     };
+     | ^^^^^^^ `fetchCases` is declared here
+  70 |
+  71 |     const getExcerpt = (html: string, length: number = 120) => {
+  72 |         if (!html) return "";  react-hooks/immutability
+  65:73   error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  65:104  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/[slug]/CaseStudyClient.tsx
+    9:31  warning  'Tag' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   43:13  error    Error: Cannot access variable before it is declared
+
+`fetchCaseStudy` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/[slug]/CaseStudyClient.tsx:43:13
+  41 |     useEffect(() => {
+  42 |         if (slug) {
+> 43 |             fetchCaseStudy(slug as string);
+     |             ^^^^^^^^^^^^^^ `fetchCaseStudy` accessed before it is declared
+  44 |         }
+  45 |     }, [slug]);
+  46 |
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/case-studies/[slug]/CaseStudyClient.tsx:47:5
+   45 |     }, [slug]);
+   46 |
+>  47 |     const fetchCaseStudy = async (slugStr: string) => {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  48 |         setIsLoading(true);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  49 |         // Fetch current case study
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 125 |         setIsLoading(false);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 126 |     };
+      | ^^^^^^^ `fetchCaseStudy` is declared here
+  127 |
+  128 |     useEffect(() => {
+  129 |         if (caseStudy) {  react-hooks/immutability
+  104:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  120:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  121:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  246:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @next/next/no-img-element
+  291:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @next/next/no-img-element
+  321:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/articles/[id]/page.tsx
+  132:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  156:8   warning  React Hook useEffect has missing dependencies: 'autoSave', 'id', and 'loading'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  238:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  290:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  331:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/articles/new/page.tsx
+   69:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  118:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/articles/page.tsx
+  11:46  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  16:9   error  Error: Cannot access variable before it is declared
+
+`fetchArticles` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/articles/page.tsx:16:9
+  14 |
+  15 |     useEffect(() => {
+> 16 |         fetchArticles();
+     |         ^^^^^^^^^^^^^ `fetchArticles` accessed before it is declared
+  17 |     }, []);
+  18 |
+  19 |     const fetchArticles = async () => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/articles/page.tsx:19:5
+  17 |     }, []);
+  18 |
+> 19 |     const fetchArticles = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |     };
+     | ^^^^^^^ `fetchArticles` is declared here
+  33 |
+  34 |     return (
+  35 |         <div>  react-hooks/immutability
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/case-studies/[id]/page.tsx
+  130:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  154:8   warning  React Hook useEffect has missing dependencies: 'autoSave', 'id', and 'loading'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  233:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  285:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  326:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/case-studies/new/page.tsx
+   69:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  118:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/case-studies/page.tsx
+  11:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  16:9   error  Error: Cannot access variable before it is declared
+
+`fetchItems` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/case-studies/page.tsx:16:9
+  14 |
+  15 |     useEffect(() => {
+> 16 |         fetchItems();
+     |         ^^^^^^^^^^ `fetchItems` accessed before it is declared
+  17 |     }, []);
+  18 |
+  19 |     const fetchItems = async () => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/case-studies/page.tsx:19:5
+  17 |     }, []);
+  18 |
+> 19 |     const fetchItems = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |     };
+     | ^^^^^^^ `fetchItems` is declared here
+  33 |
+  34 |     return (
+  35 |         <div>  react-hooks/immutability
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/page.tsx
+  45:84  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:90  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/services/[id]/page.tsx
+  130:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  154:8   warning  React Hook useEffect has missing dependencies: 'autoSave', 'id', and 'loading'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  232:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  284:25  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+  325:23  error    Unexpected any. Specify a different type                                                                                            @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/services/new/page.tsx
+   69:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/services/page.tsx
+  11:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  16:9   error  Error: Cannot access variable before it is declared
+
+`fetchItems` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/services/page.tsx:16:9
+  14 |
+  15 |     useEffect(() => {
+> 16 |         fetchItems();
+     |         ^^^^^^^^^^ `fetchItems` accessed before it is declared
+  17 |     }, []);
+  18 |
+  19 |     const fetchItems = async () => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/dashboard/services/page.tsx:19:5
+  17 |     }, []);
+  18 |
+> 19 |     const fetchItems = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |     };
+     | ^^^^^^^ `fetchItems` is declared here
+  33 |
+  34 |     return (
+  35 |         <div>  react-hooks/immutability
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/login/page.tsx
+    8:10   warning  'Command' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+    8:19   warning  'LayoutDashboard' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   49:25   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  100:28   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  126:25   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  129:25   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  129:149  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  133:29   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/ServicesClient.tsx
+  39:9    error  Error: Cannot access variable before it is declared
+
+`fetchServices` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/ServicesClient.tsx:39:9
+  37 |
+  38 |     useEffect(() => {
+> 39 |         fetchServices();
+     |         ^^^^^^^^^^^^^ `fetchServices` accessed before it is declared
+  40 |     }, []);
+  41 |
+  42 |     useEffect(() => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/ServicesClient.tsx:50:5
+  48 |     }, [selectedCategory, services]);
+  49 |
+> 50 |     const fetchServices = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |         // Services table usually doesn't have 'status' based on previous context, 
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 68 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 69 |     };
+     | ^^^^^^^ `fetchServices` is declared here
+  70 |
+  71 |     const getExcerpt = (html: string, length: number = 120) => {
+  72 |         if (!html) return "";  react-hooks/immutability
+  65:73   error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  65:104  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/[slug]/ServiceClient.tsx
+    9:21  warning  'Tag' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   38:13  error    Error: Cannot access variable before it is declared
+
+`fetchService` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/[slug]/ServiceClient.tsx:38:13
+  36 |     useEffect(() => {
+  37 |         if (slug) {
+> 38 |             fetchService(slug as string);
+     |             ^^^^^^^^^^^^ `fetchService` accessed before it is declared
+  39 |         }
+  40 |     }, [slug]);
+  41 |
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/app/services/[slug]/ServiceClient.tsx:42:5
+  40 |     }, [slug]);
+  41 |
+> 42 |     const fetchService = async (slugStr: string) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 55 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |     };
+     | ^^^^^^^ `fetchService` is declared here
+  57 |
+  58 |     if (isLoading) {
+  59 |         return (  react-hooks/immutability
+  173:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/AboutBio.tsx
+   4:10  warning  'Award' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  29:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/AboutHistory.tsx
+   66:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  117:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/AboutServices.tsx
+  62:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/ArticleLikeSection.tsx
+  24:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/ArticleLikeSection.tsx:24:13
+  22 |         const likedposts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
+  23 |         if (likedposts.includes(articleId)) {
+> 24 |             setHasLiked(true);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  25 |         }
+  26 |     }, [articleId]);
+  27 |  react-hooks/set-state-in-effect
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/Footer.tsx
+    4:10  warning  'Linkedin' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+    4:20  warning  'Github' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+    9:16  warning  'toggleLanguage' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+    9:32  warning  'language' is assigned a value but never used                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   22:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  100:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/Hero.tsx
+  16:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeBlogSection.tsx
+  31:9  error  Error: Cannot access variable before it is declared
+
+`fetchArticles` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeBlogSection.tsx:31:9
+  29 |
+  30 |     useEffect(() => {
+> 31 |         fetchArticles();
+     |         ^^^^^^^^^^^^^ `fetchArticles` accessed before it is declared
+  32 |     }, []);
+  33 |
+  34 |     const fetchArticles = async () => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeBlogSection.tsx:34:5
+  32 |     }, []);
+  33 |
+> 34 |     const fetchArticles = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 35 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 36 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 48 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 49 |     };
+     | ^^^^^^^ `fetchArticles` is declared here
+  50 |
+  51 |     const getExcerpt = (html: string, length: number = 120) => {
+  52 |         if (!html) return "";  react-hooks/immutability
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeLogosSection.tsx
+  44:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeProjectsSection.tsx
+    6:47  warning  'Calendar' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   26:13  warning  't' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   39:9   error    Error: Cannot access variable before it is declared
+
+`fetchProjects` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeProjectsSection.tsx:39:9
+  37 |
+  38 |     useEffect(() => {
+> 39 |         fetchProjects();
+     |         ^^^^^^^^^^^^^ `fetchProjects` accessed before it is declared
+  40 |     }, []);
+  41 |
+  42 |     const fetchProjects = async () => {
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/HomeProjectsSection.tsx:42:5
+  40 |     }, []);
+  41 |
+> 42 |     const fetchProjects = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         setIsLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |         const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |         setIsLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |     };
+     | ^^^^^^^ `fetchProjects` is declared here
+  58 |
+  59 |     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  60 |         if (!sliderRef.current) return;  react-hooks/immutability
+  219:48  warning  'index' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  259:57  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/ImageUploader.tsx
+  81:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/MethodologyCertifications.tsx
+    4:10  warning  'BookOpen' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+    4:20  warning  'Award' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    4:27  warning  'GraduationCap' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+    4:42  warning  'School' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+    4:50  warning  'Calendar' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  213:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/MethodologyHero.tsx
+   3:31  warning  'Play' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  45:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  56:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  67:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/Modal.tsx
+  15:76  warning  'type' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  19:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/franciscohormazabal/code/fcophox-website-26/src/components/Modal.tsx:19:9
+  17 |
+  18 |     useEffect(() => {
+> 19 |         setMounted(true);
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  20 |     }, []);
+  21 |
+  22 |     useEffect(() => {  react-hooks/set-state-in-effect
+
+✖ 100 problems (54 errors, 46 warnings)
+

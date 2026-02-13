@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function AboutServices() {
@@ -59,12 +60,14 @@ export default function AboutServices() {
                 {/* Image Column */}
                 <div className="w-full aspect-square rounded-3xl overflow-hidden bg-[#222] relative">
                     {services.map((service, index) => (
-                        <img
+                        <Image
                             key={service.id}
                             src={service.image}
                             alt={t(service.translationKey)}
-                            className={`w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 ease-in-out grayscale ${activeIndex === index ? "opacity-100" : "opacity-0"
+                            fill
+                            className={`object-cover transition-opacity duration-500 ease-in-out grayscale ${activeIndex === index ? "opacity-100" : "opacity-0"
                                 }`}
+                            unoptimized
                         />
                     ))}
                 </div>

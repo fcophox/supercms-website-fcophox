@@ -36,18 +36,6 @@ export default function CaseStudiesClient() {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchCases();
-    }, []);
-
-    useEffect(() => {
-        if (selectedCategory === "All") {
-            setFilteredCases(cases);
-        } else {
-            setFilteredCases(cases.filter(c => c.category === selectedCategory));
-        }
-    }, [selectedCategory, cases]);
-
     const fetchCases = async () => {
         setIsLoading(true);
         const { data, error } = await supabase
@@ -67,6 +55,20 @@ export default function CaseStudiesClient() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        fetchCases();
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory === "All") {
+            setFilteredCases(cases);
+        } else {
+            setFilteredCases(cases.filter(c => c.category === selectedCategory));
+        }
+    }, [selectedCategory, cases]);
+
+
 
     const getExcerpt = (html: string, length: number = 120) => {
         if (!html) return "";

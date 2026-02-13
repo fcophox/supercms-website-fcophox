@@ -35,18 +35,6 @@ export default function ServicesClient() {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchServices();
-    }, []);
-
-    useEffect(() => {
-        if (selectedCategory === "All") {
-            setFilteredServices(services);
-        } else {
-            setFilteredServices(services.filter(s => s.category === selectedCategory));
-        }
-    }, [selectedCategory, services]);
-
     const fetchServices = async () => {
         setIsLoading(true);
         // Services table usually doesn't have 'status' based on previous context, 
@@ -67,6 +55,20 @@ export default function ServicesClient() {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        fetchServices();
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory === "All") {
+            setFilteredServices(services);
+        } else {
+            setFilteredServices(services.filter(s => s.category === selectedCategory));
+        }
+    }, [selectedCategory, services]);
+
+
 
     const getExcerpt = (html: string, length: number = 120) => {
         if (!html) return "";

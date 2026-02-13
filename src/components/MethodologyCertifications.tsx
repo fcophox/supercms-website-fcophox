@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Award, GraduationCap, School, Calendar } from "lucide-react";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 type Category = "all" | "certification" | "diploma" | "course";
@@ -209,11 +209,13 @@ export default function MethodologyCertifications() {
                             <div>
                                 {/* Logo if exists */}
                                 {item.logo ? (
-                                    <div className="mb-2 h-[60px] flex items-center">
-                                        <img
+                                    <div className="mb-2 h-[60px] flex items-center relative w-full max-w-[150px]">
+                                        <Image
                                             src={item.logo}
                                             alt={item.institution}
-                                            className="max-h-full max-w-[150px] object-contain opacity-90"
+                                            fill
+                                            className="object-contain object-left opacity-90"
+                                            unoptimized
                                         />
                                     </div>
                                 ) : null}
