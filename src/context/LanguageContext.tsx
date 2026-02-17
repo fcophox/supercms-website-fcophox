@@ -133,7 +133,7 @@ const translations: Record<string, Record<Language, string>> = {
     "contact.reason6": { es: "Compromiso con la calidad", en: "Commitment to quality" },
 
     "like.title": { es: "¿Te parece interesante este contenido?", en: "Do you find this content interesting?" },
-    "like.description": { es: "Envía un aplauso si te parece interesante, con tu apoyo seguiré creando contenido.", en: "Send a clap if you find it interesting; with your support, I will continue creating content." },
+    "like.description": { es: "Dale un like si te parece interesante, con tu apoyo seguiré creando contenido.", en: "Give it a like if you find it interesting; with your support, I will continue creating content." },
 
     "contact.extended.title": { es: "Otras formas de conectar", en: "Other ways to connect" },
     "contact.card.schedule.title": { es: "Agenda Virtual", en: "Virtual Agenda" },

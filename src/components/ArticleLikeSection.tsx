@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Hand } from "lucide-react";
+import { ThumbsUp } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -16,59 +16,98 @@ export default function ArticleLikeSection({ articleId, initialLikes, tableName 
     const [likes, setLikes] = useState(initialLikes);
     const [hasLiked, setHasLiked] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Check if user has already liked this session/device (simple localStorage check)
+    // Initial check for likes and "hasLiked" status
     useEffect(() => {
-        const likedposts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
-        if (likedposts.includes(articleId)) {
-            // eslint-disable-next-line
-            setHasLiked(true);
-        }
-    }, [articleId]);
+        const checkStatus = async () => {
+            // Check localStorage
+            const likedPosts = JSON.parse(localStorage.getItem("liked_content") || "[]");
+            if (likedPosts.includes(articleId)) {
+                setHasLiked(true);
+            }
+
+            // Fetch latest likes from DB to ensure it's up to date
+            try {
+                const { data, error } = await supabase
+                    .from(tableName)
+                    .select('likes')
+                    .eq('id', articleId)
+                    .single();
+
+                if (!error && data) {
+                    setLikes(data.likes || 0);
+                }
+            } catch (err) {
+                console.error("Error fetching likes:", err);
+            }
+        };
+
+        checkStatus();
+    }, [articleId, tableName]);
 
     const handleLike = async () => {
-        if (hasLiked) return; // Prevent multiple likes for demo purposes
+        if (hasLiked || isLoading) return;
+
+        setIsLoading(true);
+        setIsAnimating(true);
 
         // Optimistic update
         const newLikes = likes + 1;
         setLikes(newLikes);
         setHasLiked(true);
-        setIsAnimating(true);
 
         // Save to localStorage
-        const likedposts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
-        localStorage.setItem("liked_posts", JSON.stringify([...likedposts, articleId]));
+        const likedPosts = JSON.parse(localStorage.getItem("liked_content") || "[]");
+        localStorage.setItem("liked_content", JSON.stringify([...likedPosts, articleId]));
 
-        // Sync with DB
-        const { error } = await supabase.rpc('increment_likes', { row_id: articleId });
-
-        // If RPC fails (e.g. not created yet), try direct update (less safe for concurrency but works for simple case)
-        // Also supports table dynamic
-        if (error) {
-            const { error: updateError } = await supabase
-                .from(tableName)
-                .update({ likes: newLikes })
-                .eq('id', articleId);
-
-            if (updateError) {
-                console.error("Error updating likes:", updateError);
-                // Revert optimistic update? Nah, keep it for UX.
+        try {
+            // Choose the right RPC or update method based on table
+            let error;
+            if (tableName === 'articles') {
+                // Articles uses bigint IDs and has a specific RPC
+                const { error: rpcError } = await supabase.rpc('increment_likes', { row_id: articleId });
+                error = rpcError;
+            } else {
+                // For case_studies and services, we use the new UUID-safe RPC
+                const { error: rpcError } = await supabase.rpc('increment_likes_uuid', {
+                    table_name: tableName,
+                    row_id: articleId
+                });
+                error = rpcError;
             }
-        }
 
-        setTimeout(() => setIsAnimating(false), 1000);
+            // Fallback to direct update if RPC fails
+            if (error) {
+                console.warn("RPC failed, falling back to direct update:", error);
+                const { error: updateError } = await supabase
+                    .from(tableName)
+                    .update({ likes: newLikes })
+                    .eq('id', articleId);
+
+                if (updateError) throw updateError;
+            }
+        } catch (err) {
+            console.error("Error updating likes:", err);
+            // Optional: revert optimistic update on error
+            // setLikes(likes);
+            // setHasLiked(false);
+        } finally {
+            setIsLoading(false);
+            setTimeout(() => setIsAnimating(false), 1000);
+        }
     };
 
     return (
-        <div className="w-full max-w-[800px] mx-auto mt-16 p-8 rounded-2xl bg-background border border-[#27272a] flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="w-full max-w-[800px] mx-auto mt-16 p-8 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6 transition-all duration-300 hover:bg-white/[0.04]">
 
             {/* Text Content */}
             <div className="flex flex-col gap-2 text-center sm:text-left">
                 <h3 className="text-white text-xl font-light m-0">
-                    {t("like.title")}
+                    {t("like.title") || "Keep it up!"}
                 </h3>
                 <p className="text-[#a1a1aa] text-sm m-0 max-w-[400px]">
-                    {t("like.description")}
+                    {t("like.description") || "If you enjoyed this content, give it a like to let us know."}
                 </p>
             </div>
 
@@ -76,26 +115,33 @@ export default function ArticleLikeSection({ articleId, initialLikes, tableName 
             <div>
                 <button
                     onClick={handleLike}
-                    disabled={hasLiked}
+                    disabled={hasLiked || isLoading}
                     className={`
-                        relative flex items-center gap-3 px-6 py-3 rounded-full 
-                        transition-all duration-300 font-medium
+                        relative flex items-center gap-3 px-8 py-4 rounded-full 
+                        transition-all duration-500 font-medium overflow-hidden
                         ${hasLiked
-                            ? "bg-[#27272a] text-white cursor-default"
-                            : "bg-[#27272a] text-white hover:bg-[#3f3f46] hover:scale-105 active:scale-95"
+                            ? "bg-primary/20 text-primary cursor-default border border-primary/30"
+                            : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:scale-105 active:scale-95"
                         }
                     `}
                 >
-                    <div className={`relative ${isAnimating ? "animate-bounce" : ""}`}>
-                        <Hand size={20} className={hasLiked ? "text-yellow-400 fill-yellow-400" : ""} />
-
-                        {/* Floating particles effect could go here */}
+                    <div className={`relative z-10 transition-transform duration-300 ${isAnimating ? "scale-125" : ""}`}>
+                        <ThumbsUp
+                            size={22}
+                            className={`transition-all duration-300 ${hasLiked ? "fill-primary text-primary" : "text-white"}`}
+                        />
                     </div>
-                    <span className="text-lg">{likes}</span>
 
-                    {/* Simple ripple or particle effect on click */}
+                    <span className="text-xl font-semibold relative z-10">{likes}</span>
+
+                    {/* Background Shine/Pulse Effect */}
                     {isAnimating && (
-                        <span className="absolute top-0 left-0 w-full h-full rounded-full animate-ping bg-white/10"></span>
+                        <div className="absolute inset-0 bg-primary/20 animate-pulse z-0" />
+                    )}
+
+                    {/* Ripple/Ping effect on click */}
+                    {isAnimating && (
+                        <span className="absolute inset-0 rounded-full animate-ping bg-white/20 z-0"></span>
                     )}
                 </button>
             </div>
