@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Calendar, ArrowUpRight, ArrowLeft } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
 import { useLanguage } from "@/context/LanguageContext";
+import { CardSkeleton } from "@/components/Skeleton";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -157,7 +158,15 @@ export default function BlogClient() {
 
                 {/* Articles Grid */}
                 {isLoading ? (
-                    <div style={{ color: "var(--text-muted)", padding: "4rem", textAlign: "center" }}>{t("common.loading")}</div>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+                        gap: "2rem"
+                    }}>
+                        {[...Array(6)].map((_, i) => (
+                            <CardSkeleton key={i} />
+                        ))}
+                    </div>
                 ) : filteredArticles.length === 0 ? (
                     <div style={{ color: "var(--text-muted)", padding: "4rem", textAlign: "center" }}>{t("blog.empty")}</div>
                 ) : (

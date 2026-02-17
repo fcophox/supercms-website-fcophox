@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
+import BackgroundGradients from "@/components/BackgroundGradients";
 
 const sora = Sora({ subsets: ["latin"] });
 
@@ -23,10 +26,6 @@ export const metadata: Metadata = {
   },
 };
 
-
-import { LanguageProvider } from "@/context/LanguageContext";
-import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,7 +36,10 @@ export default function RootLayout({
       <body className={sora.className}>
         <LanguageProvider>
           <SiteSettingsProvider>
-            {children}
+            <BackgroundGradients />
+            <div className="relative z-10">
+              {children}
+            </div>
             <Toaster position="bottom-right" theme="dark" />
           </SiteSettingsProvider>
         </LanguageProvider>

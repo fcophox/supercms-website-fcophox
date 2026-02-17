@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Calendar, ArrowUpRight, ArrowLeft } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
 import { useLanguage } from "@/context/LanguageContext";
+import { CardSkeleton } from "@/components/Skeleton";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -151,7 +152,15 @@ export default function ServicesClient() {
                 </FadeInUp>
 
                 {isLoading ? (
-                    <div style={{ color: "var(--text-muted)", padding: "4rem", textAlign: "center" }}>{t("common.loading")}</div>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+                        gap: "2rem"
+                    }}>
+                        {[...Array(6)].map((_, i) => (
+                            <CardSkeleton key={i} />
+                        ))}
+                    </div>
                 ) : filteredServices.length === 0 ? (
                     <div style={{ color: "var(--text-muted)", padding: "4rem", textAlign: "center" }}>{t("services.empty")}</div>
                 ) : (

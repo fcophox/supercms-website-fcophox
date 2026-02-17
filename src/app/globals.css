@@ -37,12 +37,7 @@ body {
   background-color: hsl(var(--bg-dark));
   color: hsl(var(--text-main));
   font-family: var(--font-sans);
-  min-height: 100vh;
   overflow-x: hidden;
-  background-image:
-    radial-gradient(circle at top center, rgba(91, 78, 255, 0.1) 0%, transparent 18%),
-    radial-gradient(circle at 15% 50%, rgba(72, 59, 252, 0.03), transparent 40%),
-    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.03), transparent 25%);
 }
 
 a {

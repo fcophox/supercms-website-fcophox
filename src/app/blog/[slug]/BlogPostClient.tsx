@@ -10,6 +10,7 @@ import { Calendar, ArrowLeft, Tag } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
+import { PostSkeleton } from "@/components/Skeleton";
 
 interface Article {
     id: string;
@@ -69,8 +70,12 @@ export default function BlogPostClient() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center text-[#a1a1aa]">
-                {t("common.loading")}
+            <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-1 p-8 max-w-[1200px] mx-auto w-full pt-24">
+                    <PostSkeleton />
+                </main>
+                <Footer />
             </div>
         );
     }

@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
+import { CardSkeleton } from "@/components/Skeleton";
 
 interface Article {
     id: string;
@@ -58,7 +59,16 @@ export default function HomeBlogSection() {
         return text.length > length ? text.substring(0, length) + "..." : text;
     };
 
-    if (isLoading) return null; // Or a loading skeleton
+    if (isLoading) {
+        return (
+            <section className="w-full max-w-[1200px] mx-auto px-8 py-16">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
+                    <CardSkeleton />
+                    <CardSkeleton />
+                </div>
+            </section>
+        );
+    }
     if (articles.length === 0) return null;
 
     return (

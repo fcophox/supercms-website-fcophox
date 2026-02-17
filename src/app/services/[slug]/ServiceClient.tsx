@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { ArrowLeft, Tag, Calendar } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
+import { PostSkeleton } from "@/components/Skeleton";
 
 interface Service {
     id: string;
@@ -59,8 +60,12 @@ export default function ServiceClient() {
 
     if (isLoading) {
         return (
-            <div style={{ minHeight: "100vh", background: "#09090b", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)" }}>
-                {t("common.loading")}
+            <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#09090b" }}>
+                <Navbar />
+                <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
+                    <PostSkeleton />
+                </main>
+                <Footer />
             </div>
         );
     }

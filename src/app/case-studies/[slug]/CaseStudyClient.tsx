@@ -10,6 +10,7 @@ import { Calendar, ArrowLeft, Tag, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
+import { PostSkeleton } from "@/components/Skeleton";
 
 interface CaseStudy {
     id: string;
@@ -70,46 +71,8 @@ export default function CaseStudyClient() {
             if (currentIndex !== -1) {
                 // Next case (newer) is at index - 1 (if exists)
                 // Previous case (older) is at index + 1 (if exists)
-                // Note: User asked for "order of publications". 
-                // Usually "Previous" means "Older" and "Next" means "Newer".
-                // In a list [Newest, ..., Oldest]:
-                // Next (Newer) is index - 1
-                // Prev (Older) is index + 1
-
-                // Wait, typically "Next" in navigation flow means "the one that comes after this in the reading order".
-                // If reading order is Newest -> Oldest, then "Next" is older (index + 1).
-                // If reading order is Oldest -> Newest (chronological), then "Next" is newer (index - 1).
-                // Blogs usually go Next -> Older post. 
-                // Let's assume standard blog navigation:
-                // Left Card (Previous) -> Newer Post (index - 1)
-                // Right Card (Next) -> Older Post (index + 1)
-
-                // Let's check the requested visual order:
-                // "uno a la derecha y otro a la izquierda"
-                // Usually Left = Previous (Newer/Older?), Right = Next (Older/Newer?)
-
-                // Let's stick to:
-                // Previous (Left): Newer post (index - 1)
-                // Next (Right): Older post (index + 1)
-
                 const newerCase = currentIndex > 0 ? allCases[currentIndex - 1] : null;
                 const olderCase = currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null;
-
-                setPrevCase(olderCase as any); // Actually user asked order of publications. Let's make Left = Older, Right = Newer?
-                // Re-reading: "deberia tener el orden de las publicaciones"
-                // If I have Post 1, Post 2, Post 3 (ordered 1..3)
-                // If I am at Post 2.
-                // Previous should be Post 1. Next should be Post 3.
-                // If the list is ordered by created_at desc: [Post 3, Post 2, Post 1]
-                // Index of Post 2 is 1.
-                // Post 3 is index 0. Post 1 is index 2.
-
-                // Let's map "Previous" to "Bit Older" (Next in array) and "Next" to "Bit Newer" (Prev in array)?
-                // Or "Previous" means "Chronologically Previous" (Older).
-
-                // Let's try:
-                // Left Card (Previous): Older (index + 1)
-                // Right Card (Next): Newer (index - 1)
 
                 setPrevCase(olderCase as any);
                 setNextCase(newerCase as any);
@@ -136,8 +99,12 @@ export default function CaseStudyClient() {
 
     if (isLoading) {
         return (
-            <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)" }}>
-                {t("common.loading")}
+            <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-1 p-8 max-w-[1200px] mx-auto w-full pt-24">
+                    <PostSkeleton />
+                </main>
+                <Footer />
             </div>
         );
     }
@@ -162,7 +129,7 @@ export default function CaseStudyClient() {
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Navbar />
 
-            <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
+            <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
                 <article>
 
                     <FadeInUp>
