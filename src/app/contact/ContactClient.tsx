@@ -18,6 +18,7 @@ export default function ContactClient() {
         email: "",
         message: ""
     });
+    const [messageType, setMessageType] = useState<"message" | "consulting" | "diagnostic">("message");
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -129,12 +130,17 @@ export default function ContactClient() {
                 <FadeInUp delay={0.1}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 items-start">
                         <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-extralight text-white leading-[1.1] tracking-tight max-w-[12em]">
-                            {t("contact.title")}
+                            {t("contact.title.line1")} <span className="text-[#5b4eff]">{t("contact.title.highlight")}</span>
                         </h1>
 
-                        <p className="text-[#A1A1AA] text-lg leading-relaxed max-w-[50ch]">
-                            {t("contact.subtitle")}
-                        </p>
+                        <div className="max-w-[50ch] mt-4">
+                            <h3 className="text-white text-[1.15rem] font-bold mb-3 tracking-wide">
+                                {t("contact.intro.title")}
+                            </h3>
+                            <p className="text-[#A1A1AA] text-[1.05rem] leading-relaxed">
+                                {t("contact.intro.text")}
+                            </p>
+                        </div>
                     </div>
                 </FadeInUp>
 
@@ -146,66 +152,42 @@ export default function ContactClient() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 relative z-10">
                             <div className="lg:col-span-2 flex flex-col justify-start">
-                                <div className="flex flex-col gap-6">
-                                    {/* <h3 className="text-xl font-light text-white mb-2">{t("contact.cta.title")}</h3> */}
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason1")}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason2")}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason3")}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason4")}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason5")}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <Check size={14} className="text-green-500" />
-                                        </div>
-                                        <p className="text-[#a1a1aa] leading-relaxed text-sm">
-                                            {t("contact.reason6")}
-                                        </p>
-                                    </div>
-                                </div>
+                                <ul className="flex flex-col gap-4 list-none p-0 m-0">
+                                    {[1, 2, 3, 4, 5, 6].map(num => (
+                                        <li key={num} className="flex items-start gap-4">
+                                            <div className="w-6 h-6 rounded-full bg-[#5b4eff]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                <Check size={14} className="text-[#a1a1aa]" />
+                                            </div>
+                                            <p className="text-[#a1a1aa] font-medium leading-relaxed text-[0.95rem]">
+                                                {t(`contact.reason${num}`)}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                            <div className="lg:col-span-3 mx-auto w-full">
+                            <div className="lg:col-span-3 mx-auto w-full bg-[#121214] border border-white/5 rounded-[1.5rem] p-8 lg:p-10">
                                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+                                    {/* Type Selection Badges */}
+                                    <div className="flex flex-wrap items-center gap-3 mb-2">
+                                        {(["message", "consulting", "diagnostic"] as const).map(type => (
+                                            <button
+                                                key={type}
+                                                type="button"
+                                                onClick={() => setMessageType(type)}
+                                                disabled={type !== "message"}
+                                                title={type !== "message" ? t("contact.form.type.disabledTooltip") : undefined}
+                                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${messageType === type
+                                                    ? "bg-[#5b4eff] text-white border-[#5b4eff] shadow-[0_0_15px_rgba(91,78,255,0.3)]"
+                                                    : type === "message"
+                                                        ? "bg-transparent text-[#a1a1aa] border-white/10 hover:border-white/30 hover:text-white"
+                                                        : "bg-transparent text-white/20 border-white/5 cursor-not-allowed"
+                                                    }`}
+                                            >
+                                                {t(`contact.form.type.${type}`)}
+                                            </button>
+                                        ))}
+                                    </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Name Input */}
@@ -341,6 +323,6 @@ export default function ContactClient() {
             </main>
 
             <Footer />
-        </div>
+        </div >
     );
 }
