@@ -35,7 +35,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center justify-center text-center py-16">
+      <main className="flex-1 flex flex-col items-center justify-center text-center pb-16">
         <Hero />
         <HomeProjectsSection />
         <HomeLogosSection />

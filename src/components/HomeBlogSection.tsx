@@ -7,6 +7,7 @@ import { Calendar, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import { CardSkeleton } from "@/components/Skeleton";
+import { motion, useMotionValue } from "framer-motion";
 
 interface Article {
     id: string;
@@ -27,6 +28,20 @@ export default function HomeBlogSection() {
     const { t, language } = useLanguage();
     const [articles, setArticles] = useState<Article[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Custom cursor state for cards
+    const cursorX = useMotionValue(-100);
+    const cursorY = useMotionValue(-100);
+    const [isHoveringCard, setIsHoveringCard] = useState(false);
+
+    useEffect(() => {
+        const moveCursor = (e: MouseEvent) => {
+            cursorX.set(e.clientX - 35); // 35 is half of 70px width
+            cursorY.set(e.clientY - 35); // 35 is half of 70px height
+        };
+        window.addEventListener("mousemove", moveCursor);
+        return () => window.removeEventListener("mousemove", moveCursor);
+    }, [cursorX, cursorY]);
 
     const fetchArticles = async () => {
         setIsLoading(true);
@@ -98,52 +113,75 @@ export default function HomeBlogSection() {
 
                     return (
                         <FadeInUp key={article.id} delay={0.2 + (index * 0.1)} className="h-full">
-                            <Link href={`/blog/${slug}`} className="no-underline group h-full block">
-                                <article className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 ease-out group-hover:bg-white/5 group-hover:border-white/20 group-hover:-translate-y-1">
-                                    {/* Image Cover */}
-                                    <div
-                                        className="aspect-video bg-[#222] bg-cover bg-center relative"
-                                        style={{
-                                            backgroundImage: article.image_url ? `url(${article.image_url})` : "none",
-                                        }}
-                                    >
-                                        {!article.image_url && (
-                                            <div className="absolute inset-0 flex items-center justify-center text-[#444]">
-                                                Sin imagen
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-6 flex-1 flex flex-col text-left">
-                                        <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-medium mb-4 leading-snug transition-colors duration-200">
-                                            {title}
-                                        </h3>
-
-                                        <div className="flex items-center gap-4 font-mono text-[0.9rem] text-zinc-600 mb-4">
-                                            <div className="flex items-center gap-2">
-                                                <Calendar size={14} />
-                                                <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                                            </div>
-
-                                            {article.category && (
-                                                <div className="flex items-center gap-2">
-                                                    <span className="w-1 h-1 rounded-full bg-current opacity-50"></span>
-                                                    <span>{article.category}</span>
+                            <div
+                                className="h-full"
+                                onMouseEnter={() => setIsHoveringCard(true)}
+                                onMouseLeave={() => setIsHoveringCard(false)}
+                            >
+                                <Link href={`/blog/${slug}`} className="no-underline group h-full block cursor-none">
+                                    <article className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 ease-out group-hover:bg-white/5 group-hover:border-white/20 group-hover:-translate-y-1">
+                                        {/* Image Cover */}
+                                        <div
+                                            className="aspect-video bg-[#222] bg-cover bg-center relative"
+                                            style={{
+                                                backgroundImage: article.image_url ? `url(${article.image_url})` : "none",
+                                            }}
+                                        >
+                                            {!article.image_url && (
+                                                <div className="absolute inset-0 flex items-center justify-center text-[#444]">
+                                                    Sin imagen
                                                 </div>
                                             )}
                                         </div>
 
-                                        <p className="text-[#a1a1aa] text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
-                                            {getExcerpt(content)}
-                                        </p>
-                                    </div>
-                                </article>
-                            </Link>
+                                        {/* Content */}
+                                        <div className="p-6 flex-1 flex flex-col text-left">
+                                            <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-medium mb-4 leading-snug transition-colors duration-200">
+                                                {title}
+                                            </h3>
+
+                                            <div className="flex items-center gap-4 font-mono text-[0.9rem] text-zinc-600 mb-4">
+                                                <div className="flex items-center gap-2">
+                                                    <Calendar size={14} />
+                                                    <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                                </div>
+
+                                                {article.category && (
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="w-1 h-1 rounded-full bg-current opacity-50"></span>
+                                                        <span>{article.category}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <p className="text-[#a1a1aa] text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
+                                                {getExcerpt(content)}
+                                            </p>
+                                        </div>
+                                    </article>
+                                </Link>
+                            </div>
                         </FadeInUp>
                     )
                 })}
             </div>
+
+            {/* Custom Mouse Cursor */}
+            <motion.div
+                className="fixed top-0 left-0 w-[70px] h-[70px] rounded-full bg-[#1e1e20] shadow-2xl flex items-center justify-center pointer-events-none z-[100] border border-white/10"
+                style={{
+                    x: cursorX,
+                    y: cursorY,
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{
+                    scale: isHoveringCard ? 1 : 0,
+                    opacity: isHoveringCard ? 1 : 0,
+                }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+                <ArrowUpRight size={24} className="text-white" />
+            </motion.div>
         </section>
     );
 }

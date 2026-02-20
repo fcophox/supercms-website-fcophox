@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { ArrowUpRight, ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 interface CaseStudy {
     id: string;
@@ -35,6 +36,20 @@ export default function HomeProjectsSection() {
     const [scrollLeft, setScrollLeft] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+
+    // Custom cursor state for cards
+    const cursorX = useMotionValue(-100);
+    const cursorY = useMotionValue(-100);
+    const [isHoveringCard, setIsHoveringCard] = useState(false);
+
+    useEffect(() => {
+        const moveCursor = (e: MouseEvent) => {
+            cursorX.set(e.clientX - 35); // 35 is half of 70px width
+            cursorY.set(e.clientY - 35); // 35 is half of 70px height
+        };
+        window.addEventListener("mousemove", moveCursor);
+        return () => window.removeEventListener("mousemove", moveCursor);
+    }, [cursorX, cursorY]);
 
     const fetchProjects = async () => {
         setIsLoading(true);
@@ -224,10 +239,16 @@ export default function HomeProjectsSection() {
                             const slug = language === 'en' && project.slug_en ? project.slug_en : project.slug;
 
                             return (
-                                <div key={project.id} onClickCapture={handleClick} className="snap-center lg:snap-align-none shrink-0 first:pl-0">
+                                <div
+                                    key={project.id}
+                                    onClickCapture={handleClick}
+                                    className="snap-center lg:snap-align-none shrink-0 first:pl-0"
+                                    onMouseEnter={() => setIsHoveringCard(true)}
+                                    onMouseLeave={() => setIsHoveringCard(false)}
+                                >
                                     <Link
                                         href={`/case-studies/${slug}`}
-                                        className="block relative group no-underline draggable-link w-[85vw] md:w-[580px] lg:w-[670px]"
+                                        className="block relative group no-underline draggable-link w-[85vw] md:w-[580px] lg:w-[670px] cursor-none"
                                         draggable={false}
                                     >
                                         <div className="bg-[#121214] border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto min-h-[500px] md:min-h-0 md:h-[320px] transition-all duration-500 hover:border-white/20">
@@ -320,6 +341,23 @@ export default function HomeProjectsSection() {
                     </div>
                 </div>
             )}
+
+            {/* Custom Mouse Cursor */}
+            <motion.div
+                className="fixed top-0 left-0 w-[70px] h-[70px] rounded-full bg-[#1e1e20] shadow-2xl flex items-center justify-center pointer-events-none z-[100] border border-white/10"
+                style={{
+                    x: cursorX,
+                    y: cursorY,
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{
+                    scale: isHoveringCard ? 1 : 0,
+                    opacity: isHoveringCard ? 1 : 0,
+                }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+                <ArrowUpRight size={24} className="text-white" />
+            </motion.div>
         </section>
     );
 }
