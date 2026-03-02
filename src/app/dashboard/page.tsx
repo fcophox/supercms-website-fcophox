@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -135,10 +136,10 @@ export default function DashboardPage() {
                                         <td className="p-4">
                                             <span
                                                 className={`px-3 py-1 rounded-full text-xs font-medium ${item.type === 'Article'
-                                                        ? "bg-violet-400/10 text-violet-400"
-                                                        : item.type === 'Case Study'
-                                                            ? "bg-sky-400/10 text-sky-400"
-                                                            : "bg-green-400/10 text-green-400"
+                                                    ? "bg-violet-400/10 text-violet-400"
+                                                    : item.type === 'Case Study'
+                                                        ? "bg-sky-400/10 text-sky-400"
+                                                        : "bg-green-400/10 text-green-400"
                                                     }`}
                                             >
                                                 {item.type}

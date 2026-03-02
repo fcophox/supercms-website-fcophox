@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-// @ts-ignore
+
 import translate from 'google-translate-api-x';
 
 interface TranslateResponse {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         // Translate Title
         if (title) {
             try {
-                // @ts-ignore
+
                 const titleRes = await translate(title, { to: 'en' }) as TranslateResponse;
                 translatedTitle = titleRes.text;
             } catch (e) {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         // Translate Content
         if (text) {
             try {
-                // @ts-ignore
+
                 const contentRes = await translate(text, { to: 'en' }) as TranslateResponse;
                 translatedContent = contentRes.text;
             } catch (e) {

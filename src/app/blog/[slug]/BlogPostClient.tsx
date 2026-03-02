@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,7 +7,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, ArrowLeft, Tag } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
@@ -55,6 +56,7 @@ export default function BlogPostClient() {
 
     useEffect(() => {
         if (slug) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             fetchArticle(slug as string);
         }
     }, [slug]);

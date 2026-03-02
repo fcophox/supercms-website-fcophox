@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Linkedin, Github, ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import ContactCTA from "./ContactCTA";
 
 export default function Footer() {
-    const { t, toggleLanguage, language } = useLanguage();
+    const { t } = useLanguage();
 
     return (
         <>

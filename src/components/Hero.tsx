@@ -11,14 +11,16 @@ export default function Hero() {
 
     return (
         <div className="relative w-full flex justify-center">
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <Image
-                    src="/brand/background-fcp.svg"
-                    alt="Hero Background"
-                    fill
-                    className="object-cover object-top"
-                    priority
-                />
+            <div className="absolute inset-0 z-0 pointer-events-none flex justify-center">
+                <div className="relative w-full h-full max-w-[1290px]">
+                    <Image
+                        src="/brand/background-fcp.svg"
+                        alt="Hero Background"
+                        fill
+                        className="object-cover object-top"
+                        priority
+                    />
+                </div>
             </div>
 
             <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 sm:px-8 min-h-[60vh] lg:min-h-[60vh] flex flex-col justify-center text-left">

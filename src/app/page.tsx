@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import HomeBlogSection from "@/components/HomeBlogSection";
 import HomeLogosSection from "@/components/HomeLogosSection";
 import Hero from "@/components/Hero";
+import HomeBentoSection from "@/components/HomeBentoSection";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function Home() {
         <Hero />
         <HomeProjectsSection />
         <HomeLogosSection />
+        <HomeBentoSection />
         <HomeBlogSection />
       </main>
 

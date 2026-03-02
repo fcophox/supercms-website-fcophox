@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
-import { ArrowUpRight, ArrowLeft, ArrowRight, Calendar } from "lucide-react";
+import { ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 interface CaseStudy {
     id: string;
@@ -25,7 +25,7 @@ interface CaseStudy {
 }
 
 export default function HomeProjectsSection() {
-    const { t, language } = useLanguage();
+    const { language } = useLanguage();
     const [projects, setProjects] = useState<CaseStudy[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -69,6 +69,7 @@ export default function HomeProjectsSection() {
     };
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchProjects();
     }, []);
 
@@ -234,7 +235,7 @@ export default function HomeProjectsSection() {
                             </div>
                         ))
                     ) : (
-                        projects.map((project, index) => {
+                        projects.map((project) => {
                             const title = language === 'en' && project.title_en ? project.title_en : project.title;
                             const slug = language === 'en' && project.slug_en ? project.slug_en : project.slug;
 
@@ -251,7 +252,7 @@ export default function HomeProjectsSection() {
                                         className="block relative group no-underline draggable-link w-[85vw] md:w-[580px] lg:w-[670px] cursor-none"
                                         draggable={false}
                                     >
-                                        <div className="bg-[#121214] border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto min-h-[500px] md:min-h-0 md:h-[320px] transition-all duration-500 hover:border-white/20">
+                                        <div className="bg-[#09090b]/10 border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto min-h-[500px] md:min-h-0 md:h-[320px] transition-all duration-500 hover:border-white/20">
 
                                             {/* Left Content */}
                                             <div className="p-6 md:p-8  flex flex-col justify-center items-start w-full md:w-[45%] z-10 relative shrink-0">

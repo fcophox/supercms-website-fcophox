@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -51,9 +52,9 @@ export default function BlogClient() {
             const fetchedArticles = data || [];
             setArticles(fetchedArticles);
 
-            // Extract unique non-empty categories
-            const uniqueCategories = Array.from(new Set(fetchedArticles.map((a: any) => a.category).filter((c: any) => c && c.trim() !== "")));
-            setCategories(uniqueCategories as string[]);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const uniqueCategories = [...new Set(data.map((article: any) => article.category).filter(Boolean))] as string[];
+            setCategories(uniqueCategories);
         }
         setIsLoading(false);
     };

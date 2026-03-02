@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { Award, Linkedin, Github } from "lucide-react";
+import { Linkedin, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 

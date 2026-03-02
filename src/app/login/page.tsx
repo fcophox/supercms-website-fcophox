@@ -97,7 +97,7 @@ export default function LoginPage() {
                     </form>
 
                     <div className="mt-8 text-center text-sm text-muted">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/register" className="text-white hover:underline underline-offset-4 transition-colors">
                             Sign up
                         </Link>
@@ -126,7 +126,7 @@ export default function LoginPage() {
                         <Image src="/logotipo.svg" alt="fcoPhox Logo" fill className="p-3 object-contain opacity-90" unoptimized />
                     </div>
                     <blockquote className="text-2xl font-medium text-white/90 leading-relaxed mb-8">
-                        "Experience backed by knowledge. Designing with method, judgment, and impact vision to create digital products that connect."
+                        &quot;Experience backed by knowledge. Designing with method, judgment, and impact vision to create digital products that connect.&quot;
                     </blockquote>
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 overflow-hidden relative">

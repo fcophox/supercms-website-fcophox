@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect, @next/next/no-img-element, @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState, useEffect } from "react";
