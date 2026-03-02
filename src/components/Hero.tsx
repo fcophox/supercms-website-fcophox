@@ -23,7 +23,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 sm:px-8 min-h-[60vh] lg:min-h-[60vh] flex flex-col justify-center text-left">
+            <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 sm:px-8 min-h-[75vh] sm:min-h-[60vh] flex flex-col justify-center text-center sm:text-left items-center sm:items-start pt-8 sm:pt-0 pb-12 sm:pb-0">
                 <FadeInUp>
                     <div className="mb-8">
                         <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-transparent">
@@ -53,8 +53,8 @@ export default function Hero() {
                 </FadeInUp>
 
                 <FadeInUp delay={0.3}>
-                    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                        <Link href="/case-studies" className="bg-primary rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(72,59,252,0.4)]"
+                    <div className="flex flex-col w-full sm:w-auto sm:flex-row gap-4 items-center sm:items-center">
+                        <Link href="/case-studies" className="w-full sm:w-auto justify-center bg-primary rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(72,59,252,0.4)]"
                         >
                             {t("hero.buttons.projects")}
                         </Link>
@@ -62,7 +62,7 @@ export default function Hero() {
                         <Link
                             href="https://www.linkedin.com/in/fcophox/"
                             target="_blank"
-                            className="bg-white/10 border border-white/5 rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
+                            className="w-full sm:w-auto justify-center bg-white/10 border border-white/5 rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
                         >
                             <Linkedin size={20} />
                             <span>{t("about.bio.linkedin")}</span>

@@ -181,8 +181,8 @@ export default function HomeProjectsSection() {
                 <div className="max-w-[1200px] mx-auto px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
                     <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-white leading-tight text-left w-full md:max-w-[750px]">
                         {language === 'es'
-                            ? "Selección de algunos proyectos digitales desde 2018 hasta hoy"
-                            : "Selection of digital projects from 2018 to today"}
+                            ? "Una selección de proyectos digitales desde 2018 hasta hoy"
+                            : "A selection of digital projects from 2018 to today"}
                     </h2>
                     <Link
                         href="/case-studies"

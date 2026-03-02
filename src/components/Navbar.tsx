@@ -109,16 +109,16 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`fixed top-0 left-0 w-full h-screen bg-[#09090b] pt-24 transition-transform duration-300 ease-in-out z-40 flex flex-col items-center ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                className={`fixed top-0 left-0 w-full h-[100dvh] bg-[#09090b] transition-transform duration-300 ease-in-out z-40 flex flex-col items-center justify-center ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
-                <div className="flex flex-col items-center gap-8 mt-8">
+                <div className="flex flex-col items-center gap-8 p-6">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={`no-underline text-2xl font-semibold transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/70"
+                            className={`no-underline text-2xl font-light transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/70"
                                 }`}
                         >
                             {link.name}
@@ -130,7 +130,7 @@ export default function Navbar() {
                     {/* Mobile Language Switcher */}
                     <button
                         onClick={toggleLanguage}
-                        className="bg-white/10 border-none text-white py-3 px-6 rounded-full flex items-center gap-2 cursor-pointer text-base font-semibold"
+                        className="bg-white/10 border-none text-white py-3 px-6 rounded-full flex items-center gap-2 cursor-pointer text-base font-light"
                     >
                         <span className="text-base">文</span> {language.toUpperCase()}
                     </button>

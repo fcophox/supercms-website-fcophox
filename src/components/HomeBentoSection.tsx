@@ -55,7 +55,7 @@ export default function HomeBentoSection() {
                         </div>
 
                         <div className="flex flex-col gap-4 relative z-10">
-                            <h3 className="text-lg md:text-lg font-semibold text-white/90 tracking-tight">
+                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
                                 {t("home.bento.strategy.title")}
                             </h3>
                             <p className="text-[#a1a1aa] leading-relaxed max-w-[50ch] text-[0.9rem]">
@@ -140,12 +140,12 @@ export default function HomeBentoSection() {
                             />
                         </div>
 
-                        <h3 className="text-lg md:text-lg font-semibold text-white/90 tracking-tight leading-snug mb-12 relative z-10 max-w-[90%]">
+                        <h3 className="text-[clamp(1.4rem,3vw,1.4rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
                             {t("home.bento.tools.text")}
                         </h3>
 
                         <div className="mt-auto flex flex-col gap-8 relative z-10">
-                            <Sparkles className="text-white w-8 h-8 opacity-90 transition-transform group-hover:scale-110 duration-300" strokeWidth={1.5} />
+                            {/* <Sparkles className="text-white w-8 h-8 opacity-90 transition-transform group-hover:scale-110 duration-300" strokeWidth={1.5} /> */}
 
                             <Link href="/blog" className="inline-flex items-center gap-2 text-white/90 text-[0.95rem] font-medium hover:text-white transition-colors border-b border-white/20 hover:border-white/60 pb-0.5 w-fit">
                                 {t("home.bento.tools.link")} <ArrowUpRight size={16} />
@@ -168,7 +168,7 @@ export default function HomeBentoSection() {
                             />
                         </div>
 
-                        <h3 className="text-lg md:text-lg font-semibold text-white tracking-tight leading-snug mb-8 relative z-10 max-w-[90%] text-left">
+                        <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
                             {t("home.bento.services.title")}
                         </h3>
 
@@ -227,7 +227,7 @@ export default function HomeBentoSection() {
                         className="col-span-1 overflow-hidden  md:col-span-2 bg-[#09090b]/50 border text-left border-white/5 hover:border-white/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between"
                     >
                         <div className="flex flex-col gap-4 mb-10">
-                            <h3 className="text-lg font-semibold text-white tracking-tight">
+                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
                                 {t("home.bento.methodology.title")}
                             </h3>
                             <p className="text-[#a1a1aa] leading-relaxed max-w-[50ch] text-[0.9rem]">

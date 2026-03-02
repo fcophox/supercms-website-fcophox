@@ -185,12 +185,12 @@ export default function MethodologyCertifications() {
 
             {/* Filters */}
             <FadeInUp delay={0.1}>
-                <div className="flex gap-6 md:gap-8 mb-12 border-b border-white/10 overflow-x-auto scrollbar-hide">
+                <div className="flex gap-6 md:gap-8 mb-12 overflow-x-auto overflow-y-hidden touch-pan-x scrollbar-hide">
                     {categories.map((cat) => (
                         <button
                             key={cat.key}
                             onClick={() => setFilter(cat.key)}
-                            className={`shrink-0 pb-4 text-[0.95rem] font-medium transition-all duration-200 ease-in-out border-b whitespace-nowrap -mb-px ${filter === cat.key
+                            className={`shrink-0 pb-3 md:pb-4 text-[0.95rem] font-medium transition-all duration-200 ease-in-out border-b-2 whitespace-nowrap ${filter === cat.key
                                 ? "border-white text-white"
                                 : "border-transparent text-white/50 hover:text-white/80"
                                 }`}

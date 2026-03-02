@@ -92,7 +92,7 @@ export default function HomeBlogSection() {
             {/* Header */}
             <FadeInUp>
                 <div className="flex justify-between items-end mb-12 gap-8 flex-wrap">
-                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-extralight text-white max-w-[700px] leading-tight text-left">
+                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-white leading-tight text-left w-full md:max-w-[750px]">
                         {t("home.blog.title")}
                     </h2>
 
