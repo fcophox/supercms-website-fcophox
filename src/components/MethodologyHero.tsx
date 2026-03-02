@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ArrowLeft, Download } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,6 +10,16 @@ import FadeInUp from "./FadeInUp";
 
 export default function MethodologyHero() {
     const { t } = useLanguage();
+    const [activeImage, setActiveImage] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Only cycle if we are likely on mobile (window width check is optional, but css hides/shows anyway)
+            // Even if it runs on desktop, the translation is disabled via CSS md:!transform-none
+            setActiveImage((prev) => (prev + 1) % 3);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <section className="mb-32">
@@ -38,54 +49,64 @@ export default function MethodologyHero() {
                 </div>
             </FadeInUp>
 
-            {/* Image Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
-                {/* Image 1: Computer/Creative */}
-                <FadeInUp delay={0.2} className="h-full">
-                    <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <Image
-                            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop"
-                            alt="Creative Workspace"
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            unoptimized
-                        />
-                    </div>
-                </FadeInUp>
-
-                {/* Image 2: Sketches/Wireframes */}
-                <FadeInUp delay={0.3} className="h-full">
-                    <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <Image
-                            src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop"
-                            alt="Wireframing"
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            unoptimized
-                        />
-                    </div>
-                </FadeInUp>
-
-                {/* Image 3: Collaboration */}
-                <FadeInUp delay={0.4} className="h-full">
-                    <div className="rounded-xl overflow-hidden aspect-[4/5] relative bg-[#222] group h-full">
-                        <Image
-                            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
-                            alt="Team meeting"
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            unoptimized
-                        />
-                        <div className="absolute bottom-6 left-6 flex items-center gap-3 z-10">
-                            {/* <span className="text-white font-medium text-sm">
-                                {t("methodology.hero.videoOverlay")}
-                            </span> */}
-                            {/* <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white">
-                                <Play size={16} fill="white" />
-                            </div> */}
+            {/* Image Grid (Desktop) / Carousel (Mobile) */}
+            <div className="mb-24 relative overflow-hidden md:overflow-visible">
+                <div
+                    className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 transition-transform duration-700 ease-in-out md:!transform-none"
+                    style={{ transform: `translateX(calc(-${activeImage * 100}% - ${activeImage * 1}rem))` }}
+                >
+                    {/* Image 1: Computer/Creative */}
+                    <FadeInUp delay={0.2} className="w-full shrink-0 md:w-auto h-full">
+                        <div className="rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/5] relative bg-[#222] group h-full cursor-grab active:cursor-grabbing md:cursor-auto">
+                            <Image
+                                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop"
+                                alt="Creative Workspace"
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                unoptimized
+                            />
                         </div>
-                    </div>
-                </FadeInUp>
+                    </FadeInUp>
+
+                    {/* Image 2: Sketches/Wireframes */}
+                    <FadeInUp delay={0.3} className="w-full shrink-0 md:w-auto h-full">
+                        <div className="rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/5] relative bg-[#222] group h-full cursor-grab active:cursor-grabbing md:cursor-auto">
+                            <Image
+                                src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop"
+                                alt="Wireframing"
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                unoptimized
+                            />
+                        </div>
+                    </FadeInUp>
+
+                    {/* Image 3: Collaboration */}
+                    <FadeInUp delay={0.4} className="w-full shrink-0 md:w-auto h-full">
+                        <div className="rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/5] relative bg-[#222] group h-full cursor-grab active:cursor-grabbing md:cursor-auto">
+                            <Image
+                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+                                alt="Team meeting"
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                unoptimized
+                            />
+                        </div>
+                    </FadeInUp>
+                </div>
+
+                {/* Mobile Pagination Dots */}
+                <div className="flex md:hidden justify-center gap-2 mt-6">
+                    {[0, 1, 2].map((index) => (
+                        <button
+                            key={index}
+                            onClick={() => setActiveImage(index)}
+                            className={`transition-all duration-300 rounded-full h-1.5 ${activeImage === index ? "w-6 bg-white" : "w-1.5 bg-white/20"
+                                }`}
+                            aria-label={`Go to image ${index + 1}`}
+                        />
+                    ))}
+                </div>
             </div>
 
             {/* Chronicle Section */}

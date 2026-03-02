@@ -189,7 +189,7 @@ export default function AboutAccordion() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-16 items-start pt-16">
                     {/* Left Column: Title & Description & Roles List (Sticky) */}
-                    <div className="sticky top-[120px] flex flex-col gap-8">
+                    <div className="hidden lg:flex sticky top-[120px] flex-col gap-8">
                         {/* Roles List */}
                         <div className="flex flex-col gap-4 mt-4 max-h-[60vh] overflow-y-auto pr-4">
                             {timelineData.map((item) => {

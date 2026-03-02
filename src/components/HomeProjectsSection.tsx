@@ -186,7 +186,7 @@ export default function HomeProjectsSection() {
                     </h2>
                     <Link
                         href="/case-studies"
-                        className="flex items-center gap-4 text-white no-underline font-semibold text-sm border-b border-white/20 pb-2 w-full md:w-auto justify-between md:justify-start transition-all duration-200 hover:border-white hover:opacity-80 group"
+                        className="hidden md:flex items-center gap-4 text-white no-underline font-semibold text-sm border-b border-white/20 pb-2 w-auto justify-start transition-all duration-200 hover:border-white hover:opacity-80 group"
                     >
                         {language === 'es' ? "Ver todos" : "Check all"}
                         <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -221,7 +221,7 @@ export default function HomeProjectsSection() {
                                             <div className="w-full h-8 bg-white/10 rounded mb-2"></div>
                                             <div className="w-2/3 h-8 bg-white/10 rounded mb-6"></div>
 
-                                            <div className="mt-auto pt-6 border-t border-white/10 w-full">
+                                            <div className="mt-auto pt-6 border-t border-white/10 w-full hidden md:block">
                                                 <div className="flex gap-2">
                                                     <div className="w-16 h-6 bg-white/10 rounded-full"></div>
                                                     <div className="w-20 h-6 bg-white/10 rounded-full"></div>
@@ -266,7 +266,7 @@ export default function HomeProjectsSection() {
                                                     {title}
                                                 </h3>
 
-                                                <div className="mt-auto pt-6 border-t border-white/10 w-full">
+                                                <div className="mt-auto pt-6 border-t border-white/10 w-full hidden md:block">
                                                     <div className="flex flex-wrap gap-2">
                                                         {project.tags?.slice(0, 3).map(tag => (
                                                             <span key={tag} className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
@@ -340,6 +340,21 @@ export default function HomeProjectsSection() {
                             />
                         ))}
                     </div>
+                </div>
+            )}
+
+            {/* Mobile View All Link - Below Controls */}
+            {!isLoading && (
+                <div className="max-w-[1200px] mx-auto px-8 mt-12 md:hidden flex flex-col items-start">
+                    <FadeInUp>
+                        <Link
+                            href="/case-studies"
+                            className="inline-flex items-center gap-4 text-white no-underline font-semibold text-sm border-b border-white/20 pb-2 transition-all duration-200 hover:border-white hover:opacity-80 group"
+                        >
+                            {language === 'es' ? "Ver todos" : "Check all"}
+                            <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </Link>
+                    </FadeInUp>
                 </div>
             )}
 

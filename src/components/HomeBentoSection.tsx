@@ -63,14 +63,23 @@ export default function HomeBentoSection() {
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-between gap-4 sm:gap-6 mb-12 relative z-10 w-full group/steps">
-                            {/* Connecting Line Base */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 mb-12 mt-12 relative z-10 w-full group/steps">
+                            {/* Connecting Line Base (Desktop) */}
                             <div className="hidden sm:block absolute top-[31px] left-[32px] right-[32px] h-[1px] bg-white/10 border-t border-[#2a2b36] -z-10"></div>
 
-                            {/* Connecting Line Highlight */}
+                            {/* Connecting Line Highlight (Desktop) */}
                             <div
                                 className="hidden sm:block absolute top-[31px] left-[32px] h-[1px] bg-[#5b4eff] -z-10 transition-all duration-1000 ease-in-out shadow-[0_0_10px_#5b4eff]"
                                 style={{ width: `calc(${activeStep * 33.33}% - ${activeStep === 0 ? 0 : 32}px)` }}
+                            ></div>
+
+                            {/* Connecting Line Base (Mobile) */}
+                            <div className="block sm:hidden absolute left-[31px] top-[32px] bottom-[32px] w-[1px] bg-white/10 border-r border-[#2a2b36] -z-10"></div>
+
+                            {/* Connecting Line Highlight (Mobile) */}
+                            <div
+                                className="block sm:hidden absolute left-[31px] top-[32px] w-[1px] bg-[#5b4eff] -z-10 transition-all duration-1000 ease-in-out shadow-[0_0_10px_#5b4eff]"
+                                style={{ height: `calc(${activeStep * 33.33}% - ${activeStep === 0 ? 0 : 32}px)` }}
                             ></div>
 
                             {[
@@ -83,8 +92,8 @@ export default function HomeBentoSection() {
                                 const isCurrent = step.index === activeStep;
                                 const Icon = step.icon;
                                 return (
-                                    <div key={step.id} className="flex flex-col items-center gap-3 relative transition-all duration-500">
-                                        <div className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg relative z-10 transition-all duration-500 ${isActive
+                                    <div key={step.id} className="flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-3 relative transition-all duration-500 w-full sm:w-auto">
+                                        <div className={`shrink-0 w-16 h-16 rounded-full flex items-center justify-center shadow-lg relative z-10 transition-all duration-500 ${isActive
                                             ? 'bg-[#1a1b24] border border-[#5b4eff] shadow-[0_0_30px_rgba(91,78,255,0.4)]'
                                             : 'bg-[#13141c] border border-[#2a2b36]'
                                             }`}>

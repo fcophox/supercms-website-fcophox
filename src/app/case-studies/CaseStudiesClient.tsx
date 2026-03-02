@@ -113,10 +113,10 @@ export default function CaseStudiesClient() {
                 </FadeInUp>
 
                 <FadeInUp delay={0.2}>
-                    <div style={{ display: "flex", gap: "0.75rem", marginBottom: "3rem", flexWrap: "wrap" }}>
+                    <div className="flex gap-3 mb-12 overflow-x-auto scrollbar-hide w-full">
                         <button
                             onClick={() => setSelectedCategory("All")}
-                            className={`tag-pill ${selectedCategory === "All" ? "active" : ""}`}
+                            className={`tag-pill shrink-0 ${selectedCategory === "All" ? "active" : ""}`}
                             style={{
                                 padding: "0.5rem 1.25rem",
                                 borderRadius: "999px",
@@ -134,7 +134,7 @@ export default function CaseStudiesClient() {
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`tag-pill ${selectedCategory === category ? "active" : ""}`}
+                                className={`tag-pill shrink-0 ${selectedCategory === category ? "active" : ""}`}
                                 style={{
                                     padding: "0.5rem 1.25rem",
                                     borderRadius: "999px",
