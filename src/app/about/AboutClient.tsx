@@ -11,6 +11,7 @@ import AboutHistory from "@/components/AboutHistory";
 import AboutBio from "@/components/AboutBio";
 import AboutAccordion from "@/components/AboutAccordion";
 import AboutAreas from "@/components/AboutAreas";
+import AboutLogoHover from "@/components/AboutLogoHover";
 import FadeInUp from "@/components/FadeInUp";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
@@ -83,6 +84,11 @@ export default function AboutClient() {
                             className="object-cover"
                         />
                     </div>
+                </FadeInUp>
+
+                {/* Logo Hover Effect */}
+                <FadeInUp delay={0.3}>
+                    <AboutLogoHover />
                 </FadeInUp>
 
                 <AboutHistory />

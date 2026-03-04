@@ -8,6 +8,7 @@ interface SiteSettingsContextType {
     articlesVisible: boolean;
     caseStudiesVisible: boolean;
     servicesVisible: boolean;
+    isLoading: boolean;
     refreshSettings: () => Promise<void>;
     updateSetting: (key: string, value: boolean) => Promise<void>;
 }
@@ -18,6 +19,7 @@ export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
     const [articlesVisible, setArticlesVisible] = useState(true);
     const [caseStudiesVisible, setCaseStudiesVisible] = useState(true);
     const [servicesVisible, setServicesVisible] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchSettings = async () => {
         try {
@@ -41,6 +43,8 @@ export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
             // If rows don't exist, we default to true (initialized state)
         } catch (err) {
             console.error("Unexpected error fetching settings:", err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -81,6 +85,7 @@ export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
             articlesVisible,
             caseStudiesVisible,
             servicesVisible,
+            isLoading,
             refreshSettings: fetchSettings,
             updateSetting
         }}>

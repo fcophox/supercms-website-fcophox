@@ -36,7 +36,7 @@ export default function HomeLogosSection() {
 
             {/* Grid */}
             <FadeInUp delay={0.2}>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8 mb-12 items-center justify-items-start">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8 mb-12 items-center justify-items-start mt-12">
                     {logos.map((logo) => (
                         <div
                             key={logo.name}

@@ -11,7 +11,7 @@ import { Menu, X } from "lucide-react";
 export default function Navbar() {
     const pathname = usePathname();
     const { language, toggleLanguage, t } = useLanguage();
-    const { articlesVisible, caseStudiesVisible, servicesVisible } = useSiteSettings();
+    const { articlesVisible, caseStudiesVisible, servicesVisible, isLoading } = useSiteSettings();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navLinks = [
@@ -66,16 +66,24 @@ export default function Navbar() {
 
                 {/* Desktop Links - Hidden on Mobile */}
                 <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            className={`no-underline text-[0.8rem] font-medium transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-[#a1a1aa] hover:text-white"
-                                }`}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
+                    {isLoading ? (
+                        <div className="flex items-center gap-8">
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className="w-16 h-4 bg-white/10 rounded animate-pulse"></div>
+                            ))}
+                        </div>
+                    ) : (
+                        navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className={`no-underline text-[0.8rem] font-medium transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-[#a1a1aa] hover:text-white"
+                                    }`}
+                            >
+                                {link.name}
+                            </Link>
+                        ))
+                    )}
                 </div>
 
                 {/* Right Actions - Hidden on Mobile */}
@@ -113,17 +121,25 @@ export default function Navbar() {
                     }`}
             >
                 <div className="flex flex-col items-center gap-8 p-6">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`no-underline text-2xl font-light transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/70"
-                                }`}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
+                    {isLoading ? (
+                        <div className="flex flex-col items-center gap-8">
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className="w-32 h-6 bg-white/10 rounded animate-pulse"></div>
+                            ))}
+                        </div>
+                    ) : (
+                        navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className={`no-underline text-2xl font-light transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/70"
+                                    }`}
+                            >
+                                {link.name}
+                            </Link>
+                        ))
+                    )}
 
                     <div className="h-px w-[100px] bg-white/10 my-4"></div>
 

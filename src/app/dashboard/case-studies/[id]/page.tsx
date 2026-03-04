@@ -9,9 +9,11 @@ import ImageUploader from "@/components/ImageUploader";
 import Modal from "@/components/Modal";
 import TagInput from "@/components/TagInput";
 
-export default function EditCaseStudyPage() {
+import { use } from 'react';
+
+export default function EditCaseStudyPage(props: { params: Promise<{ id: string }> }) {
     const router = useRouter();
-    const params = useParams() as { id: string };
+    const params = use(props.params);
     const { id } = params;
 
     // Spanish / Default State
@@ -450,34 +452,7 @@ export default function EditCaseStudyPage() {
 
             <div className="flex flex-col gap-6">
 
-                {/* Language Switcher */}
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-2 bg-black/20 p-1 rounded-lg">
-                        <button
-                            onClick={() => setLanguage('es')}
-                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'es' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
-                                }`}
-                        >
-                            Español
-                        </button>
-                        <button
-                            onClick={() => setLanguage('en')}
-                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
-                                }`}
-                        >
-                            English
-                        </button>
-                    </div>
 
-                    {language === 'en' && (
-                        <button
-                            onClick={confirmTranslate}
-                            className="px-4 py-2 rounded-md border border-[var(--primary)] bg-violet-500/10 text-[var(--primary)] cursor-pointer text-sm hover:bg-violet-500/20"
-                        >
-                            ✨ Traducir desde Español
-                        </button>
-                    )}
-                </div>
 
                 {/* Shared Image Section */}
                 <div className="glass-panel p-6 rounded-xl">
@@ -564,7 +539,7 @@ export default function EditCaseStudyPage() {
 
                 {/* Downloadable Resource Section */}
                 <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <h3 className="text-lg font-light text-white flex items-center gap-2">
                         <span>📥</span> Recurso Descargable (PDF)
                     </h3>
 
@@ -649,6 +624,35 @@ export default function EditCaseStudyPage() {
                             </div>
                         )}
                     </div>
+                </div>
+
+                {/* Language Switcher */}
+                <div className="flex justify-between items-center">
+                    <div className="flex gap-2 bg-black/20 p-1 rounded-lg">
+                        <button
+                            onClick={() => setLanguage('es')}
+                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'es' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
+                                }`}
+                        >
+                            Español
+                        </button>
+                        <button
+                            onClick={() => setLanguage('en')}
+                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
+                                }`}
+                        >
+                            English
+                        </button>
+                    </div>
+
+                    {language === 'en' && (
+                        <button
+                            onClick={confirmTranslate}
+                            className="px-4 py-2 rounded-md border border-[var(--primary)] bg-violet-500/10 text-[var(--primary)] cursor-pointer text-sm hover:bg-violet-500/20"
+                        >
+                            ✨ Traducir desde Español
+                        </button>
+                    )}
                 </div>
 
                 {/* Editor */}

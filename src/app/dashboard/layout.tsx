@@ -25,7 +25,7 @@ export default function DashboardLayout({
                 className="glass-panel w-[260px] h-screen sticky top-0 border-r border-[var(--glass-border)] border-y-0 border-l-0 rounded-none flex flex-col p-6 z-50"
             >
                 <div className="mb-12 pl-2">
-                    <h2 className="title-gradient text-2xl font-bold">
+                    <h2 className="title-gradient text-2xl font-light">
                         FcoPhox <span className="text-[hsl(var(--primary))]">CMS</span>
                     </h2>
                 </div>

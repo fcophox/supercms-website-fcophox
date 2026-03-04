@@ -8,7 +8,7 @@ import imageCompression from 'browser-image-compression';
 import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Image as ImageIcon } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import './styles.css'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 const ToolbarButton = ({
     onClick,
@@ -67,6 +67,17 @@ export default function TiptapEditor({ content, onChange }: { content?: string, 
             },
         },
     })
+
+    // Sync external content changes (like translations) into the editor 
+    // when the user isn't actively typing.
+    useEffect(() => {
+        if (editor && content !== undefined) {
+            const currentContent = editor.getHTML()
+            if (content !== currentContent && !editor.isFocused) {
+                editor.commands.setContent(content)
+            }
+        }
+    }, [content, editor])
 
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]

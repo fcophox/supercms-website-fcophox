@@ -150,7 +150,7 @@ export default function NewArticlePage() {
                     <Link href="/dashboard/articles" className="text-[var(--text-muted)] flex items-center text-xl p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
                         ←
                     </Link>
-                    <h1 className="text-2xl font-bold text-white">
+                    <h1 className="text-xl font-light text-white">
                         Crear Nuevo Artículo
                     </h1>
                 </div>
@@ -181,7 +181,7 @@ export default function NewArticlePage() {
                         placeholder="Título del Artículo..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full bg-transparent border-none text-4xl font-bold text-white outline-none placeholder:text-white/20"
+                        className="w-full bg-transparent border-none text-2xl font-light text-white outline-none placeholder:text-white/20"
                     />
                     <ImageUploader
                         value={imageUrl}
@@ -231,13 +231,13 @@ export default function NewArticlePage() {
 
                 {/* Downloadable Resource Section */}
                 <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <h3 className="text-md font-light text-white flex items-center gap-2">
                         <span>📥</span> Recurso Descargable (PDF)
                     </h3>
 
                     <div className="flex flex-col gap-2">
                         <label className="text-[var(--text-muted)] text-sm">Tipo de Recurso</label>
-                        <div className="flex gap-4 bg-black/20 p-2 rounded-lg">
+                        <div className="flex gap-4 p-2 rounded-lg">
                             <label className="flex items-center gap-2 cursor-pointer text-white">
                                 <input
                                     type="radio"

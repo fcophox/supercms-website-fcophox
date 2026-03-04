@@ -1,21 +1,24 @@
 import { NextResponse } from 'next/server';
-
 import translate from 'google-translate-api-x';
+import * as parse5 from 'parse5';
 
-interface TranslateResponse {
-    text: string;
-    from: {
-        language: {
-            didYouMean: boolean;
-            iso: string;
-        };
-        text: {
-            autoCorrected: boolean;
-            value: string;
-            didYouMean: boolean;
-        };
-    };
-    raw: string;
+// Recursive function to walk the AST and collect text nodes
+function collectTextNodes(node: any, textNodes: any[]) {
+    // Skip script and style tags
+    if (node.nodeName === 'script' || node.nodeName === 'style') {
+        return;
+    }
+
+    if (node.nodeName === '#text') {
+        // Only collect text nodes that actually have non-whitespace content to translate
+        if (node.value.trim() !== '') {
+            textNodes.push(node);
+        }
+    } else if (node.childNodes) {
+        for (const child of node.childNodes) {
+            collectTextNodes(child, textNodes);
+        }
+    }
 }
 
 export async function POST(request: Request) {
@@ -37,8 +40,7 @@ export async function POST(request: Request) {
         // Translate Title
         if (title) {
             try {
-
-                const titleRes = await translate(title, { to: 'en' }) as TranslateResponse;
+                const titleRes: any = await translate(title, { to: 'en' });
                 translatedTitle = titleRes.text;
             } catch (e) {
                 console.error("Error translating title:", e);
@@ -49,9 +51,43 @@ export async function POST(request: Request) {
         // Translate Content
         if (text) {
             try {
+                // Parse the existing HTML
+                const ast = parse5.parseFragment(text);
+                const textNodes: any[] = [];
 
-                const contentRes = await translate(text, { to: 'en' }) as TranslateResponse;
-                translatedContent = contentRes.text;
+                // Collect all text nodes
+                collectTextNodes(ast, textNodes);
+
+                if (textNodes.length > 0) {
+                    const textsToTranslate = textNodes.map(n => n.value);
+
+                    // Translate the array of text nodes in one batch
+                    const translations: any = await translate(textsToTranslate, { to: 'en' });
+
+                    // google-translate-api-x returns an array if input is an array
+                    const translationArray = Array.isArray(translations) ? translations : [translations];
+
+                    // Put the translated values back into the AST
+                    textNodes.forEach((node, index) => {
+                        if (translationArray[index] && translationArray[index].text) {
+                            const original = node.value;
+                            let translated = translationArray[index].text;
+
+                            // Preserve leading/trailing whitespace which can be stripped by the API
+                            // This prevents inline tags from collapsing together (e.g., "word " + "word" -> "wordword")
+                            const hasLeadingSpace = /^\s/.test(original);
+                            const hasTrailingSpace = /\s$/.test(original);
+
+                            if (hasLeadingSpace && !/^\s/.test(translated)) translated = ' ' + translated;
+                            if (hasTrailingSpace && !/\s$/.test(translated)) translated = translated + ' ';
+
+                            node.value = translated;
+                        }
+                    });
+                }
+
+                // Serialize back to HTML string
+                translatedContent = parse5.serialize(ast);
             } catch (e) {
                 console.error("Error translating content:", e);
                 translatedContent = text; // Fallback
@@ -87,3 +123,4 @@ export async function POST(request: Request) {
         );
     }
 }
+

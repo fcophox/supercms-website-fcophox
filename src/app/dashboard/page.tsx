@@ -77,7 +77,7 @@ export default function DashboardPage() {
         <div className="pb-8">
             <header className="mb-10 flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">
+                    <h1 className="text-xl font-semibold text-white mb-2">
                         Dashboard
                     </h1>
                     <p className="text-[var(--text-muted)]">Overview of your content performance.</p>
