@@ -87,9 +87,9 @@ export default function AboutClient() {
                 </FadeInUp>
 
                 {/* Logo Hover Effect */}
-                <FadeInUp delay={0.3}>
+                {/* <FadeInUp delay={0.3}>
                     <AboutLogoHover />
-                </FadeInUp>
+                </FadeInUp> */}
 
                 <AboutHistory />
 

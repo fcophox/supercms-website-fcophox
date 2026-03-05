@@ -75,7 +75,7 @@ const timelineDataEn: TimelineItem[] = [
         role: "Head of UX & UX Manager",
         description: "I lead the User Experience area, managing multidisciplinary teams and defining the UX strategy for large-scale digital projects. My focus is on boosting productivity, ensuring efficient design processes, and strengthening the culture of innovation within the organization, always with a user-centered vision and continuous improvement.",
         skills: ["UX Strategy", "Team Management", "Design Leadership", "Product Discovery"],
-        image: "/projects/fcophox/mockups/1.png"
+        // image: "/projects/fcophox/mockups/1.png"
     },
     {
         id: 2,
