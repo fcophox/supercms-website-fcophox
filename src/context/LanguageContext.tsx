@@ -34,7 +34,7 @@ const translations: Record<string, Record<Language, string>> = {
     "home.bento.strategy.desc": { es: "Una visión global del ciclo de vida de un producto, resolviendo problemas reales a través del diseño.", en: "A global vision of the product lifecycle, solving real problems through design." },
     "home.bento.strategy.step1": { es: "Discovery & Research", en: "Discovery & Research" },
     "home.bento.strategy.step2": { es: "Diseño & Prototipado", en: "Design & Prototyping" },
-    "home.bento.strategy.step3": { es: "MVP & código", en: "MVP & Code" },
+    "home.bento.strategy.step3": { es: "MVP & Código", en: "MVP & Code" },
     "home.bento.strategy.step4": { es: "Entrega del producto", en: "Product Delivery" },
     "home.bento.strategy.btn": { es: "Get in touch", en: "Get in touch" },
 

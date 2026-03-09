@@ -120,10 +120,10 @@ export default function HomeBlogSection() {
                                 onMouseLeave={() => setIsHoveringCard(false)}
                             >
                                 <Link href={`/blog/${slug}`} className="no-underline group h-full block cursor-none">
-                                    <article className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 ease-out group-hover:bg-white/5 group-hover:border-white/20 group-hover:-translate-y-1">
-                                        {/* Image Cover */}
+                                    <article className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden group/card transition-all duration-300 ease-out hover:-translate-y-1 border border-white/10 hover:border-white/20">
+                                        {/* Background Image */}
                                         <div
-                                            className="aspect-video bg-[#222] bg-cover bg-center relative"
+                                            className="absolute inset-0 bg-[#222] bg-cover bg-center transition-transform duration-700 ease-out group-hover/card:scale-105"
                                             style={{
                                                 backgroundImage: article.image_url ? `url(${article.image_url})` : "none",
                                             }}
@@ -135,29 +135,40 @@ export default function HomeBlogSection() {
                                             )}
                                         </div>
 
-                                        {/* Content */}
-                                        <div className="p-6 flex-1 flex flex-col text-left">
-                                            <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-medium mb-4 leading-snug transition-colors duration-200">
-                                                {title}
-                                            </h3>
+                                        {/* Gradient Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/80 to-transparent border-t border-white/5 opacity-80 group-hover/card:opacity-90 transition-opacity duration-300" />
 
-                                            <div className="flex items-center gap-4 font-mono text-[0.9rem] text-zinc-600 mb-4">
-                                                <div className="flex items-center gap-2">
-                                                    <Calendar size={14} />
+                                        {/* Content */}
+                                        <div className="absolute inset-0 p-8 pb-12 flex flex-col justify-end text-left z-10">
+
+                                            <div className="transform translate-y-3 group-hover/card:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                                                {/* Meta */}
+                                                <div className="flex items-center gap-2 font-mono text-[0.85rem] text-zinc-300 mb-2">
+                                                    <Calendar size={14} className="text-zinc-400" />
                                                     <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+
+                                                    {article.category && (
+                                                        <>
+                                                            <span className="opacity-40">•</span>
+                                                            <span>{article.category}</span>
+                                                        </>
+                                                    )}
                                                 </div>
 
-                                                {article.category && (
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="w-1 h-1 rounded-full bg-current opacity-50"></span>
-                                                        <span>{article.category}</span>
-                                                    </div>
-                                                )}
-                                            </div>
+                                                {/* Title */}
+                                                <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-light leading-[1.3] m-0 drop-shadow-md">
+                                                    {title}
+                                                </h3>
 
-                                            <p className="text-[#a1a1aa] text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
-                                                {getExcerpt(content)}
-                                            </p>
+                                                {/* Description Wrapper (Expands on Hover) */}
+                                                <div className="grid grid-rows-[0fr] group-hover/card:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 group-hover/card:opacity-100 mt-0 group-hover/card:mt-3">
+                                                    <div className="overflow-hidden">
+                                                        <p className="text-[#a1a1aa] text-[0.95rem] leading-relaxed line-clamp-2 m-0">
+                                                            {getExcerpt(content, 100)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </article>
                                 </Link>

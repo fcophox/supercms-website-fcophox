@@ -198,7 +198,7 @@ export default function HomeProjectsSection() {
             <FadeInUp delay={0.2}>
                 <div
                     ref={sliderRef}
-                    className="overflow-x-auto flex gap-6 px-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-12 scrollbar-hide"
+                    className="overflow-x-auto flex gap-6 px-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-6 md:pb-12 scrollbar-hide"
                     onMouseDown={handleMouseDown}
                     onMouseLeave={handleMouseLeave}
                     onMouseUp={handleMouseUp}
@@ -214,9 +214,9 @@ export default function HomeProjectsSection() {
                         [...Array(3)].map((_, index) => (
                             <div key={`skeleton-${index}`} className="snap-center lg:snap-align-none shrink-0 first:pl-0">
                                 <div className="w-[85vw] md:w-[600px] lg:w-[630px]">
-                                    <div className="bg-[#121214] border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto min-h-[500px] md:min-h-0 md:h-[320px] animate-pulse">
+                                    <div className="bg-[#121214] border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] animate-pulse">
                                         {/* Left Content Skeleton */}
-                                        <div className="p-6 md:p-8 flex flex-col justify-center items-start w-full md:w-[45%] z-10 release shrink-0">
+                                        <div className="p-6 md:p-8 flex flex-col justify-center items-start w-full md:w-[45%] z-10 relative shrink-0">
                                             <div className="w-24 h-6 bg-white/10 rounded-full mb-4"></div>
                                             <div className="w-full h-8 bg-white/10 rounded mb-2"></div>
                                             <div className="w-2/3 h-8 bg-white/10 rounded mb-6"></div>
@@ -229,7 +229,7 @@ export default function HomeProjectsSection() {
                                             </div>
                                         </div>
                                         {/* Right Image Skeleton */}
-                                        <div className="w-full md:w-[55%] flex-1 md:flex-auto md:h-full bg-white/5"></div>
+                                        <div className="w-full md:w-[55%] md:h-full bg-white/5 aspect-[16/9] md:aspect-auto"></div>
                                     </div>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@ export default function HomeProjectsSection() {
                                         className="block relative group no-underline draggable-link w-[85vw] md:w-[580px] lg:w-[670px] cursor-none"
                                         draggable={false}
                                     >
-                                        <div className="bg-[#09090b]/10 border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto min-h-[500px] md:min-h-0 md:h-[320px] transition-all duration-500 hover:border-white/20">
+                                        <div className="bg-[#09090b]/10 border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] transition-all duration-500 hover:border-white/20">
 
                                             {/* Left Content */}
                                             <div className="p-6 md:p-8  flex flex-col justify-center items-start w-full md:w-[45%] z-10 relative shrink-0">
@@ -278,7 +278,7 @@ export default function HomeProjectsSection() {
                                             </div>
 
                                             {/* Right Image */}
-                                            <div className="w-full md:w-[55%] flex-1 md:flex-auto md:h-full relative overflow-hidden order-last md:order-last min-h-[200px]">
+                                            <div className="w-full md:w-[55%] md:h-full relative overflow-hidden order-last aspect-[16/9] md:aspect-auto">
                                                 {project.image_url ? (
                                                     <div className="absolute inset-0 md:top-10 md:bottom-10 md:left-10 md:-right-20 transition-transform duration-500 ease-out group-hover:md:translate-x-[-20px]">
                                                         <Image
@@ -309,7 +309,7 @@ export default function HomeProjectsSection() {
 
             {/* Controls */}
             {!isLoading && (
-                <div className="max-w-[1200px] mx-auto px-8 mt-8 flex justify-between items-center">
+                <div className="max-w-[1200px] mx-auto px-8 mt-1 flex justify-between items-center">
                     {/* Navigation Buttons */}
                     <div className="flex gap-4">
                         <button

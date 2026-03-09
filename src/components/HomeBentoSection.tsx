@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FadeInUp from "@/components/FadeInUp";
 import { useLanguage } from "@/context/LanguageContext";
-import { ArrowUpRight, Sparkles, Search, PenTool, Terminal, Rocket } from "lucide-react";
+import { ArrowUpRight, Sparkles, Search, PenTool, Terminal, Rocket, Lightbulb, Zap, LineChart, Send } from "lucide-react";
 
 export default function HomeBentoSection() {
     const { t } = useLanguage();
@@ -63,14 +63,14 @@ export default function HomeBentoSection() {
                             </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 mb-12 mt-12 relative z-10 w-full group/steps">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 sm:gap-0 mb-12 mt-12 sm:pb-8 relative z-10 w-full group/steps sm:px-10">
                             {/* Connecting Line Base (Desktop) */}
-                            <div className="hidden sm:block absolute top-[31px] left-[32px] right-[32px] h-[1px] bg-white/10 border-t border-[#2a2b36] -z-10"></div>
+                            <div className="hidden sm:block absolute top-[31px] left-[72px] right-[72px] h-[1px] bg-white/10 border-t border-[#2a2b36] -z-10"></div>
 
                             {/* Connecting Line Highlight (Desktop) */}
                             <div
-                                className="hidden sm:block absolute top-[31px] left-[32px] h-[1px] bg-[#5b4eff] -z-10 transition-all duration-1000 ease-in-out shadow-[0_0_10px_#5b4eff]"
-                                style={{ width: `calc(${activeStep * 33.33}% - ${activeStep === 0 ? 0 : 32}px)` }}
+                                className="hidden sm:block absolute top-[31px] left-[72px] h-[1px] bg-[#5b4eff] -z-10 transition-all duration-1000 ease-in-out shadow-[0_0_10px_#5b4eff]"
+                                style={{ width: `calc((100% - 144px) * ${activeStep / 3})` }}
                             ></div>
 
                             {/* Connecting Line Base (Mobile) */}
@@ -79,7 +79,7 @@ export default function HomeBentoSection() {
                             {/* Connecting Line Highlight (Mobile) */}
                             <div
                                 className="block sm:hidden absolute left-[31px] top-[32px] w-[1px] bg-[#5b4eff] -z-10 transition-all duration-1000 ease-in-out shadow-[0_0_10px_#5b4eff]"
-                                style={{ height: `calc(${activeStep * 33.33}% - ${activeStep === 0 ? 0 : 32}px)` }}
+                                style={{ height: `calc((100% - 64px) * ${activeStep / 3})` }}
                             ></div>
 
                             {[
@@ -92,19 +92,19 @@ export default function HomeBentoSection() {
                                 const isCurrent = step.index === activeStep;
                                 const Icon = step.icon;
                                 return (
-                                    <div key={step.id} className="flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-3 relative transition-all duration-500 w-full sm:w-auto">
-                                        <div className={`shrink-0 w-16 h-16 rounded-full flex items-center justify-center shadow-lg relative z-10 transition-all duration-500 ${isActive
-                                            ? 'bg-[#1a1b24] border border-[#5b4eff] shadow-[0_0_30px_rgba(91,78,255,0.4)]'
+                                    <div key={step.id} className="flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-0 relative transition-all duration-500 w-full sm:w-16">
+                                        <div className={`shrink-0 w-16 h-16 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 ${isActive
+                                            ? 'bg-[#1a1b24] border border-[#5b4eff]' + (isCurrent ? ' shadow-[0_0_30px_rgba(91,78,255,0.4)]' : ' shadow-[0_0_20px_rgba(91,78,255,0.1)]')
                                             : 'bg-[#13141c] border border-[#2a2b36]'
                                             }`}>
-                                            <Icon className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#5b4eff]' : 'text-white/40'
+                                            <Icon className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#5b4eff]' : 'text-white/30'
                                                 }`} strokeWidth={1.5} />
                                         </div>
-                                        <div className={`px-4 py-1.5 rounded-full border text-[0.7rem] whitespace-nowrap transition-all duration-500 ${isCurrent
-                                            ? 'bg-[#5b4eff]/10 border-[#5b4eff]/50 text-white shadow-[0_0_10px_rgba(91,78,255,0.2)]'
+                                        <div className={`sm:absolute sm:top-[76px] sm:left-1/2 sm:-translate-x-1/2 px-4 py-1.5 rounded-full border text-[0.7rem] sm:text-[0.75rem] whitespace-nowrap transition-all duration-500 ${isCurrent
+                                            ? 'bg-[#5b4eff]/10 border-[#5b4eff]/50 text-white shadow-[0_0_15px_rgba(91,78,255,0.2)]'
                                             : isActive
-                                                ? 'bg-white/5 border-white/20 text-white/40'
-                                                : 'bg-white/0 border-white/10 text-white/30'
+                                                ? 'bg-transparent border-transparent text-[#5b4eff]'
+                                                : 'bg-transparent border-transparent text-white/30'
                                             }`}>
                                             {t(`home.bento.strategy.${step.id}`)}
                                         </div>
@@ -239,6 +239,7 @@ export default function HomeBentoSection() {
                             <div className="flex flex-wrap items-center gap-3 mb-6 relative z-10 ">
                                 {(["tab1", "tab2", "tab3", "tab4"] as const).map(tab => {
                                     const isActive = activeTab === tab;
+                                    const TabIcon = tab === "tab1" ? Lightbulb : tab === "tab2" ? Zap : tab === "tab3" ? LineChart : Send;
                                     return (
                                         <button
                                             key={tab}
@@ -248,11 +249,7 @@ export default function HomeBentoSection() {
                                                 : "border-white/20 text-[#a1a1aa] hover:border-white/40 hover:text-white"
                                                 }`}
                                         >
-                                            <div className={`w-6 h-3 border-[1.5px] rounded-full flex items-center px-[1px] ${isActive ? "border-[#5b4eff]" : "border-white/50"
-                                                }`}>
-                                                <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isActive ? "bg-[#5b4eff] ml-0" : "bg-white/50 ml-0"
-                                                    }`}></div>
-                                            </div>
+                                            <TabIcon size={16} className={`transition-colors duration-300 ${isActive ? "text-[#5b4eff]" : "text-white/50"}`} />
                                             {t(`home.bento.methodology.${tab}`)}
                                         </button>
                                     );

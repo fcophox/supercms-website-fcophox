@@ -205,18 +205,11 @@ export default function CaseStudyClient() {
 
                     {caseStudy.image_url && (
                         <FadeInUp delay={0.3}>
-                            <div style={{
-                                width: "100%",
-                                aspectRatio: "21/9",
-                                borderRadius: "16px",
-                                overflow: "hidden",
-                                marginBottom: "3rem",
-                                border: "1px solid #222"
-                            }}>
+                            <div className="w-full rounded-2xl overflow-hidden mb-12 border border-[#222] aspect-video md:aspect-[21/9]">
                                 <img
                                     src={caseStudy.image_url}
                                     alt={title}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
                         </FadeInUp>
