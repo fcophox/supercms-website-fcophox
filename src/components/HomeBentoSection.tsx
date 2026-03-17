@@ -36,7 +36,7 @@ export default function HomeBentoSection() {
         <section className="w-full py-16 px-6 sm:px-8 relative overflow-hidden">
             <div className="absolute inset-0 z-0 pointer-events-none opacity-50 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.05),transparent_70%)]" />
 
-            <div className="max-w-[1200px] mx-auto w-full relative z-10">
+            <div className="max-w-6xl mx-auto w-full relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-min">
 
                     {/* Top Left Card - Strategy */}
@@ -172,7 +172,7 @@ export default function HomeBentoSection() {
                             {t("home.bento.services.title")}
                         </h3>
 
-                        <div className="relative flex-1 -mx-8 sm:-mx-10 overflow-hidden flex flex-col justify-start [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] pt-2 top-4 -left-4 [transform:perspective(110px)_rotateY(-7deg)_rotate(9deg)_scale(1.1)] transition-transform duration-1000 ease-out">
+                        <div className="relative flex-1 -mx-8 sm:-mx-10 overflow-hidden flex flex-col justify-start [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] pt-2 top-8 left-1 [transform:perspective(190px)_rotateY(-6deg)_rotate(9deg)_scale(1.1)] transition-transform duration-1000 ease-out">
                             <div className="flex flex-col gap-3 pb-3 animate-vertical-scroll px-8 sm:px-10 hover:[animation-play-state:paused]">
                                 {[
                                     "home.bento.services.item1",
@@ -195,7 +195,7 @@ export default function HomeBentoSection() {
                                 ].map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className="w-fit border border-white/10 rounded-xl px-4 py-2 text-[0.75rem] text-[#a1a1aa] bg-white/5 whitespace-normal leading-tight"
+                                        className="w-fit border border-white/10 rounded-xl px-4 py-2 text-[0.68rem] text-[#a1a1aa] bg-white/5 whitespace-normal leading-tight"
                                     >
                                         {t(item)}
                                     </div>

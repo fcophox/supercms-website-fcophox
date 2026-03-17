@@ -178,7 +178,7 @@ export default function HomeProjectsSection() {
     return (
         <section className="w-full py-16 overflow-hidden select-none">
             <FadeInUp>
-                <div className="max-w-[1200px] mx-auto px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                <div className="max-w-6xl mx-auto px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
                     <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-white leading-tight text-left w-full md:max-w-[750px]">
                         {language === 'es'
                             ? "Una selección de proyectos digitales desde 2018 hasta hoy"
@@ -207,7 +207,7 @@ export default function HomeProjectsSection() {
                 >
 
                     {/* Responsive Spacer to align first item with centered header on large screens */}
-                    <div className="shrink-0 w-[calc(max(0px,calc((100vw-1260px)/2)))]" />
+                    <div className="shrink-0 w-[calc(max(0px,calc((100vw-1210px)/2)))]" />
 
                     {isLoading ? (
                         // Skeleton Logic
@@ -262,7 +262,7 @@ export default function HomeProjectsSection() {
                                                     </div>
                                                 )}
 
-                                                <h3 className="text-[clamp(1.25rem,3vw,1.5rem)] font-normal text-white mb-6 leading-tight group-hover:text-primary transition-colors text-left">
+                                                <h3 className="text-[clamp(1.25rem,3vw,1.2rem)] font-normal text-white mb-6 leading-tight group-hover:text-primary transition-colors text-left">
                                                     {title}
                                                 </h3>
 
@@ -309,7 +309,7 @@ export default function HomeProjectsSection() {
 
             {/* Controls */}
             {!isLoading && (
-                <div className="max-w-[1200px] mx-auto px-8 mt-1 flex justify-between items-center">
+                <div className="max-w-6xl mx-auto px-8 mt-1 flex justify-between items-center">
                     {/* Navigation Buttons */}
                     <div className="flex gap-4">
                         <button
@@ -345,7 +345,7 @@ export default function HomeProjectsSection() {
 
             {/* Mobile View All Link - Below Controls */}
             {!isLoading && (
-                <div className="max-w-[1200px] mx-auto px-8 mt-12 md:hidden flex flex-col items-start">
+                <div className="max-w-6xl mx-auto px-8 mt-12 md:hidden flex flex-col items-start">
                     <FadeInUp>
                         <Link
                             href="/case-studies"

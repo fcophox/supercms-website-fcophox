@@ -14,10 +14,10 @@ export default function MethodologyClient() {
     usePageTitle("nav.methodology");
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
                 <MethodologyHero />
 
                 <FadeInUp delay={0.2}>

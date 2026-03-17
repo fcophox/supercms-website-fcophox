@@ -9,7 +9,7 @@ export default function ContactCTA() {
     const { t } = useLanguage();
 
     return (
-        <section className="w-full max-w-[1200px] mx-auto px-8 pb-16">
+        <section className="w-full max-w-6xl mx-auto px-8 pb-16">
             <FadeInUp>
                 <div className="relative rounded-3xl overflow-hidden bg-[#0A0A0A] min-h-[350px] flex flex-col items-center justify-center text-center p-8 border border-white/5 shadow-2xl">
                     {/* Background Image */}

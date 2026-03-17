@@ -33,7 +33,7 @@
   margin: 0;
 }
 
-body {
+html, body {
   background-color: hsl(var(--bg-dark));
   color: hsl(var(--text-main));
   font-family: var(--font-sans);

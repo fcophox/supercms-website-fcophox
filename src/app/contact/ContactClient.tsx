@@ -5,7 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { Send, Mail, User, MessageSquare, ArrowLeft, Check, Calendar, Briefcase } from "lucide-react";
+import { Send, Mail, User, MessageSquare, ArrowLeft, Check, Calendar, Briefcase, MessageCircle, Users, ClipboardCheck } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
@@ -18,8 +18,15 @@ export default function ContactClient() {
         email: "",
         message: ""
     });
-    const [messageType, setMessageType] = useState<"message" | "consulting" | "diagnostic">("message");
+    const [messageType, setMessageType] = useState<"message" | "consulting" | "diagnostic" | null>(null);
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+    // Icons Mapping
+    const typeIcons = {
+        message: <MessageCircle size={18} />,
+        consulting: <Users size={18} />,
+        diagnostic: <ClipboardCheck size={18} />
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({
@@ -114,10 +121,10 @@ export default function ContactClient() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-[100dvh] flex flex-col bg-[#09090b]">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-[1200px] mx-auto w-full pt-24 pb-24">
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24 pb-12">
 
                 {/* Back Link */}
                 <FadeInUp duration={0.5}>
@@ -146,135 +153,148 @@ export default function ContactClient() {
 
                 {/* Contact Form Container */}
                 <FadeInUp delay={0.2}>
-                    <div className="">
+                    <div className="relative overflow-hidden rounded-[1.5rem]">
                         {/* Background decoration */}
                         <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.03),transparent_70%)] pointer-events-none z-0" />
 
-                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 relative z-10">
-                            <div className="lg:col-span-2 flex flex-col justify-start">
-                                <ul className="flex flex-col gap-4 list-none p-0 m-0">
-                                    {[1, 2, 3, 4, 5, 6].map(num => (
-                                        <li key={num} className="flex items-start gap-4">
-                                            <div className="w-6 h-6 rounded-full bg-[#5b4eff]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                                <Check size={14} className="text-[#a1a1aa]" />
-                                            </div>
-                                            <p className="text-[#a1a1aa] font-medium leading-relaxed text-[0.95rem]">
-                                                {t(`contact.reason${num}`)}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="lg:col-span-3 mx-auto w-full bg-[#121214] border border-white/5 rounded-[1.5rem] p-8 lg:p-10">
+                        <div className="relative z-10 max-w-2xl mx-auto">
+                            <div className="w-full bg-[#121214] border border-white/5 rounded-[1.5rem] p-8 lg:p-10">
                                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
-                                    {/* Type Selection Badges */}
-                                    <div className="flex flex-wrap items-center gap-3 mb-2">
-                                        {(["message", "consulting", "diagnostic"] as const).map(type => (
-                                            <button
-                                                key={type}
-                                                type="button"
-                                                onClick={() => setMessageType(type)}
-                                                disabled={type !== "message"}
-                                                title={type !== "message" ? t("contact.form.type.disabledTooltip") : undefined}
-                                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${messageType === type
-                                                    ? "bg-[#5b4eff] text-white border-[#5b4eff] shadow-[0_0_15px_rgba(91,78,255,0.3)]"
-                                                    : type === "message"
-                                                        ? "bg-transparent text-[#a1a1aa] border-white/10 hover:border-white/30 hover:text-white"
-                                                        : "bg-transparent text-white/20 border-white/5 cursor-not-allowed"
-                                                    }`}
-                                            >
-                                                {t(`contact.form.type.${type}`)}
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        {/* Name Input */}
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="name" className="text-white !font-light text-[0.95rem] ml-1">
-                                                {t("contact.form.name")}
-                                            </label>
-                                            <div className="relative">
-                                                <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                                                <input
-                                                    type="text"
-                                                    id="name"
-                                                    name="name"
-                                                    className="input-field !pl-12"
-                                                    placeholder={t("contact.form.namePlaceholder")}
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* Email Input */}
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="email" className="text-white !font-light text-[0.95rem] ml-1">
-                                                {t("contact.form.email")}
-                                            </label>
-                                            <div className="relative">
-                                                <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    className="input-field !pl-12"
-                                                    placeholder={t("contact.form.emailPlaceholder")}
-                                                    value={formData.email}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Message Input */}
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="message" className="text-white !font-light text-[0.95rem] ml-1">
-                                            {t("contact.form.message")}
+                                    {/* Question */}
+                                    <div className="flex flex-col gap-4">
+                                        <label className="text-white text-lg font-light">
+                                            {t("contact.form.question")}
                                         </label>
-                                        <div className="relative">
-                                            <MessageSquare size={18} className="absolute left-3 top-3.5 text-muted pointer-events-none" />
-                                            <textarea
-                                                id="message"
-                                                name="message"
-                                                className="input-field !pl-12 resize-y min-h-[120px]"
-                                                placeholder={t("contact.form.messagePlaceholder")}
-                                                value={formData.message}
-                                                onChange={handleChange}
-                                                rows={5}
-                                                required
-                                            />
+                                        <div className="flex flex-col sm:flex-row items-stretch gap-3">
+                                            {(["message", "consulting", "diagnostic"] as const).map(type => (
+                                                <button
+                                                    key={type}
+                                                    type="button"
+                                                    onClick={() => setMessageType(type)}
+                                                    className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 border text-center flex items-center justify-center gap-3 ${messageType === type
+                                                        ? "bg-[#5b4eff] text-white border-[#5b4eff] shadow-[0_0_20px_rgba(91,78,255,0.4)] scale-[1.02]"
+                                                        : "bg-transparent text-[#a1a1aa] border-white/10 hover:border-white/30 hover:text-white"
+                                                        }`}
+                                                >
+                                                    {typeIcons[type]}
+                                                    {t(`contact.form.type.${type}`)}
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
 
-                                    {/* Submit Button */}
-                                    <button
-                                        type="submit"
-                                        className={`bg-primary rounded-full flex items-center justify-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(72,59,252,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4 w-fit self-end`}
-                                        disabled={status === "sending" || status === "success"}
-                                    >
-                                        {status === "sending" ? (
-                                            <>
-                                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                {t("contact.form.sending")}
-                                            </>
-                                        ) : status === "success" ? (
-                                            t("contact.form.success")
-                                        ) : status === "error" ? (
-                                            <span className="text-red-500">Error</span>
-                                        ) : (
-                                            <>
-                                                {t("contact.form.submit")} <Send size={18} />
-                                            </>
-                                        )}
-                                    </button>
+                                    {/* Revealed Form Fields */}
+                                    {messageType && (
+                                        <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                                            <hr className="border-white/10 my-2" />
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                {/* Name Input */}
+                                                <div className="flex flex-col gap-2">
+                                                    <label htmlFor="name" className="text-white !font-light text-[0.95rem] ml-1">
+                                                        {t("contact.form.name")}
+                                                    </label>
+                                                    <div className="relative">
+                                                        <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+                                                        <input
+                                                            type="text"
+                                                            id="name"
+                                                            name="name"
+                                                            className="input-field !pl-12"
+                                                            placeholder={t("contact.form.namePlaceholder")}
+                                                            value={formData.name}
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Email Input */}
+                                                <div className="flex flex-col gap-2">
+                                                    <label htmlFor="email" className="text-white !font-light text-[0.95rem] ml-1">
+                                                        {t("contact.form.email")}
+                                                    </label>
+                                                    <div className="relative">
+                                                        <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+                                                        <input
+                                                            type="email"
+                                                            id="email"
+                                                            name="email"
+                                                            className="input-field !pl-12"
+                                                            placeholder={t("contact.form.emailPlaceholder")}
+                                                            value={formData.email}
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Message Input */}
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="message" className="text-white !font-light text-[0.95rem] ml-1">
+                                                    {t("contact.form.message")}
+                                                </label>
+                                                <div className="relative">
+                                                    <MessageSquare size={18} className="absolute left-3 top-3.5 text-muted pointer-events-none" />
+                                                    <textarea
+                                                        id="message"
+                                                        name="message"
+                                                        className="input-field !pl-12 resize-y min-h-[200px]"
+                                                        placeholder={messageType === 'message' ? t("contact.form.messagePlaceholder") : `${t(`contact.form.type.${messageType}`)}: ${t("contact.form.messagePlaceholder")}`}
+                                                        value={formData.message}
+                                                        onChange={handleChange}
+                                                        rows={8}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* Submit Button */}
+                                            <button
+                                                type="submit"
+                                                className={`w-full bg-white/5 border border-white/10 rounded-full flex items-center justify-center gap-2 px-8 py-4 text-white no-underline text-[1.1rem] font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 mt-6`}
+                                                disabled={status === "sending" || status === "success" || !formData.name || !formData.email || !formData.message}
+                                            >
+                                                {status === "sending" ? (
+                                                    <>
+                                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                        {t("contact.form.sending")}
+                                                    </>
+                                                ) : status === "success" ? (
+                                                    t("contact.form.success")
+                                                ) : status === "error" ? (
+                                                    <span className="text-red-500">Error</span>
+                                                ) : (
+                                                    <>
+                                                        {t("contact.form.submit")} <Send size={18} />
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+                                    )}
                                 </form>
                             </div>
                         </div>
+
+                        {/* Dynamic Help Text */}
+                        {messageType && (
+                            <FadeInUp delay={0.3}>
+                                <div className="max-w-2xl mx-auto px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-500">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-2 h-2 rounded-full bg-green-500 mt-2 shrink-0 animate-pulse" />
+                                        <div className="flex flex-col gap-1">
+                                            {/* <span className="text-white text-sm font-semibold uppercase tracking-wider">
+                                                    {t(`contact.form.type.${messageType}`)}
+                                                </span> */}
+                                            <p className="text-[#a1a1aa] text-sm leading-relaxed max-w-[60ch]">
+                                                {t(`contact.form.help.${messageType}`)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FadeInUp>
+                        )}
                     </div>
                 </FadeInUp>
 
@@ -283,7 +303,7 @@ export default function ContactClient() {
                     <div className="mt-24">
                         <h2 className="text-2xl font-light text-white mb-10 text-center">{t("contact.extended.title")}</h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
                             {/* Agenda Card - DISABLED */}
                             <div
                                 className="bg-white/[0.03] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center opacity-50 cursor-not-allowed select-none grayscale-[0.5]"

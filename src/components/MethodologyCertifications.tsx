@@ -202,7 +202,7 @@ export default function MethodologyCertifications() {
             </FadeInUp>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6">
                 {filteredData.map((item, index) => (
                     <FadeInUp key={item.id} delay={(index % 4) * 0.05} className="h-full">
                         <div className="h-full bg-white/[0.02] border border-white/10 rounded-2xl p-6 flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:bg-white/5 hover:border-white/20 hover:-translate-y-1">

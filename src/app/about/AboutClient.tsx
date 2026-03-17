@@ -21,23 +21,14 @@ export default function AboutClient() {
     usePageTitle("nav.about");
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
 
                 {/* Back Link */}
                 <FadeInUp duration={0.5}>
-                    <Link href="/" style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        color: "var(--text-muted)",
-                        marginBottom: "3rem",
-                        textDecoration: "none",
-                        fontSize: "0.9rem",
-                        opacity: 0.7,
-                    }}>
+                    <Link href="/" className="inline-flex items-center gap-2 text-[#a1a1aa] mb-12 no-underline text-[0.9rem] opacity-70 hover:opacity-100 transition-opacity">
                         <ArrowLeft size={16} /> {t("common.backHome")}
                     </Link>
                 </FadeInUp>
@@ -45,23 +36,11 @@ export default function AboutClient() {
                 {/* Header Section */}
                 <FadeInUp delay={0.1}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24 items-start">
-                        <h1 style={{
-                            fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
-                            fontWeight: "200",
-                            color: "white",
-                            lineHeight: 1.1,
-                            letterSpacing: "-0.02em",
-                            maxWidth: "12em"
-                        }}>
+                        <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-extralight text-white leading-[1.1] tracking-tight max-w-[12em]">
                             {t("about.title")}
                         </h1>
 
-                        <p style={{
-                            color: "#A1A1AA",
-                            fontSize: "1.1rem",
-                            lineHeight: 1.6,
-                            maxWidth: "50ch"
-                        }}>
+                        <p className="text-[#A1A1AA] text-[1.1rem] leading-relaxed max-w-[50ch]">
                             {t("about.description")}
                         </p>
                     </div>
@@ -69,14 +48,7 @@ export default function AboutClient() {
 
                 {/* Featured Image */}
                 <FadeInUp delay={0.2} className="animate-fade-in-up">
-                    <div style={{
-                        width: "100%",
-                        aspectRatio: "21/9",
-                        borderRadius: "24px",
-                        overflow: "hidden",
-                        position: "relative",
-                        background: "#222"
-                    }}>
+                    <div className="w-full aspect-[21/9] rounded-[24px] overflow-hidden relative bg-[#222]">
                         <Image
                             src="/about/desk.png"
                             alt={t("about.imageAlt")}

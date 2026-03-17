@@ -77,7 +77,7 @@ export default function HomeBlogSection() {
 
     if (isLoading) {
         return (
-            <section className="w-full max-w-[1200px] mx-auto px-8 py-16">
+            <section className="w-full max-w-6xl mx-auto px-8 py-16">
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
                     <CardSkeleton />
                     <CardSkeleton />
@@ -88,7 +88,7 @@ export default function HomeBlogSection() {
     if (articles.length === 0) return null;
 
     return (
-        <section className="w-full max-w-[1200px] mx-auto px-8 py-16">
+        <section className="w-full max-w-6xl mx-auto px-8 py-16">
             {/* Header */}
             <FadeInUp>
                 <div className="flex justify-between items-end mb-12 gap-8 flex-wrap">
@@ -113,7 +113,7 @@ export default function HomeBlogSection() {
                     const slug = language === 'en' && article.slug_en ? article.slug_en : article.slug;
 
                     return (
-                        <FadeInUp key={article.id} delay={0.2 + (index * 0.1)} className="h-full">
+                        <FadeInUp key={article.id} delay={0.2 + (index * 0.2)} className="h-full">
                             <div
                                 className="h-full"
                                 onMouseEnter={() => setIsHoveringCard(true)}
@@ -156,7 +156,7 @@ export default function HomeBlogSection() {
                                                 </div>
 
                                                 {/* Title */}
-                                                <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.4rem)] font-light leading-[1.3] m-0 drop-shadow-md">
+                                                <h3 className="text-white text-[clamp(1.1rem,2.5vw,1.2rem)] font-light leading-[1.3] m-0 drop-shadow-md">
                                                     {title}
                                                 </h3>
 
