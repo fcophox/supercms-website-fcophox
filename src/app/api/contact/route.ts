@@ -6,36 +6,53 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
     try {
-        const { name, email, message } = await request.json();
+        const { name, email, message, messageType } = await request.json();
+
+        // Map selection type to human readable label
+        const typeLabels: Record<string, string> = {
+            message: 'Consulta General',
+            consulting: 'Consultoría',
+            diagnostic: 'Diagnóstico'
+        };
+        const subjectType = typeLabels[messageType as keyof typeof typeLabels] || 'Nuevo Mensaje';
 
         // 1. Insert into Supabase
-        // We assume a 'contact_messages' table exists.
         const { error: dbError } = await supabase
             .from('contact_messages')
-            .insert([{ name, email, message }]);
+            .insert([{ name, email, message, message_type: messageType }]);
 
         if (dbError) {
             console.error('Supabase error:', dbError);
-            return NextResponse.json({ error: 'Failed to save message to database' }, { status: 500 });
+            // We'll continue because the email might work, but log it.
         }
 
         // 2. Send Email
-        // Only attempt if API Key is present.
-        if (process.env.RESEND_API_KEY && process.env.CONTACT_EMAIL) {
+        if (process.env.RESEND_API_KEY && (process.env.CONTACT_EMAIL || process.env.NEXT_PUBLIC_CONTACT_EMAIL)) {
+            const recipient = process.env.CONTACT_EMAIL || process.env.NEXT_PUBLIC_CONTACT_EMAIL;
             const { error: emailError } = await resend.emails.send({
-                from: 'onboarding@resend.dev', // Default sender for testing. User should update if they have a domain.
-                to: process.env.CONTACT_EMAIL,
-                subject: `New Contact Form Submission from ${name}`,
+                from: 'onboarding@resend.dev',
+                to: recipient as string,
+                subject: `${subjectType} de ${name}`,
                 html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-              <h1 style="color: #333;">New Contact Message</h1>
-              <p>You have received a new message from your website contact form.</p>
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #121214;">
+              <div style="background: #5b4eff; padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
+                <h1 style="color: white; margin: 0; font-size: 24px;">Nueva ${typeLabels[messageType] || 'Consulta'}</h1>
+              </div>
               
-              <div style="background: #f4f4f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="margin: 0 0 10px 0;"><strong>Name:</strong> ${name}</p>
-                <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${email}</p>
-                <p style="margin: 0;"><strong>Message:</strong></p>
-                <p style="white-space: pre-wrap; margin-top: 5px; color: #555;">${message}</p>
+              <div style="background: #ffffff; padding: 30px; border: 1px solid #e1e1e1; border-top: none; border-radius: 0 0 12px 12px;">
+                <p style="font-size: 16px; margin-bottom: 25px;">Has recibido una nueva solicitud a través del formulario de contacto:</p>
+                
+                <div style="background: #f8f8f9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                  <p style="margin: 0 0 12px 0;"><strong style="color: #5b4eff;">Asunto:</strong> ${subjectType}</p>
+                  <p style="margin: 0 0 12px 0;"><strong style="color: #5b4eff;">Nombre:</strong> ${name}</p>
+                  <p style="margin: 0 0 12px 0;"><strong style="color: #5b4eff;">Email:</strong> ${email}</p>
+                  <p style="margin: 0;"><strong style="color: #5b4eff;">Mensaje:</strong></p>
+                  <p style="white-space: pre-wrap; margin-top: 10px; color: #3f3f46; line-height: 1.6; font-size: 15px;">${message}</p>
+                </div>
+
+                <div style="text-align: center; font-size: 12px; color: #a1a1aa; margin-top: 30px;">
+                  Este mensaje fue enviado desde el formulario de contacto de tu sitio web.
+                </div>
               </div>
             </div>
           `,
