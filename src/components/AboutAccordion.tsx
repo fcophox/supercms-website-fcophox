@@ -172,7 +172,6 @@ export default function AboutAccordion() {
     return (
         <section className="mt-32 mb-32">
             <FadeInUp>
-
                 <div className="flex flex-col gap-8 max-w-4xl">
                     <div className="sticky top-[120px] flex flex-col gap-8">
                         <div>
@@ -185,11 +184,11 @@ export default function AboutAccordion() {
                         </div>
                     </div>
                 </div>
+            </FadeInUp>
 
-
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-16 items-start pt-16">
+            <div className="flex flex-col lg:flex-row gap-16 relative pt-16">
                     {/* Left Column: Title & Description & Roles List (Sticky) */}
-                    <div className="hidden lg:flex sticky top-[120px] flex-col gap-8">
+                    <div className="hidden lg:flex w-full lg:w-[35%] flex-col gap-8 sticky top-[120px] self-start">
                         {/* Roles List */}
                         <div className="flex flex-col gap-4 mt-4 max-h-[60vh] overflow-y-auto pr-4">
                             {timelineData.map((item) => {
@@ -210,17 +209,17 @@ export default function AboutAccordion() {
                         </div>
                     </div>
 
-                    {/* Right Column: Scrolling Experience Timeline */}
-                    <div className="flex flex-col gap-24">
+                {/* Right Column: Scrolling Experience Timeline */}
+                    <div className="w-full lg:w-[65%] flex flex-col gap-24">
                         {timelineData.map((item, index) => {
                             const isActive = activeId === item.id;
                             return (
-                                <div
-                                    key={item.id}
-                                    data-id={item.id}
-                                    ref={(el) => { itemRefs.current[index] = el; }}
-                                    className={`transition-opacity  mb-12 duration-500 ${isActive ? "opacity-100" : "opacity-100"}`}
-                                >
+                                <FadeInUp key={item.id} delay={0.1}>
+                                    <div
+                                        data-id={item.id}
+                                        ref={(el) => { itemRefs.current[index] = el; }}
+                                        className={`transition-opacity  mb-12 duration-500 ${isActive ? "opacity-100" : "opacity-100"}`}
+                                    >
                                     <span className="inline-block text-[#5b4eff] font-medium text-[0.7rem] tracking-wider mb-6 bg-[#5b4eff]/10 px-4 py-1.5 rounded-full border border-[#5b4eff]/20">
                                         {item.date}
                                     </span>
@@ -254,11 +253,11 @@ export default function AboutAccordion() {
                                         ))}
                                     </div>
                                 </div>
-                            );
+                            </FadeInUp>
+                        );
                         })}
                     </div>
                 </div>
-            </FadeInUp>
         </section>
     );
 }

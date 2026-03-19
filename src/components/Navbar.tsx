@@ -25,7 +25,7 @@ export default function Navbar() {
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-[#09090b]/80 backdrop-blur-md border-b border-white/5">
+        <nav className="fixed left-0 top-0 z-50 w-full bg-[#09090b]/80 backdrop-blur-md border-b border-white/5">
             <div className="relative flex items-center justify-between px-8 py-6 max-w-6xl mx-auto w-full">
                 {/* Logo / Brand */}
                 {/* Logo / Brand - Group for hover effect */}

@@ -168,11 +168,11 @@ export default function BlogClient() {
 
                                             {/* Content */}
                                             <div className="p-6 flex-1 flex flex-col">
-                                                <h2 className="text-white text-[clamp(1.1rem,4vw,1.4rem)] font-normal mb-4 leading-[1.4]">
+                                                <h2 className="text-white group-hover:text-[#3333ee] transition-colors text-[clamp(1rem,3vw,1.2rem)] font-normal mb-4 leading-[1.4]">
                                                     {title}
                                                 </h2>
 
-                                                <div className="flex items-center gap-2 text-[#a1a1aa] text-[0.8rem] mb-3 font-mono opacity-50">
+                                                <div className="flex items-center gap-2 text-[#a1a1aa] text-[0.7rem] mb-3 font-mono opacity-50">
                                                     <div className="flex items-center gap-2">
                                                         <Calendar size={14} />
                                                         <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
@@ -196,11 +196,11 @@ export default function BlogClient() {
                                                     </div>
                                                 )}
 
-                                                <p className="text-[#a1a1aa] text-[clamp(0.8rem,4vw,0.9rem)] leading-relaxed mb-6 flex-1 line-clamp-3">
+                                                <p className="text-[#a1a1aa] text-[clamp(0.8rem,4vw,0.8rem)] leading-relaxed mb-6 flex-1 line-clamp-3">
                                                     {getExcerpt(content)}
                                                 </p>
 
-                                                <div className="flex items-center gap-2 text-[#a1a1aa] text-[0.9rem] font-medium mt-auto">
+                                                <div className="flex items-center gap-2 text-[#a1a1aa] text-[0.8rem] font-medium mt-auto">
                                                     {t("blog.readArticle")} <ArrowUpRight size={16} />
                                                 </div>
                                             </div>
