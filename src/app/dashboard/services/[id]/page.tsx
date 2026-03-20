@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import TiptapEditor from "@/components/editor/TiptapEditor";
 import { supabase } from "@/lib/supabaseClient";
 import ImageUploader from "@/components/ImageUploader";

@@ -12,7 +12,7 @@ export default function Hero() {
     return (
         <div className="relative w-full flex justify-center">
             <div className="absolute inset-0 z-0 pointer-events-none flex justify-center">
-                <div className="relative w-full h-full max-w-[1290px]">
+                <div className="relative w-full h-full max-w-[1420px]">
                     <Image
                         src="/brand/background-fcp.svg"
                         alt="Hero Background"
@@ -23,7 +23,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-8 min-h-[75vh] sm:min-h-[60vh] flex flex-col justify-center text-center sm:text-left items-center sm:items-start pt-8 sm:pt-0 pb-12 sm:pb-0">
+            <div className="relative  z-10 w-full max-w-6xl mx-auto px-6 sm:px-8 min-h-[75vh] sm:min-h-[80vh] flex flex-col justify-center text-center sm:text-left items-center sm:items-start pt-12 sm:pt-0 pb-12 sm:pb-0">
                 <FadeInUp>
                     <div className="mb-8">
                         <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-transparent">

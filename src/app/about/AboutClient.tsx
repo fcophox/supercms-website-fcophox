@@ -11,7 +11,7 @@ import AboutHistory from "@/components/AboutHistory";
 import AboutBio from "@/components/AboutBio";
 import AboutAccordion from "@/components/AboutAccordion";
 import AboutAreas from "@/components/AboutAreas";
-import AboutLogoHover from "@/components/AboutLogoHover";
+// import AboutLogoHover from "@/components/AboutLogoHover";
 import FadeInUp from "@/components/FadeInUp";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
@@ -24,7 +24,7 @@ export default function AboutClient() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36">
 
                 {/* Back Link */}
                 <FadeInUp duration={0.5}>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FadeInUp from "@/components/FadeInUp";
 import { useLanguage } from "@/context/LanguageContext";
-import { ArrowUpRight, Sparkles, Search, PenTool, Terminal, Rocket, Lightbulb, Zap, LineChart, Send } from "lucide-react";
+import { ArrowUpRight, Search, PenTool, Terminal, Rocket, Lightbulb, Zap, LineChart, Send } from "lucide-react";
 
 export default function HomeBentoSection() {
     const { t } = useLanguage();

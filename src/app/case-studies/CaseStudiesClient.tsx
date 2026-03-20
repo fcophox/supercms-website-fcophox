@@ -84,7 +84,7 @@ export default function CaseStudiesClient() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36">
 
                 <FadeInUp>
                     <Link href="/" className="inline-flex items-center gap-2 text-[#a1a1aa] mb-12 no-underline text-[0.9rem] opacity-70 hover:opacity-100 transition-opacity">

@@ -17,7 +17,7 @@ export default function MethodologyClient() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
 
-            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36">
                 <MethodologyHero />
 
                 <FadeInUp delay={0.2}>

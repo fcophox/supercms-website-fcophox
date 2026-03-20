@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server';
 import translate from 'google-translate-api-x';
 import * as parse5 from 'parse5';

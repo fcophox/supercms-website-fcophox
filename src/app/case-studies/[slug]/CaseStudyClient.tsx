@@ -102,7 +102,7 @@ export default function CaseStudyClient() {
         return (
             <div className="min-h-screen flex flex-col">
                 <Navbar />
-                <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-24">
+                <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36">
                     <PostSkeleton />
                 </main>
                 <Footer />
