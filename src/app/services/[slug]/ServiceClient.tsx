@@ -190,9 +190,34 @@ export default function ServiceClient() {
                     {/* Content */}
                     <FadeInUp delay={0.4}>
                         <div
-                            className="prose text-[#a3a3a3] font-light max-w-[770px] mx-auto text-lg leading-[1.8]
-                            [&_h2]:text-white [&_h2]:text-[1.75rem] [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-4
-                            [&_h3]:text-white [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3
+                            className="
+                            prose text-[#a3a3a3] 
+                            font-light 
+                            max-w-[770px] 
+                            mx-auto 
+                            text-md 
+                            leading-[1.8]
+
+                            [&_h1]:text-white 
+                            [&_h1]:text-[2.4rem] 
+                            [&_h1]:font-light 
+                            [&_h1]:mt-10 
+                            [&_h1]:leading-[1.4]
+                            [&_h1]:mb-4
+
+                            [&_h2]:text-white 
+                            [&_h2]:text-[1.8rem] 
+                            [&_h2]:font-light 
+                            [&_h2]:mt-10 
+                            [&_h2]:leading-[1.4]
+                            [&_h2]:mb-4
+
+                            [&_h3]:text-white 
+                            [&_h3]:text-2xl 
+                            [&_h3]:font-light 
+                            [&_h3]:mt-8 
+                            [&_h3]:mb-3
+
                             [&_p]:mb-6
                             [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:list-disc [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:list-decimal
                             [&_li]:mb-2
@@ -201,7 +226,8 @@ export default function ServiceClient() {
                             [&_blockquote]:border-l-4 [&_blockquote]:border-[#a78bfa] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white [&_blockquote]:my-6
                             [&_img]:rounded-xl [&_img]:my-8 [&_img]:max-w-full [&_img]:h-auto [&_img]:block
                             [&_.caption]:text-center [&_.caption]:text-[#a1a1aa] [&_.caption]:text-sm [&_.caption]:italic [&_.caption]:-mt-6 [&_.caption]:mb-8
-                            [&_figcaption]:text-center [&_figcaption]:text-[#a1a1aa] [&_figcaption]:text-sm [&_figcaption]:italic [&_figcaption]:-mt-6 [&_figcaption]:mb-8"
+                            [&_figcaption]:text-center [&_figcaption]:text-[#a1a1aa] [&_figcaption]:text-sm [&_figcaption]:italic [&_figcaption]:-mt-6 [&_figcaption]:mb-8
+                            [&_img+p]:text-center [&_img+p]:text-[#94a3b8] [&_img+p]:text-sm [&_img+p]:italic [&_img+p]:-mt-6 [&_img+p]:mb-8 [&_img+p]:opacity-80"
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </FadeInUp>

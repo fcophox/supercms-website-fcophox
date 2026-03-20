@@ -114,8 +114,8 @@ export default function CaseStudyClient() {
         return (
             <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
                 <Navbar />
-                <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "1rem" }}>
-                    <h1 style={{ color: "white" }}>{t("common.error")}</h1>
+                <main className="flex-1 flex flex-col items-center justify-center gap-4">
+                    <h1 className="text-white">{t("common.error")}</h1>
                     <Link href="/case-studies" className="btn-primary">{t("cases.back")}</Link>
                 </main>
                 <Footer />
@@ -130,7 +130,7 @@ export default function CaseStudyClient() {
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Navbar />
 
-            <main style={{ flex: 1, padding: "2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", paddingTop: "6rem" }}>
+            <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36">
                 <article>
 
                     <FadeInUp>
@@ -218,9 +218,34 @@ export default function CaseStudyClient() {
                     {/* Content */}
                     <FadeInUp delay={0.4}>
                         <div
-                            className="prose text-[#a3a3a3] font-light max-w-[770px] mx-auto text-lg leading-[1.8]
-                            [&_h2]:text-white [&_h2]:text-[1.75rem] [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-4
-                            [&_h3]:text-white [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3
+                            className="
+                            prose text-[#a3a3a3] 
+                            font-light 
+                            max-w-[770px] 
+                            mx-auto 
+                            text-md 
+                            leading-[1.8]
+
+                            [&_h1]:text-white 
+                            [&_h1]:text-[2.4rem] 
+                            [&_h1]:font-light 
+                            [&_h1]:mt-10 
+                            [&_h1]:leading-[1.4]
+                            [&_h1]:mb-4
+
+                            [&_h2]:text-white 
+                            [&_h2]:text-[1.8rem] 
+                            [&_h2]:font-light 
+                            [&_h2]:mt-10 
+                            [&_h2]:leading-[1.4]
+                            [&_h2]:mb-4
+
+                            [&_h3]:text-white 
+                            [&_h3]:text-2xl 
+                            [&_h3]:font-light 
+                            [&_h3]:mt-8 
+                            [&_h3]:mb-3
+
                             [&_p]:mb-6
                             [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:list-disc [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:list-decimal
                             [&_li]:mb-2
