@@ -10,6 +10,7 @@ interface ContentItem {
     category: string;
     likes: number;
     type: string;
+    image_url?: string;
 }
 
 export default function DashboardPage() {
@@ -39,8 +40,8 @@ export default function DashboardPage() {
 
                 // Fetch items with likes
                 const [articlesResponse, caseStudiesResponse] = await Promise.all([
-                    supabase.from('articles').select('id, title, category, likes'),
-                    supabase.from('case_studies').select('id, title, category, likes')
+                    supabase.from('articles').select('id, title, category, likes, image_url'),
+                    supabase.from('case_studies').select('id, title, category, likes, image_url')
                 ]);
 
                 const formattedArticles = (articlesResponse.data || []).map((item: any) => ({
@@ -48,7 +49,8 @@ export default function DashboardPage() {
                     title: item.title,
                     category: item.category || 'Opinion',
                     likes: item.likes || 0,
-                    type: 'Article'
+                    type: 'Article',
+                    image_url: item.image_url
                 }));
 
                 const formattedCaseStudies = (caseStudiesResponse.data || []).map((item: any) => ({
@@ -56,7 +58,8 @@ export default function DashboardPage() {
                     title: item.title,
                     category: item.category || 'Project',
                     likes: item.likes || 0,
-                    type: 'Case Study'
+                    type: 'Case Study',
+                    image_url: item.image_url
                 }));
 
                 // Combining and sorting
@@ -74,87 +77,96 @@ export default function DashboardPage() {
     }, []);
 
     return (
-        <div className="pb-8">
+        <div className="pb-8 max-w-5xl">
             <header className="mb-10 flex justify-between items-center">
                 <div>
-                    <h1 className="text-xl font-semibold text-white mb-2">
-                        Dashboard
+                    <h1 className="text-2xl font-normal text-neutral-100 mb-1">
+                        Dashboard Settings
                     </h1>
-                    <p className="text-[var(--text-muted)]">Overview of your content performance.</p>
+                    <p className="text-sm text-neutral-400">Overview of your content performance and general configuration.</p>
                 </div>
             </header>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-10">
-                {/* Articles Card */}
-                <div className="glass-panel p-6 rounded-xl">
-                    <div className="text-[var(--text-muted)] text-sm mb-2">Articles</div>
-                    <div className="text-3xl font-bold text-white">
-                        {isLoading ? "-" : counts.articles}
-                    </div>
-                </div>
+            <div className="mb-10">
+                <h2 className="text-lg font-normal text-neutral-100 mb-4">Content Summary</h2>
+                <div className="border border-neutral-800 rounded-lg bg-[#0a0a0a]">
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-3 divide-x divide-neutral-800">
+                        {/* Articles Card */}
+                        <div className="p-6">
+                            <div className="text-neutral-400 text-sm mb-4">Total Articles</div>
+                            <div className="text-2xl font-normal text-neutral-100">
+                                {isLoading ? "-" : counts.articles}
+                            </div>
+                        </div>
 
-                {/* Case Studies Card */}
-                <div className="glass-panel p-6 rounded-xl">
-                    <div className="text-[var(--text-muted)] text-sm mb-2">Case Studies</div>
-                    <div className="text-3xl font-bold text-white">
-                        {isLoading ? "-" : counts.caseStudies}
-                    </div>
-                </div>
+                        {/* Case Studies Card */}
+                        <div className="p-6">
+                            <div className="text-neutral-400 text-sm mb-4">Total Case Studies</div>
+                            <div className="text-2xl font-normal text-neutral-100">
+                                {isLoading ? "-" : counts.caseStudies}
+                            </div>
+                        </div>
 
-                {/* Services Card */}
-                <div className="glass-panel p-6 rounded-xl">
-                    <div className="text-[var(--text-muted)] text-sm mb-2">Services</div>
-                    <div className="text-3xl font-bold text-white">
-                        {isLoading ? "-" : counts.services}
+                        {/* Services Card */}
+                        <div className="p-6">
+                            <div className="text-neutral-400 text-sm mb-4">Total Services</div>
+                            <div className="text-2xl font-normal text-neutral-100">
+                                {isLoading ? "-" : counts.services}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Top Content Table */}
-            <div className="glass-panel p-6 rounded-2xl">
-                <h3 className="text-xl font-bold mb-6 text-white">Top Content by Likes</h3>
-
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-[var(--text-muted)]">
-                        <thead>
-                            <tr className="border-b border-white/10 text-left">
-                                <th className="p-4 font-medium text-white">Title</th>
-                                <th className="p-4 font-medium text-white">Category</th>
-                                <th className="p-4 font-medium text-white text-right">Likes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {isLoading ? (
-                                <tr>
-                                    <td colSpan={3} className="p-8 text-center">Loading...</td>
+            <div>
+                <h2 className="text-lg font-normal text-neutral-100 mb-4">Top Content by Likes</h2>
+                <div className="border border-neutral-800 rounded-lg bg-[#0a0a0a]">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b border-neutral-800 text-left">
+                                    <th className="px-6 py-4 font-normal text-neutral-400 w-[70%]">Title</th>
+                                    <th className="px-6 py-4 font-normal text-neutral-400 w-[15%]">Category</th>
+                                    <th className="px-6 py-4 font-normal text-neutral-400 text-right w-[15%]">Likes</th>
                                 </tr>
-                            ) : contentItems.length > 0 ? (
-                                contentItems.map((item) => (
-                                    <tr key={`${item.type}-${item.id}`} className="border-b border-white/5 last:border-0">
-                                        <td className="p-4 text-white">{item.title}</td>
-                                        <td className="p-4">
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium ${item.type === 'Article'
-                                                    ? "bg-violet-400/10 text-violet-400"
-                                                    : item.type === 'Case Study'
-                                                        ? "bg-sky-400/10 text-sky-400"
-                                                        : "bg-green-400/10 text-green-400"
-                                                    }`}
-                                            >
-                                                {item.type}
-                                            </span>
-                                        </td>
-                                        <td className="p-4 text-right text-white font-medium">{item.likes || 0}</td>
+                            </thead>
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan={3} className="px-6 py-8 text-center text-neutral-400">Loading...</td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={3} className="p-8 text-center">No content found.</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : contentItems.length > 0 ? (
+                                    contentItems.map((item, idx) => (
+                                        <tr key={`${item.type}-${item.id}`} className={idx !== contentItems.length - 1 ? "border-b border-neutral-800" : ""}>
+                                            <td className="px-6 py-4 text-neutral-300">
+                                                <div className="flex items-center gap-4">
+                                                    <div
+                                                        className="w-10 h-10 rounded bg-neutral-900 border border-neutral-800 bg-cover bg-center flex-shrink-0 flex items-center justify-center overflow-hidden"
+                                                        style={{ backgroundImage: item.image_url ? `url(${item.image_url})` : "none" }}
+                                                    >
+                                                        {!item.image_url && <span className="opacity-30 text-lg">🖼️</span>}
+                                                    </div>
+                                                    <span>{item.title}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-neutral-400 flex items-center">
+                                                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 rounded text-xs font-normal">
+                                                    {item.type}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-right text-neutral-300">{item.likes || 0}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={3} className="px-6 py-8 text-center text-neutral-400">No content found.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

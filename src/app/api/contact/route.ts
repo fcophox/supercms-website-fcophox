@@ -6,20 +6,29 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
     try {
-        const { name, email, message, messageType } = await request.json();
+        const { name, email, message, messageType, budget, estimatedTime, targetUrl, meetingTime } = await request.json();
 
         // Map selection type to human readable label
         const typeLabels: Record<string, string> = {
             message: 'Consulta General',
-            consulting: 'Consultoría',
-            diagnostic: 'Diagnóstico'
+            consulting: 'Consultoría UX',
+            diagnostic: 'Agendar Reunión (Diagnóstico)'
         };
         const subjectType = typeLabels[messageType as keyof typeof typeLabels] || 'Nuevo Mensaje';
 
         // 1. Insert into Supabase
         const { error: dbError } = await supabase
             .from('contact_messages')
-            .insert([{ name, email, message, message_type: messageType }]);
+            .insert([{ 
+                name, 
+                email, 
+                message, 
+                message_type: messageType,
+                budget,
+                estimated_time: estimatedTime,
+                target_url: targetUrl,
+                meeting_time: meetingTime
+            }]);
 
         if (dbError) {
             console.error('Supabase error:', dbError);

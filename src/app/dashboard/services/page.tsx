@@ -41,71 +41,71 @@ export default function ServicesPage() {
 
 
     return (
-        <div>
+        <div className="pb-8 max-w-5xl">
             <header className="mb-10 flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">
+                    <h1 className="text-2xl font-normal text-neutral-100 mb-1">
                         Servicios
                     </h1>
-                    <p className="text-[var(--text-muted)]">Administra tu oferta de servicios.</p>
+                    <p className="text-sm text-neutral-400">Administra tu oferta de servicios.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="bg-white/5 py-2 px-4 rounded-lg border border-white/10">
+                    <div className="bg-[#0a0a0a] py-2 px-4 rounded-md border border-neutral-800">
                         <Switch
                             checked={servicesVisible}
                             onChange={(checked) => updateSetting("services_visible", checked)}
                             label={servicesVisible ? "Visible en web" : "Oculto en web"}
                         />
                     </div>
-                    <Link href="/dashboard/services/new" className="btn-primary py-2 px-4 text-sm">
+                    <Link href="/dashboard/services/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
                         + Nuevo Servicio
                     </Link>
                 </div>
             </header>
 
             {isLoading ? (
-                <div className="text-center p-16 text-[var(--text-muted)]">Cargando servicios...</div>
+                <div className="text-sm text-neutral-400 text-center p-16">Cargando servicios...</div>
             ) : items.length === 0 ? (
-                <div className="glass-panel py-16 px-8 rounded-2xl flex flex-col items-center justify-center text-center min-h-[400px]">
-                    <div className="w-20 h-20 rounded-full bg-violet-500/10 flex items-center justify-center mb-6 text-3xl">
+                <div className="border border-neutral-800 bg-[#0a0a0a] py-16 px-8 rounded-lg flex flex-col items-center justify-center text-center min-h-[400px]">
+                    <div className="w-16 h-16 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center mb-6 text-2xl opacity-80">
                         🛠️
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">
+                    <h3 className="text-lg font-normal text-neutral-100 mb-2">
                         No hay servicios aún
                     </h3>
-                    <p className="text-[var(--text-muted)] max-w-[400px] mb-8">
+                    <p className="text-sm text-neutral-400 max-w-[400px] mb-8">
                         Agrega servicios para que tus clientes puedan ver qué ofreces.
                     </p>
-                    <Link href="/dashboard/services/new" className="btn-primary">
+                    <Link href="/dashboard/services/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
                         Crear primer Servicio
                     </Link>
                 </div>
             ) : (
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6">
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
                     {items.map((item) => (
                         <Link
                             href={`/dashboard/services/${item.id}`}
                             key={item.id}
-                            className="glass-panel rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer no-underline group"
+                            className="border border-neutral-800 bg-[#0a0a0a] rounded-lg overflow-hidden flex flex-col transition-all duration-200 hover:border-neutral-700 cursor-pointer no-underline group"
                         >
                             <div
-                                className="h-[180px] bg-[#2d2d35] bg-cover bg-center flex items-center justify-center"
+                                className="h-[120px] bg-neutral-900 border-b border-neutral-800 bg-cover bg-center flex items-center justify-center"
                                 style={{
                                     backgroundImage: item.image_url ? `url(${item.image_url})` : "none",
                                 }}
                             >
-                                {!item.image_url && <span className="text-3xl">🖼️</span>}
+                                {!item.image_url && <span className="text-3xl opacity-30">🖼️</span>}
                             </div>
 
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
+                            <div className="p-4 flex-1 flex flex-col">
+                                <h3 className="text-sm font-medium text-neutral-200 mb-4 line-clamp-2">
                                     {item.title}
                                 </h3>
                                 <div className="mt-auto flex justify-between items-center">
-                                    <span className="text-xs px-3 py-1 rounded-full font-medium bg-cyan-400/10 text-cyan-300">
+                                    <span className="text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider font-medium bg-neutral-800 text-neutral-300">
                                         Servicio
                                     </span>
-                                    <span className="text-xs text-[var(--text-muted)]">
+                                    <span className="text-xs text-neutral-500">
                                         {new Date(item.created_at).toLocaleDateString()}
                                     </span>
                                 </div>

@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { Send, Mail, User, MessageSquare, ArrowLeft, Check, Calendar, Briefcase, MessageCircle, Users, ClipboardCheck } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
+import { Switch } from "@/components/ui/Switch";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -16,10 +18,51 @@ export default function ContactClient() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        message: ""
+        message: "",
+        budget: 1150,
+        estimatedTime: "",
+        targetUrl: "",
+        meetingTime: ""
     });
+    const [budgetMin, setBudgetMin] = useState(500);
+    const [budgetMax, setBudgetMax] = useState(1500);
     const [messageType, setMessageType] = useState<"message" | "consulting" | "diagnostic" | null>(null);
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const [hasBudget, setHasBudget] = useState(false);
+    const [isThinking, setIsThinking] = useState(false);
+    const [displayedText, setDisplayedText] = useState("");
+
+    useEffect(() => {
+        let typingInterval: NodeJS.Timeout;
+        let timer: NodeJS.Timeout;
+
+        if (messageType) {
+            setIsThinking(true);
+            setDisplayedText("");
+
+            const fullText = messageType === 'message' ? t("contact.form.quote.message") :
+                messageType === 'consulting' ? t("contact.form.quote.consulting") :
+                    messageType === 'diagnostic' ? t("contact.form.quote.diagnostic") : "";
+
+            timer = setTimeout(() => {
+                setIsThinking(false);
+
+                let i = 0;
+                typingInterval = setInterval(() => {
+                    setDisplayedText(fullText.slice(0, i + 1));
+                    i++;
+                    if (i >= fullText.length) {
+                        clearInterval(typingInterval);
+                    }
+                }, 20); // Velocidad de tipeo en milisegundos
+            }, 1200); // Tiempos de los puntitos
+        }
+
+        return () => {
+            clearTimeout(timer);
+            clearInterval(typingInterval);
+        };
+    }, [messageType, t]);
 
     // Icons Mapping
     const typeIcons = {
@@ -28,7 +71,7 @@ export default function ContactClient() {
         diagnostic: ClipboardCheck
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value
@@ -89,12 +132,23 @@ export default function ContactClient() {
         setStatus("sending");
 
         try {
+            const finalMessage = hasBudget
+                ? `[Rango Inversión: $${budgetMin} - $${budgetMax} USD]\n${formData.message}`
+                : formData.message;
+
+            const payload = {
+                ...formData,
+                message: finalMessage,
+                messageType,
+                budget: hasBudget ? budgetMax : null
+            };
+
             const response = await fetch("/api/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ ...formData, messageType }),
+                body: JSON.stringify(payload),
             });
 
             const data = await response.json();
@@ -104,7 +158,7 @@ export default function ContactClient() {
             }
 
             setStatus("success");
-            setFormData({ name: "", email: "", message: "" });
+            setFormData({ name: "", email: "", message: "", budget: 1150, estimatedTime: "", targetUrl: "", meetingTime: "" });
 
             // Reset status after 3 seconds
             setTimeout(() => {
@@ -159,20 +213,20 @@ export default function ContactClient() {
 
                         <div className="relative z-10 max-w-6xl mx-auto">
                             {/* Question - Now outside the main form box */}
-                            <div className="flex flex-col gap-8 mb-12">
-                                <label className="text-white text-xl font-light text-center block w-full">
+                            <div className="flex flex-col gap-8 mb-12 max-w-4xl mx-auto">
+                                <label className="text-white text-3xl font-light text-center block w-full">
                                     {t("contact.form.question")}
                                 </label>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     {(["message", "consulting", "diagnostic"] as const).map(type => {
-                                        const isBlocked = type === "diagnostic";
+                                        const isBlocked = false; // "Agendar reunión" is now available
                                         return (
                                             <button
                                                 key={type}
                                                 type="button"
                                                 disabled={isBlocked}
                                                 onClick={() => !isBlocked && setMessageType(type)}
-                                                className={`group relative flex flex-col p-8 rounded-3xl transition-all duration-500 border text-left h-full ${isBlocked
+                                                className={`group relative flex flex-col p-8 rounded-xl transition-all duration-500 border text-left h-full ${isBlocked
                                                     ? "bg-white/[0.01] border-white/[0.03] opacity-40 cursor-not-allowed select-none"
                                                     : messageType === type
                                                         ? "bg-[#5b4eff]/10 border-[#5b4eff] shadow-[0_0_40px_rgba(91,78,255,0.2)] ring-1 ring-[#5b4eff]/50 scale-[1.02]"
@@ -183,7 +237,7 @@ export default function ContactClient() {
                                                 {isBlocked ? (
                                                     <div className="absolute top-6 right-6 px-3 py-1 bg-[#5b4eff]/10 rounded-full border border-[#5b4eff]/20">
                                                         <span className="text-[10px] font-bold text-[#5b4eff] uppercase tracking-widest leading-none">
-                                                            Pronto
+                                                            {t("contact.form.badge.soon")}
                                                         </span>
                                                     </div>
                                                 ) : (
@@ -226,7 +280,7 @@ export default function ContactClient() {
 
                             {/* Main Form Box - Appears when selection is made */}
                             {messageType && (
-                                <div className="w-full bg-[#121214] max-w-2xl mx-auto border border-white/5 rounded-[2rem] p-8 lg:p-12 animate-in fade-in slide-in-from-top-8 duration-700">
+                                <div className="p-8 lg:p-12 animate-in fade-in slide-in-from-top-8 duration-700">
                                     <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl mx-auto">
                                         <div className="flex items-center gap-4 mb-2">
                                             <div className="w-8 h-8 rounded-lg bg-[#5b4eff]/20 flex items-center justify-center text-[#5b4eff]">
@@ -279,31 +333,155 @@ export default function ContactClient() {
                                             </div>
                                         </div>
 
-                                        {/* Message Input */}
-                                        <div className="flex flex-col gap-2.5">
-                                            <label htmlFor="message" className="text-white/70 !font-light text-[0.9rem] ml-1">
-                                                {t("contact.form.message")}
-                                            </label>
-                                            <div className="relative">
-                                                <MessageSquare size={18} className="absolute left-4 top-5 text-[#52525b] pointer-events-none" />
-                                                <textarea
-                                                    id="message"
-                                                    name="message"
-                                                    className="input-field !pl-12 resize-y min-h-[180px] !bg-white/[0.03] !border-white/5 focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05]"
-                                                    placeholder={messageType === 'message' ? t("contact.form.messagePlaceholder") : `${t(`contact.form.type.${messageType}`)}: ${t("contact.form.messagePlaceholder")}`}
-                                                    value={formData.message}
-                                                    onChange={handleChange}
-                                                    rows={6}
-                                                    required
-                                                />
+                                        {/* Dynamic Fields Base on messageType */}
+
+                                        {/* Message Field - Used in 'message' and 'consulting' */}
+                                        {(messageType === 'message' || messageType === 'consulting') && (
+                                            <div className="flex flex-col gap-2.5">
+                                                <label htmlFor="message" className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                                    {t("contact.form.message")}
+                                                </label>
+                                                <div className="relative">
+                                                    <MessageSquare size={18} className="absolute left-4 top-5 text-[#52525b] pointer-events-none" />
+                                                    <textarea
+                                                        id="message"
+                                                        name="message"
+                                                        className="input-field !pl-12 resize-y min-h-[180px] !bg-white/[0.03] !border-white/5 focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05]"
+                                                        placeholder={messageType === 'message' ? t("contact.form.messagePlaceholder") : `${t(`contact.form.type.${messageType}`)}: ${t("contact.form.messagePlaceholder")}`}
+                                                        value={formData.message}
+                                                        onChange={handleChange}
+                                                        rows={6}
+                                                        required={messageType === 'message' || messageType === 'consulting'}
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
+
+                                        {/* Consulting UX Fields */}
+                                        {messageType === 'consulting' && (
+                                            <div className="grid grid-cols-1 gap-8 fade-in duration-300">
+                                                <div className="flex items-center justify-between bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                                                    <div>
+                                                        <h4 className="text-white text-[1.05rem] font-medium mb-1">{t("contact.form.budget.title")}</h4>
+                                                        <p className="text-white/50 text-sm">{t("contact.form.budget.desc")}</p>
+                                                    </div>
+                                                    <Switch checked={hasBudget} onChange={setHasBudget} />
+                                                </div>
+
+                                                {hasBudget && (
+                                                    <div className="flex flex-col gap-2.5 animate-in fade-in slide-in-from-top-4 duration-300">
+                                                        <div className="flex flex-col gap-1">
+                                                            <label htmlFor="budgetMin" className="flex justify-between text-white/70 !font-light text-[0.9rem] ml-1">
+                                                                <span>{t("contact.form.budget.range")}</span>
+                                                                <span className="text-[#5b4eff] font-medium">${budgetMin} - ${budgetMax} USD</span>
+                                                            </label>
+                                                            <p className="text-white/40 text-[0.8rem] ml-1">{t("contact.form.budget.hint")}</p>
+                                                        </div>
+                                                        <div className="relative w-full h-6 flex items-center mt-2 mb-2 group">
+                                                            {/* Track Background */}
+                                                            <div className="absolute w-full h-1.5 bg-white/10 rounded-lg pointer-events-none" />
+                                                            {/* Range Fill */}
+                                                            <div
+                                                                className="absolute h-1.5 bg-[#5b4eff] rounded-lg pointer-events-none transition-all duration-75"
+                                                                style={{ left: `${((budgetMin - 100) / 2900) * 100}%`, right: `${100 - ((budgetMax - 100) / 2900) * 100}%` }}
+                                                            />
+                                                            {/* Min Slider */}
+                                                            <input
+                                                                type="range"
+                                                                min="100"
+                                                                max="3000"
+                                                                step="50"
+                                                                value={budgetMin}
+                                                                onChange={(e) => setBudgetMin(Math.min(Number(e.target.value), budgetMax - 100))}
+                                                                className="absolute w-full h-full bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-[#5b4eff] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 active:[&::-webkit-slider-thumb]:scale-125 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:pointer-events-auto z-20"
+                                                            />
+                                                            {/* Max Slider */}
+                                                            <input
+                                                                type="range"
+                                                                min="100"
+                                                                max="3000"
+                                                                step="50"
+                                                                value={budgetMax}
+                                                                onChange={(e) => setBudgetMax(Math.max(Number(e.target.value), budgetMin + 100))}
+                                                                className="absolute w-full h-full bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-[#5b4eff] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 active:[&::-webkit-slider-thumb]:scale-125 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:pointer-events-auto z-30"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                    <div className="flex flex-col gap-2.5">
+                                                        <label htmlFor="estimatedTime" className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                                            {t("contact.form.consulting.devTime")}
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="estimatedTime"
+                                                            name="estimatedTime"
+                                                            className="input-field !pl-4 !h-14 !bg-white/[0.03] !border-white/5 focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05]"
+                                                            placeholder={t("contact.form.consulting.devTimePlaceholder")}
+                                                            value={formData.estimatedTime}
+                                                            onChange={handleChange}
+                                                            required={messageType === 'consulting'}
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-col gap-2.5">
+                                                        <label htmlFor="targetUrl" className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                                            {t("contact.form.consulting.urlTitle")} <span className="text-white/30 text-xs ml-1">{t("contact.form.consulting.optional")}</span>
+                                                        </label>
+                                                        <input
+                                                            type="url"
+                                                            id="targetUrl"
+                                                            name="targetUrl"
+                                                            className="input-field !pl-4 !h-14 !bg-white/[0.03] !border-white/5 focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05]"
+                                                            placeholder="https://tuweb.com"
+                                                            value={formData.targetUrl}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Meeting Fields */}
+                                        {messageType === 'diagnostic' && (
+                                            <div className="flex flex-col gap-2.5 fade-in duration-300">
+                                                <label htmlFor="meetingTime" className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                                    {t("contact.form.diagnostic.meetingLabel")}
+                                                </label>
+                                                <select
+                                                    id="meetingTime"
+                                                    name="meetingTime"
+                                                    className="input-field !pl-4 !h-14 !bg-white/[0.03] !border-white/5 text-white focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05] appearance-none"
+                                                    value={formData.meetingTime}
+                                                    onChange={handleChange}
+                                                    required={messageType === 'diagnostic'}
+                                                >
+                                                    <option value="" disabled className="text-black">{t("contact.form.diagnostic.meetingOption0")}</option>
+                                                    <option value="10:00" className="text-black">{t("contact.form.diagnostic.meetingOption1")}</option>
+                                                    <option value="11:30" className="text-black">{t("contact.form.diagnostic.meetingOption2")}</option>
+                                                    <option value="14:15" className="text-black">{t("contact.form.diagnostic.meetingOption3")}</option>
+                                                    <option value="16:00" className="text-black">{t("contact.form.diagnostic.meetingOption4")}</option>
+                                                    <option value="17:45" className="text-black">{t("contact.form.diagnostic.meetingOption5")}</option>
+                                                </select>
+                                                <p className="text-xs text-white/40 mt-1 ml-1">{t("contact.form.diagnostic.meetingNote")}</p>
+                                            </div>
+                                        )}
 
                                         {/* Submit Button */}
                                         <button
                                             type="submit"
                                             className={`w-full bg-white text-black rounded-2xl flex items-center justify-center gap-3 px-8 py-5 text-[1.1rem] font-semibold transition-all duration-300 hover:bg-[#5b4eff] hover:text-white hover:-translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 mt-2`}
-                                            disabled={status === "sending" || status === "success" || !formData.name || !formData.email || !formData.message}
+                                            disabled={
+                                                status === "sending" ||
+                                                status === "success" ||
+                                                !formData.name ||
+                                                !formData.email ||
+                                                (messageType === "message" && !formData.message) ||
+                                                (messageType === "consulting" && (!formData.message || !formData.estimatedTime)) ||
+                                                (messageType === "diagnostic" && !formData.meetingTime)
+                                            }
                                         >
                                             {status === "sending" ? (
                                                 <>
@@ -323,6 +501,37 @@ export default function ContactClient() {
                                                 </>
                                             )}
                                         </button>
+
+                                        <div className="flex flex-row items-start justify-start gap-4 w-full mt-8 fade-in">
+                                            <div className="relative w-12 h-12 flex-shrink-0">
+                                                <div className="w-full h-full rounded-full border-[2px] border-white/10 overflow-hidden relative shadow-lg bg-[#1a1a1c]">
+                                                    <Image
+                                                        src="/francisco-avatar.png"
+                                                        alt="Francisco Hormazábal"
+                                                        fill
+                                                        className="object-cover"
+                                                        sizes="48px"
+                                                    />
+                                                </div>
+                                                <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-[#050505] shadow-sm"></div>
+                                            </div>
+                                            <div className="bg-white/[0.01] border border-white/[0.0] p-4 rounded-2xl rounded-tl-sm shadow-xl relative inline-flex items-start min-h-[60px] max-w-2xl">
+                                                {isThinking ? (
+                                                    <div className="flex gap-1.5 items-center h-full pt-2 px-1 animate-in fade-in duration-300">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-[bounce_1s_infinite]" style={{ animationDelay: "0ms" }}></div>
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-[bounce_1s_infinite]" style={{ animationDelay: "150ms" }}></div>
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-[bounce_1s_infinite]" style={{ animationDelay: "300ms" }}></div>
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-white/70 text-[0.9rem] leading-relaxed text-left min-h-[1.5rem]">
+                                                        {displayedText}
+                                                        {displayedText && messageType && displayedText.length < (messageType === 'message' ? t("contact.form.quote.message") : messageType === 'consulting' ? t("contact.form.quote.consulting") : t("contact.form.quote.diagnostic")).length && (
+                                                            <span className="inline-block w-[2px] h-[1em] bg-white/70 ml-0.5 animate-pulse align-middle"></span>
+                                                        )}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             )}
@@ -330,47 +539,7 @@ export default function ContactClient() {
                     </div>
                 </FadeInUp>
 
-                {/* Extended Contact Options */}
-                <FadeInUp delay={0.3}>
-                    <div className="mt-24">
-                        <h2 className="text-2xl font-light text-white mb-10 text-center">{t("contact.extended.title")}</h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
-                            {/* Agenda Card - DISABLED */}
-                            <div
-                                className="bg-white/[0.03] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center opacity-50 cursor-not-allowed select-none grayscale-[0.5]"
-                            >
-                                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-6 text-primary">
-                                    <Calendar size={24} />
-                                </div>
-                                <h3 className="text-xl text-white font-medium mb-3">{t("contact.card.schedule.title")}</h3>
-                                <p className="text-[#a1a1aa] text-sm leading-relaxed mb-6 max-w-[30ch]">
-                                    {t("contact.card.schedule.desc")}
-                                </p>
-                                <span className="text-white/70 text-sm font-semibold pb-0.5">
-                                    {t("contact.card.schedule.soon")}
-                                </span>
-                            </div>
-
-                            {/* Case Studies Card */}
-                            <Link
-                                href="/case-studies"
-                                className="group bg-white/[0.03] border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:bg-white/[0.06] hover:-translate-y-1 hover:border-white/20 flex flex-col items-center text-center"
-                            >
-                                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center mb-6 text-secondary group-hover:scale-110 transition-transform duration-300">
-                                    <Briefcase size={24} />
-                                </div>
-                                <h3 className="text-xl text-white font-medium mb-3">{t("contact.card.cases.title")}</h3>
-                                <p className="text-[#a1a1aa] text-sm leading-relaxed mb-6 max-w-[30ch]">
-                                    {t("contact.card.cases.desc")}
-                                </p>
-                                <span className="text-white text-sm font-semibold border-b border-white/30 pb-0.5 group-hover:border-white transition-colors">
-                                    {t("contact.card.cases.button")}
-                                </span>
-                            </Link>
-                        </div>
-                    </div>
-                </FadeInUp>
 
             </main>
 
