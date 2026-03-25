@@ -6,7 +6,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { Send, Mail, User, MessageSquare, ArrowLeft, Check, Calendar, Briefcase, MessageCircle, Users, ClipboardCheck } from "lucide-react";
+import { Send, Mail, User, MessageSquare, ArrowLeft, Check, MessageCircle, Users, ClipboardCheck } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
 import { Switch } from "@/components/ui/Switch";
 import { supabase } from "@/lib/supabaseClient";

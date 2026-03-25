@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { MoreHorizontal, Archive, Eye, Inbox, Star, Clock, AlertCircle } from "lucide-react";
+import { MoreHorizontal, Archive, Eye, Inbox, Star, Clock } from "lucide-react";
 
 export interface ClientMessage {
     id: string;
@@ -26,7 +26,7 @@ export default function ClientManagerPage() {
     const [activeTab, setActiveTab] = useState<'contactos' | 'archivados'>('contactos');
     const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
-    const fetchClients = async () => {
+    const fetchClients = useCallback(async () => {
         setLoading(true);
         const { data, error } = await supabase
             .from("contact_messages")
@@ -38,11 +38,11 @@ export default function ClientManagerPage() {
             setClients(data as ClientMessage[]);
         }
         setLoading(false);
-    };
+    }, [activeTab]);
 
     useEffect(() => {
-        fetchClients();
-    }, [activeTab]);
+        Promise.resolve().then(() => fetchClients());
+    }, [fetchClients]);
 
     const handleArchive = async (id: string, archive: boolean) => {
         const { error } = await supabase
@@ -245,7 +245,7 @@ export default function ClientManagerPage() {
                                 <div className="animate-in slide-in-from-bottom-2 duration-500">
                                     <strong className="text-neutral-500 block text-[10px] uppercase tracking-widest mb-3 font-bold">Mensaje / Requerimiento</strong>
                                     <div className="text-neutral-300 bg-[#080808] border border-neutral-800 p-6 rounded-2xl text-[0.95rem] leading-relaxed whitespace-pre-wrap font-light italic shadow-inner">
-                                        "{selectedClient.message}"
+                                        &quot;{selectedClient.message}&quot;
                                     </div>
                                 </div>
                             )}

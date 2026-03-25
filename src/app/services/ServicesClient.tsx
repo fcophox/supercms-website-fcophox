@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
@@ -32,12 +31,11 @@ export default function ServicesClient() {
     const { t, language } = useLanguage();
     usePageTitle("nav.services");
     const [services, setServices] = useState<Service[]>([]);
-    const [filteredServices, setFilteredServices] = useState<Service[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchServices = async () => {
+    const fetchServices = useCallback(async () => {
         setIsLoading(true);
         // Services table usually doesn't have 'status' based on previous context, 
         // if it does in future, add .eq('status', 'published')
@@ -49,26 +47,22 @@ export default function ServicesClient() {
         if (error) {
             console.error("Error fetching services:", error);
         } else {
-            const fetched = data || [];
+            const fetched = (data as Service[]) || [];
             setServices(fetched);
 
-            const uniqueCategories = Array.from(new Set(fetched.map((a: any) => a.category).filter((c: any) => c && c.trim() !== "")));
-            setCategories(uniqueCategories as string[]);
+            const uniqueCategories = Array.from(new Set(fetched.map(a => a.category).filter((c): c is string => !!c && c.trim() !== "")));
+            setCategories(uniqueCategories);
         }
         setIsLoading(false);
-    };
-
-    useEffect(() => {
-        fetchServices();
     }, []);
 
     useEffect(() => {
-        if (selectedCategory === "All") {
-            setFilteredServices(services);
-        } else {
-            setFilteredServices(services.filter(s => s.category === selectedCategory));
-        }
-    }, [selectedCategory, services]);
+        Promise.resolve().then(() => fetchServices());
+    }, [fetchServices]);
+
+    const filteredServices = selectedCategory === "All"
+        ? services
+        : services.filter(s => s.category === selectedCategory);
 
 
 

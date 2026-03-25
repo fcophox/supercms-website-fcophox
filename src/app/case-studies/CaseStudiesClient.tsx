@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
@@ -33,12 +32,11 @@ export default function CaseStudiesClient() {
     const { t, language } = useLanguage();
     usePageTitle("cases.title");
     const [cases, setCases] = useState<CaseStudy[]>([]);
-    const [filteredCases, setFilteredCases] = useState<CaseStudy[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchCases = async () => {
+    const fetchCases = useCallback(async () => {
         setIsLoading(true);
         const { data, error } = await supabase
             .from('case_studies')
@@ -49,26 +47,22 @@ export default function CaseStudiesClient() {
         if (error) {
             console.error("Error fetching case studies:", error);
         } else {
-            const fetched = data || [];
+            const fetched = (data as CaseStudy[]) || [];
             setCases(fetched);
 
-            const uniqueCategories = Array.from(new Set(fetched.map((a: any) => a.category).filter((c: any) => c && c.trim() !== "")));
-            setCategories(uniqueCategories as string[]);
+            const uniqueCategories = Array.from(new Set(fetched.map(a => a.category).filter((c): c is string => !!c && c.trim() !== "")));
+            setCategories(uniqueCategories);
         }
         setIsLoading(false);
-    };
-
-    useEffect(() => {
-        fetchCases();
     }, []);
 
     useEffect(() => {
-        if (selectedCategory === "All") {
-            setFilteredCases(cases);
-        } else {
-            setFilteredCases(cases.filter(c => c.category === selectedCategory));
-        }
-    }, [selectedCategory, cases]);
+        Promise.resolve().then(() => fetchCases());
+    }, [fetchCases]);
+
+    const filteredCases = selectedCategory === "All"
+        ? cases
+        : cases.filter(c => c.category === selectedCategory);
 
 
 

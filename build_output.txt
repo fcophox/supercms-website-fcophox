@@ -1,0 +1,51 @@
+
+> fcophox-website@0.1.0 build
+> next build
+
+▲ Next.js 16.1.0 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 8.5s
+  Running TypeScript ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/23) ...
+  Generating static pages using 7 workers (5/23) 
+  Generating static pages using 7 workers (11/23) 
+  Generating static pages using 7 workers (17/23) 
+✓ Generating static pages using 7 workers (23/23) in 928.1ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/contact
+├ ƒ /api/translate
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ○ /case-studies
+├ ƒ /case-studies/[slug]
+├ ○ /contact
+├ ○ /dashboard
+├ ○ /dashboard/articles
+├ ƒ /dashboard/articles/[id]
+├ ○ /dashboard/articles/new
+├ ○ /dashboard/calendar
+├ ○ /dashboard/case-studies
+├ ƒ /dashboard/case-studies/[id]
+├ ○ /dashboard/case-studies/new
+├ ○ /dashboard/clientes
+├ ○ /dashboard/services
+├ ƒ /dashboard/services/[id]
+├ ○ /dashboard/services/new
+├ ○ /login
+├ ○ /methodology
+├ ○ /register
+├ ○ /services
+└ ƒ /services/[slug]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
