@@ -42,7 +42,7 @@ export default function CaseStudiesPage() {
 
 
     return (
-        <div className="pb-8 max-w-5xl">
+        <div className="pb-8 max-w-full">
             <header className="mb-10 flex justify-between items-center">
                 <div>
                     <h1 className="text-2xl font-normal text-neutral-100 mb-1">

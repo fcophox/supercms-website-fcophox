@@ -17,6 +17,7 @@ export default function DashboardLayout({
         { name: "Casos de Estudio", href: "/dashboard/case-studies" },
         { name: "Servicios", href: "/dashboard/services" },
         { name: "Clientes", href: "/dashboard/clientes" },
+        { name: "Calendario", href: "/dashboard/calendar" },
     ];
 
     return (
@@ -63,7 +64,7 @@ export default function DashboardLayout({
 
             {/* Main Content */}
             <main className="flex-1 p-10 overflow-y-auto">
-                <div className="max-w-6xl mx-auto flex flex-col min-h-full">
+                <div className="max-w-[1600px] mx-auto flex flex-col min-h-full">
                     {/* Top Navbar */}
                     <div className="flex justify-end items-center gap-5 w-full mb-8">
                         <button className="text-neutral-400 hover:text-neutral-100 transition-colors relative">

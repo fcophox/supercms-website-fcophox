@@ -152,14 +152,14 @@ export default function Navbar() {
                     </button>
 
                     {/* Mobile Contact Button */}
-                    {/* <Link
+                    <Link
                         href="/contact"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="py-3 px-8 rounded-full bg-white text-black no-underline text-base font-semibold flex items-center gap-2 mt-4"
+                        className="py-3 px-10 rounded-full bg-white text-black no-underline text-base font-semibold flex items-center gap-2 mt-6 active:scale-95 transition-transform"
                     >
-                        <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block animate-pulse"></span>
                         {t("nav.contact")}
-                    </Link> */}
+                    </Link>
                 </div>
             </div>
         </nav>

@@ -149,6 +149,7 @@ const translations: Record<string, Record<Language, string>> = {
     "contact.form.consulting.devTimePlaceholder": { es: "Ej. 2 meses", en: "E.g. 2 months" },
     "contact.form.consulting.urlTitle": { es: "URL a consultar", en: "Target URL to analyze" },
     "contact.form.consulting.optional": { es: "(Opcional)", en: "(Optional)" },
+    "contact.form.diagnostic.dateLabel": { es: "Selecciona el día para agendar", en: "Select the day to schedule" },
     "contact.form.diagnostic.meetingLabel": { es: "Horario de reunión (15 mins)", en: "Meeting time (15 mins)" },
     "contact.form.diagnostic.meetingOption0": { es: "Selecciona un horario disponible...", en: "Select an available time..." },
     "contact.form.diagnostic.meetingOption1": { es: "Hoy a las 10:00 AM", en: "Today at 10:00 AM" },

@@ -9,6 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Send, Mail, User, MessageSquare, ArrowLeft, Check, Calendar, Briefcase, MessageCircle, Users, ClipboardCheck } from "lucide-react";
 import FadeInUp from "@/components/FadeInUp";
 import { Switch } from "@/components/ui/Switch";
+import { supabase } from "@/lib/supabaseClient";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -22,6 +23,7 @@ export default function ContactClient() {
         budget: 1150,
         estimatedTime: "",
         targetUrl: "",
+        meetingDate: "",
         meetingTime: ""
     });
     const [budgetMin, setBudgetMin] = useState(500);
@@ -31,6 +33,47 @@ export default function ContactClient() {
     const [hasBudget, setHasBudget] = useState(false);
     const [isThinking, setIsThinking] = useState(false);
     const [displayedText, setDisplayedText] = useState("");
+    const [calendarDays, setCalendarDays] = useState<Date[]>([]);
+    const [restrictedDays, setRestrictedDays] = useState<number[]>([]); // Sin valores por defecto
+    const [dailyRestrictions, setDailyRestrictions] = useState<Record<string, string[]>>({});
+
+    useEffect(() => {
+        const fetchAvailability = async () => {
+            const { data, error } = await supabase
+                .from("availability_settings")
+                .select("*")
+                .order('updated_at', { ascending: false })
+                .limit(1);
+            
+            if (error) {
+                console.error("Error fetching availability settings:", error);
+            }
+            if (!error && data && data.length > 0) {
+                const settings = data[0];
+                setRestrictedDays(settings.restricted_days || []);
+                setDailyRestrictions(settings.daily_slot_restrictions || {});
+            }
+        };
+        fetchAvailability();
+    }, []);
+
+    useEffect(() => {
+        const today = new Date();
+        const currentDay = today.getDay(); // 0 is Sunday
+        const startDate = new Date(today);
+        
+        // Para empezar el lunes: si hoy es domingo (0), retrocedemos 6 días. Si no, retrocedemos currentDay - 1 días.
+        const diffToMonday = currentDay === 0 ? 6 : currentDay - 1;
+        startDate.setDate(today.getDate() - diffToMonday);
+        
+        const days: Date[] = [];
+        for (let i = 0; i < 14; i++) {
+            const d = new Date(startDate);
+            d.setDate(startDate.getDate() + i);
+            days.push(d);
+        }
+        setCalendarDays(days);
+    }, []);
 
     useEffect(() => {
         let typingInterval: NodeJS.Timeout;
@@ -158,7 +201,7 @@ export default function ContactClient() {
             }
 
             setStatus("success");
-            setFormData({ name: "", email: "", message: "", budget: 1150, estimatedTime: "", targetUrl: "", meetingTime: "" });
+            setFormData({ name: "", email: "", message: "", budget: 1150, estimatedTime: "", targetUrl: "", meetingDate: "", meetingTime: "" });
 
             // Reset status after 3 seconds
             setTimeout(() => {
@@ -217,7 +260,7 @@ export default function ContactClient() {
                                 <label className="text-white text-3xl font-light text-center block w-full">
                                     {t("contact.form.question")}
                                 </label>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-3 gap-3 md:gap-6">
                                     {(["message", "consulting", "diagnostic"] as const).map(type => {
                                         const isBlocked = false; // "Agendar reunión" is now available
                                         return (
@@ -226,7 +269,7 @@ export default function ContactClient() {
                                                 type="button"
                                                 disabled={isBlocked}
                                                 onClick={() => !isBlocked && setMessageType(type)}
-                                                className={`group relative flex flex-col p-8 rounded-xl transition-all duration-500 border text-left h-full ${isBlocked
+                                                className={`group relative flex flex-col p-4 sm:p-6 md:p-8 rounded-xl transition-all duration-500 border text-left h-full ${isBlocked
                                                     ? "bg-white/[0.01] border-white/[0.03] opacity-40 cursor-not-allowed select-none"
                                                     : messageType === type
                                                         ? "bg-[#5b4eff]/10 border-[#5b4eff] shadow-[0_0_40px_rgba(91,78,255,0.2)] ring-1 ring-[#5b4eff]/50 scale-[1.02]"
@@ -250,23 +293,23 @@ export default function ContactClient() {
                                                 )}
 
                                                 {/* Icon container */}
-                                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${isBlocked
+                                                <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 transition-all duration-300 ${isBlocked
                                                     ? "bg-white/5 text-white/20"
                                                     : messageType === type
                                                         ? "bg-[#5b4eff] text-white"
                                                         : "bg-white/5 text-[#a1a1aa] group-hover:bg-white/10 group-hover:text-white"
                                                     }`}>
-                                                    {React.createElement(typeIcons[type], { size: 28 })}
+                                                    {React.createElement(typeIcons[type], { size: 20 })}
                                                 </div>
 
-                                                <h4 className={`text-xl font-medium mb-3 transition-colors duration-300 ${isBlocked
+                                                <h4 className={`text-xs sm:text-base md:text-xl font-medium mb-1 sm:mb-3 transition-colors duration-300 ${isBlocked
                                                     ? "text-white/40"
                                                     : messageType === type ? "text-white" : "text-white/80"
                                                     }`}>
                                                     {t(`contact.form.type.${type}`)}
                                                 </h4>
-
-                                                <p className={`text-[0.95rem] leading-relaxed transition-colors duration-300 ${isBlocked
+                                                
+                                                <p className={`hidden sm:block text-[0.85rem] md:text-[0.95rem] leading-relaxed transition-colors duration-300 ${isBlocked
                                                     ? "text-white/20"
                                                     : messageType === type ? "text-white/70" : "text-[#a1a1aa]"
                                                     }`}>
@@ -446,26 +489,101 @@ export default function ContactClient() {
 
                                         {/* Meeting Fields */}
                                         {messageType === 'diagnostic' && (
-                                            <div className="flex flex-col gap-2.5 fade-in duration-300">
-                                                <label htmlFor="meetingTime" className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                            <div className="flex flex-col gap-6 fade-in duration-300">
+                                                
+                                                {/* Date Selection */}
+                                                <div className="flex flex-col gap-3">
+                                                    <label className="text-white/70 !font-light text-[0.9rem] ml-1">
+                                                        {t("contact.form.diagnostic.dateLabel") || "Fecha de reunión"}
+                                                    </label>
+                                                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 shadow-sm">
+                                                        <div className="grid grid-cols-7 gap-1 text-center mb-3">
+                                                            {["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"].map(day => (
+                                                                <div key={day} className="text-[0.65rem] font-semibold text-[#a1a1aa] uppercase tracking-wider">{day}</div>
+                                                            ))}
+                                                        </div>
+                                                        <div className="grid grid-cols-7 gap-y-2 gap-x-1 text-center">
+                                                            {calendarDays.map((date, idx) => {
+                                                                const dayStr = date.toISOString().split('T')[0];
+                                                                const isSelected = formData.meetingDate === dayStr;
+                                                                
+                                                                const today = new Date();
+                                                                today.setHours(0,0,0,0);
+                                                                const btnDate = new Date(date);
+                                                                btnDate.setHours(0,0,0,0);
+                                                                const isPast = btnDate < today;
+                                                                const isRestricted = restrictedDays.includes(date.getDay());
+                                                                const isDisabled = isPast || isRestricted;
+                                                                const isToday = btnDate.getTime() === today.getTime();
+                                                                
+                                                                return (
+                                                                    <button
+                                                                        key={idx}
+                                                                        type="button"
+                                                                        disabled={isDisabled}
+                                                                        onClick={() => setFormData(prev => ({ ...prev, meetingDate: dayStr }))}
+                                                                        className={`relative w-9 h-9 mx-auto flex items-center justify-center rounded-full text-[0.9rem] transition-all duration-300 font-medium ${
+                                                                            isSelected 
+                                                                                ? "bg-[#5b4eff] text-white shadow-[0_0_15px_rgba(91,78,255,0.4)] ring-4 ring-[#5b4eff]/10" 
+                                                                                : isDisabled 
+                                                                                    ? "text-[#52525b] cursor-not-allowed opacity-50 bg-[#1a1a1c]/50" 
+                                                                                    : "text-white/80 hover:bg-[#5b4eff]/10 hover:text-[#5b4eff]"
+                                                                        }`}
+                                                                    >
+                                                                        {date.getDate()}
+                                                                        {isToday && !isSelected && (
+                                                                            <span className="absolute bottom-1 w-[4px] h-[4px] bg-[#5b4eff] rounded-full"></span>
+                                                                        )}
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col gap-4">
+                                                <label className="text-white/70 !font-light text-[0.9rem] ml-1">
                                                     {t("contact.form.diagnostic.meetingLabel")}
                                                 </label>
-                                                <select
-                                                    id="meetingTime"
-                                                    name="meetingTime"
-                                                    className="input-field !pl-4 !h-14 !bg-white/[0.03] !border-white/5 text-white focus:!border-[#5b4eff]/50 focus:!bg-white/[0.05] appearance-none"
-                                                    value={formData.meetingTime}
-                                                    onChange={handleChange}
-                                                    required={messageType === 'diagnostic'}
-                                                >
-                                                    <option value="" disabled className="text-black">{t("contact.form.diagnostic.meetingOption0")}</option>
-                                                    <option value="10:00" className="text-black">{t("contact.form.diagnostic.meetingOption1")}</option>
-                                                    <option value="11:30" className="text-black">{t("contact.form.diagnostic.meetingOption2")}</option>
-                                                    <option value="14:15" className="text-black">{t("contact.form.diagnostic.meetingOption3")}</option>
-                                                    <option value="16:00" className="text-black">{t("contact.form.diagnostic.meetingOption4")}</option>
-                                                    <option value="17:45" className="text-black">{t("contact.form.diagnostic.meetingOption5")}</option>
-                                                </select>
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                                                    {[
+                                                        "18:30 - 18:45 hrs",
+                                                        "18:45 - 19:00 hrs",
+                                                        "19:00 - 19:15 hrs",
+                                                        "19:15 - 19:30 hrs",
+                                                        "19:30 - 19:45 hrs",
+                                                        "19:45 - 20:00 hrs",
+                                                        "20:00 - 20:15 hrs",
+                                                        "20:15 - 20:30 hrs",
+                                                        "20:30 - 20:45 hrs",
+                                                        "20:45 - 21:00 hrs"
+                                                    ].map((slot) => {
+                                                        // Check if this specific slot is restricted for the selected day
+                                                        const selectedDate = formData.meetingDate ? new Date(formData.meetingDate + 'T00:00:00') : null;
+                                                        const dayIndex = selectedDate ? selectedDate.getDay() : null;
+                                                        const isSlotBlocked = dayIndex !== null && dailyRestrictions[dayIndex.toString()]?.includes(slot);
+
+                                                        return (
+                                                            <button
+                                                                key={slot}
+                                                                type="button"
+                                                                disabled={isSlotBlocked}
+                                                                onClick={() => setFormData(prev => ({ ...prev, meetingTime: slot }))}
+                                                                className={`p-3 rounded-xl border text-[0.85rem] transition-all duration-300 whitespace-nowrap flex items-center justify-center ${
+                                                                    isSlotBlocked
+                                                                        ? "bg-white/[0.01] border-white/[0.03] opacity-30 cursor-not-allowed select-none"
+                                                                        : formData.meetingTime === slot
+                                                                            ? "bg-[#5b4eff]/20 border-[#5b4eff] text-white shadow-[0_0_15px_rgba(91,78,255,0.2)] ring-1 ring-[#5b4eff]/50 scale-[1.02]"
+                                                                            : "bg-white/[0.03] border-white/5 text-white/70 hover:bg-white/[0.08] hover:border-white/20 hover:text-white"
+                                                                }`}
+                                                            >
+                                                                {slot}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
                                                 <p className="text-xs text-white/40 mt-1 ml-1">{t("contact.form.diagnostic.meetingNote")}</p>
+                                            </div>
                                             </div>
                                         )}
 
@@ -480,7 +598,7 @@ export default function ContactClient() {
                                                 !formData.email ||
                                                 (messageType === "message" && !formData.message) ||
                                                 (messageType === "consulting" && (!formData.message || !formData.estimatedTime)) ||
-                                                (messageType === "diagnostic" && !formData.meetingTime)
+                                                (messageType === "diagnostic" && (!formData.meetingDate || !formData.meetingTime))
                                             }
                                         >
                                             {status === "sending" ? (
