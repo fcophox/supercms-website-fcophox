@@ -68,6 +68,7 @@ const translations: Record<string, Record<Language, string>> = {
     "home.logos.link": { es: "Revisa los estudios", en: "Check qualifications" },
 
     "common.backHome": { es: "Volver al Inicio", en: "Back to Home" },
+    "common.back": { es: "Volver", en: "Back" },
     "common.readMore": { es: "Leer más", en: "Read more" },
     "common.loading": { es: "Cargando...", en: "Loading..." },
     "common.error": { es: "Error", en: "Error" },

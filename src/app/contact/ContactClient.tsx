@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -36,6 +37,8 @@ export default function ContactClient() {
     const [calendarDays, setCalendarDays] = useState<Date[]>([]);
     const [restrictedDays, setRestrictedDays] = useState<number[]>([]); // Sin valores por defecto
     const [dailyRestrictions, setDailyRestrictions] = useState<Record<string, string[]>>({});
+    const [currentStep, setCurrentStep] = useState(0); // 0: Select Type, 1: Form
+    const [animationDirection, setAnimationDirection] = useState(1); // 1 for forward, -1 for backward
 
     useEffect(() => {
         const fetchAvailability = async () => {
@@ -224,115 +227,156 @@ export default function ContactClient() {
             <main className="flex-1 p-8 max-w-6xl mx-auto w-full pt-36 pb-12">
 
                 {/* Back Link */}
-                <FadeInUp duration={0.5}>
-                    <Link href="/" className="inline-flex items-center gap-2 text-muted mb-12 no-underline text-sm opacity-70">
-                        <ArrowLeft size={16} /> {t("common.backHome")}
-                    </Link>
-                </FadeInUp>
-
-                {/* Header Section */}
-                <FadeInUp delay={0.1}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 items-start">
-                        <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-extralight text-white leading-[1.1] tracking-tight max-w-[12em]">
-                            {t("contact.title.line1")} <span className="text-[#5b4eff]">{t("contact.title.highlight")}</span>
-                        </h1>
-
-                        <div className="max-w-[50ch] mt-4">
-                            <h3 className="text-white text-[1.15rem] font-bold mb-3 tracking-wide">
-                                {t("contact.intro.title")}
-                            </h3>
-                            <p className="text-[#A1A1AA] text-[1.05rem] leading-relaxed">
-                                {t("contact.intro.text")}
-                            </p>
-                        </div>
-                    </div>
-                </FadeInUp>
+                {currentStep === 0 && (
+                    <FadeInUp duration={0.5}>
+                        <Link href="/" className="inline-flex items-center gap-2 text-muted mb-12 no-underline text-sm opacity-70">
+                            <ArrowLeft size={16} /> {t("common.backHome")}
+                        </Link>
+                    </FadeInUp>
+                )}
 
                 {/* Contact Form Container */}
-                <FadeInUp delay={0.2}>
-                    <div className="relative  rounded-[1.5rem]">
+                <div className="mt-8">
+                    <div className="relative min-h-[800px] flex items-start justify-center">
                         {/* Background decoration */}
                         <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.03),transparent_70%)] pointer-events-none z-0" />
 
-                        <div className="relative z-10 max-w-6xl mx-auto">
-                            {/* Question - Now outside the main form box */}
-                            <div className="flex flex-col gap-8 mb-12 max-w-4xl mx-auto">
-                                <label className="text-white text-3xl font-light text-center block w-full">
-                                    {t("contact.form.question")}
-                                </label>
-                                <div className="grid grid-cols-3 gap-3 md:gap-6">
-                                    {(["message", "consulting", "diagnostic"] as const).map(type => {
-                                        const isBlocked = false; // "Agendar reunión" is now available
-                                        return (
-                                            <button
-                                                key={type}
-                                                type="button"
-                                                disabled={isBlocked}
-                                                onClick={() => !isBlocked && setMessageType(type)}
-                                                className={`group relative flex flex-col p-4 sm:p-6 md:p-8 rounded-xl transition-all duration-500 border text-left h-full ${isBlocked
-                                                    ? "bg-white/[0.01] border-white/[0.03] opacity-40 cursor-not-allowed select-none"
-                                                    : messageType === type
-                                                        ? "bg-[#5b4eff]/10 border-[#5b4eff] shadow-[0_0_40px_rgba(91,78,255,0.2)] ring-1 ring-[#5b4eff]/50 scale-[1.02]"
-                                                        : "bg-white/[0.03] border-white/5 hover:border-white/20 hover:bg-white/[0.05] hover:-translate-y-1"
-                                                    }`}
-                                            >
-                                                {/* Badge / Indicator */}
-                                                {isBlocked ? (
-                                                    <div className="absolute top-6 right-6 px-3 py-1 bg-[#5b4eff]/10 rounded-full border border-[#5b4eff]/20">
-                                                        <span className="text-[10px] font-bold text-[#5b4eff] uppercase tracking-widest leading-none">
-                                                            {t("contact.form.badge.soon")}
-                                                        </span>
-                                                    </div>
-                                                ) : (
-                                                    <div className={`absolute top-6 right-6 w-6 h-6 rounded-full border flex items-center justify-center transition-all duration-300 ${messageType === type
-                                                        ? "bg-[#5b4eff] border-[#5b4eff]"
-                                                        : "border-white/20"
-                                                        }`}>
-                                                        {messageType === type && <Check size={14} className="text-white" strokeWidth={3} />}
-                                                    </div>
-                                                )}
+                        <div className="relative z-10 w-full">
+                            <AnimatePresence mode="wait">
+                                {currentStep === 0 ? (
+                                    <motion.div
+                                        key="step0"
+                                        initial={{ opacity: 0, y: animationDirection === 1 ? 80 : -80 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: animationDirection === 1 ? -80 : 80 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="w-full max-w-6xl mx-auto"
+                                    >
+                                        {/* Header Section */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24 items-start">
+                                            <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-extralight text-white leading-[1.1] tracking-tight max-w-[12em]">
+                                                {t("contact.title.line1")} <span className="text-[#5b4eff]">{t("contact.title.highlight")}</span>
+                                            </h1>
 
-                                                {/* Icon container */}
-                                                <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 transition-all duration-300 ${isBlocked
-                                                    ? "bg-white/5 text-white/20"
-                                                    : messageType === type
-                                                        ? "bg-[#5b4eff] text-white"
-                                                        : "bg-white/5 text-[#a1a1aa] group-hover:bg-white/10 group-hover:text-white"
-                                                    }`}>
-                                                    {React.createElement(typeIcons[type], { size: 20 })}
-                                                </div>
-
-                                                <h4 className={`text-xs sm:text-base md:text-xl font-medium mb-1 sm:mb-3 transition-colors duration-300 ${isBlocked
-                                                    ? "text-white/40"
-                                                    : messageType === type ? "text-white" : "text-white/80"
-                                                    }`}>
-                                                    {t(`contact.form.type.${type}`)}
-                                                </h4>
-                                                
-                                                <p className={`hidden sm:block text-[0.85rem] md:text-[0.95rem] leading-relaxed transition-colors duration-300 ${isBlocked
-                                                    ? "text-white/20"
-                                                    : messageType === type ? "text-white/70" : "text-[#a1a1aa]"
-                                                    }`}>
-                                                    {t(`contact.form.help.${type}`)}
+                                            <div className="max-w-[50ch] mt-4">
+                                                <h3 className="text-white text-[1.15rem] font-bold mb-3 tracking-wide">
+                                                    {t("contact.intro.title")}
+                                                </h3>
+                                                <p className="text-[#A1A1AA] text-[1.05rem] leading-relaxed">
+                                                    {t("contact.intro.text")}
                                                 </p>
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            {/* Main Form Box - Appears when selection is made */}
-                            {messageType && (
-                                <div className="p-8 lg:p-12 animate-in fade-in slide-in-from-top-8 duration-700">
-                                    <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl mx-auto">
-                                        <div className="flex items-center gap-4 mb-2">
-                                            <div className="w-8 h-8 rounded-lg bg-[#5b4eff]/20 flex items-center justify-center text-[#5b4eff]">
-                                                {React.createElement(typeIcons[messageType], { size: 18 })}
                                             </div>
-                                            <h3 className="text-white text-lg font-medium">
-                                                {t("contact.form.type." + messageType)}
-                                            </h3>
                                         </div>
+
+                                        {/* Question - Now outside the main form box */}
+                                        <div className="flex flex-col gap-8 mb-12 max-w-4xl mx-auto">
+                                            <label className="text-white text-3xl font-light text-center block w-full">
+                                                {t("contact.form.question")}
+                                            </label>
+                                            <div className="grid grid-cols-3 gap-3 md:gap-6">
+                                                {(["message", "consulting", "diagnostic"] as const).map(type => {
+                                                    const isBlocked = false; // "Agendar reunión" is now available
+                                                    return (
+                                                        <button
+                                                            key={type}
+                                                            type="button"
+                                                            disabled={isBlocked}
+                                                            onClick={() => {
+                                                                if (!isBlocked) {
+                                                                    setAnimationDirection(1);
+                                                                    setMessageType(type);
+                                                                    setCurrentStep(1);
+                                                                }
+                                                            }}
+                                                            className={`group relative flex flex-col p-4 sm:p-6 md:p-8 rounded-xl transition-all duration-500 border text-left h-full ${isBlocked
+                                                                ? "bg-white/[0.01] border-white/[0.03] opacity-40 cursor-not-allowed select-none"
+                                                                : messageType === type
+                                                                    ? "bg-[#5b4eff]/10 border-[#5b4eff] shadow-[0_0_40px_rgba(91,78,255,0.2)] ring-1 ring-[#5b4eff]/50 scale-[1.02]"
+                                                                    : "bg-white/[0.03] border-white/5 hover:border-white/20 hover:bg-white/[0.05] hover:-translate-y-1"
+                                                                }`}
+                                                        >
+                                                            {/* Badge / Indicator */}
+                                                            {isBlocked ? (
+                                                                <div className="absolute top-6 right-6 px-3 py-1 bg-[#5b4eff]/10 rounded-full border border-[#5b4eff]/20">
+                                                                    <span className="text-[10px] font-bold text-[#5b4eff] uppercase tracking-widest leading-none">
+                                                                        {t("contact.form.badge.soon")}
+                                                                    </span>
+                                                                </div>
+                                                            ) : (
+                                                                <div className={`absolute top-6 right-6 w-6 h-6 rounded-full border flex items-center justify-center transition-all duration-300 ${messageType === type
+                                                                    ? "bg-[#5b4eff] border-[#5b4eff]"
+                                                                    : "border-white/20"
+                                                                    }`}>
+                                                                    {messageType === type && <Check size={14} className="text-white" strokeWidth={3} />}
+                                                                </div>
+                                                            )}
+
+                                                            {/* Icon container */}
+                                                            <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 transition-all duration-300 ${isBlocked
+                                                                ? "bg-white/5 text-white/20"
+                                                                : messageType === type
+                                                                    ? "bg-[#5b4eff] text-white"
+                                                                    : "bg-white/5 text-[#a1a1aa] group-hover:bg-white/10 group-hover:text-white"
+                                                                }`}>
+                                                                {React.createElement(typeIcons[type], { size: 20 })}
+                                                            </div>
+
+                                                            <h4 className={`text-xs sm:text-base md:text-xl font-medium mb-1 sm:mb-3 transition-colors duration-300 ${isBlocked
+                                                                ? "text-white/40"
+                                                                : messageType === type ? "text-white" : "text-white/80"
+                                                                }`}>
+                                                                {t(`contact.form.type.${type}`)}
+                                                            </h4>
+
+                                                            <p className={`hidden sm:block text-[0.85rem] md:text-[0.95rem] leading-relaxed transition-colors duration-300 ${isBlocked
+                                                                ? "text-white/20"
+                                                                : messageType === type ? "text-white/70" : "text-[#a1a1aa]"
+                                                                }`}>
+                                                                {t(`contact.form.help.${type}`)}
+                                                            </p>
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="step1"
+                                        initial={{ opacity: 0, y: animationDirection === 1 ? 80 : -80 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: animationDirection === 1 ? -80 : 80 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="w-full flex flex-col items-center"
+                                    >
+                                        <div className="flex items-center justify-between w-full max-w-2xl mb-12">
+                                            {messageType && (
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 rounded-xl bg-[#5b4eff]/20 flex items-center justify-center text-[#5b4eff]">
+                                                        {React.createElement(typeIcons[messageType], { size: 22 })}
+                                                    </div>
+                                                    <h3 className="text-white text-2xl font-light">
+                                                        {t("contact.form.type." + messageType)}
+                                                    </h3>
+                                                </div>
+                                            )}
+
+                                            <button
+                                                onClick={() => {
+                                                    setAnimationDirection(-1);
+                                                    setCurrentStep(0);
+                                                }}
+                                                className="flex items-center gap-2 text-white/50 hover:text-white transition-colors group"
+                                            >
+                                                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                                                {t("common.back")}
+                                            </button>
+                                        </div>
+
+                                        {/* Main Form Box - Appears when selection is made */}
+                                        {messageType && (
+                                            <div className="p-0 w-full">
+                                                <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl mx-auto w-full">
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             {/* Name Input */}
@@ -650,12 +694,15 @@ export default function ContactClient() {
                                                 )}
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
-                            )}
+                                                </form>
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </div>
-                </FadeInUp>
+                </div>
 
 
 
