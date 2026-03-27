@@ -32,7 +32,7 @@ export default function CalendarManagementPage() {
     const [dailyRestrictions, setDailyRestrictions] = useState<Record<string, string[]>>({});
     const [selectedDayTab, setSelectedDayTab] = useState<number>(1);
     const [recordId, setRecordId] = useState<string | null>(null);
-    
+
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
@@ -57,7 +57,7 @@ export default function CalendarManagementPage() {
     }, []);
 
     const toggleGlobalDay = (day: number) => {
-        setRestrictedDays(prev => 
+        setRestrictedDays(prev =>
             prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
         );
     };
@@ -65,11 +65,11 @@ export default function CalendarManagementPage() {
     const toggleSlotForSelectedDay = (slot: string) => {
         const dayKey = selectedDayTab.toString();
         const currentSlots = dailyRestrictions[dayKey] || [];
-        
-        const newSlots = currentSlots.includes(slot) 
-            ? currentSlots.filter(s => s !== slot) 
+
+        const newSlots = currentSlots.includes(slot)
+            ? currentSlots.filter(s => s !== slot)
             : [...currentSlots, slot];
-            
+
         setDailyRestrictions(prev => ({
             ...prev,
             [dayKey]: newSlots
@@ -125,7 +125,7 @@ export default function CalendarManagementPage() {
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="flex items-center gap-2 bg-[#5b4eff] hover:bg-[#4a3fff] text-white px-8 py-3 rounded-xl transition-all duration-300 disabled:opacity-50 shadow-lg shadow-[#5b4eff]/10 hover:shadow-[#5b4eff]/20"
+                    className="btn-primary"
                 >
                     {isSaving ? "Guardando..." : (
                         <>
@@ -150,13 +150,12 @@ export default function CalendarManagementPage() {
                         <button
                             key={day.value}
                             onClick={() => setSelectedDayTab(day.value)}
-                            className={`flex-1 min-w-[100px] py-3 px-4 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
-                                isActive
+                            className={`flex-1 min-w-[100px] py-3 px-4 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${isActive
                                     ? "bg-[#5b4eff] text-white shadow-lg shadow-[#5b4eff]/20"
                                     : isRestricted
                                         ? "bg-red-500/10 text-red-400 border border-red-500/20"
                                         : "text-neutral-500 hover:bg-neutral-900 border border-transparent hover:border-neutral-800"
-                            }`}
+                                }`}
                         >
                             {day.label}
                             {isRestricted && <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>}
@@ -166,7 +165,7 @@ export default function CalendarManagementPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 items-start">
-                
+
                 {/* Configuración del Día Seleccionado */}
                 <div className="bg-[#0a0a0a] border border-neutral-800 rounded-2xl overflow-hidden shadow-sm">
                     <div className="bg-neutral-900/50 p-6 border-b border-neutral-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -203,7 +202,7 @@ export default function CalendarManagementPage() {
                                 <p className="text-sm text-neutral-500 mb-8 max-w-xl">
                                     Haz clic en el bloque para desactivarlo. Los bloques seleccionados en <span className="text-red-400 font-medium">rojo</span> no estarán disponibles para agendar.
                                 </p>
-                                
+
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                                     {ALL_SLOTS.map((slot) => {
                                         const isRestricted = currentDayRestrictedSlots.includes(slot);
@@ -211,11 +210,10 @@ export default function CalendarManagementPage() {
                                             <button
                                                 key={slot}
                                                 onClick={() => toggleSlotForSelectedDay(slot)}
-                                                className={`relative py-4 px-2 rounded-xl border text-[0.8rem] transition-all duration-300 font-medium whitespace-nowrap overflow-hidden ${
-                                                    isRestricted
+                                                className={`relative py-4 px-2 rounded-xl border text-[0.8rem] transition-all duration-300 font-medium whitespace-nowrap overflow-hidden ${isRestricted
                                                         ? "bg-red-500/10 border-red-500/30 text-red-300 shadow-inner"
                                                         : "bg-[#121212] border-neutral-800 text-neutral-400 hover:border-[#5b4eff]/50 hover:text-neutral-100"
-                                                }`}
+                                                    }`}
                                             >
                                                 {slot}
                                                 {isRestricted && (
@@ -237,7 +235,7 @@ export default function CalendarManagementPage() {
                                 <p className="text-sm text-neutral-500 max-w-sm">
                                     No se pueden configurar bloques horarios individuales porque el día está configurado como no disponible en el selector superior.
                                 </p>
-                                <button 
+                                <button
                                     onClick={() => toggleGlobalDay(selectedDayTab)}
                                     className="mt-6 text-[#5b4eff] hover:underline text-sm font-medium flex items-center gap-2"
                                 >
@@ -250,9 +248,9 @@ export default function CalendarManagementPage() {
             </div>
 
             <div className="mt-10 p-6 bg-[#0a0a0a] border border-neutral-800 rounded-2xl flex items-start gap-4">
-               <div className="bg-[#5b4eff]/10 p-2.5 rounded-xl text-[#5b4eff]">
+                <div className="bg-[#5b4eff]/10 p-2.5 rounded-xl text-[#5b4eff]">
                     <AlertCircle size={20} />
-               </div>
+                </div>
                 <div>
                     <h4 className="text-sm font-medium text-neutral-200 mb-1">Información sobre la sincronización</h4>
                     <p className="text-sm text-neutral-500 leading-relaxed max-w-3xl">

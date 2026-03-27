@@ -51,15 +51,15 @@ export default function CaseStudiesPage() {
                     <p className="text-sm text-neutral-400">Administra tus casos de éxito y proyectos.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="bg-[#0a0a0a] py-2 px-4 rounded-md border border-neutral-800">
+                    <div className="bg-[#0a0a0a] py-3 px-4 rounded-full border border-neutral-800">
                         <Switch
                             checked={caseStudiesVisible}
                             onChange={(checked) => updateSetting("case_studies_visible", checked)}
                             label={caseStudiesVisible ? "Visible en web" : "Oculto en web"}
                         />
                     </div>
-                    <Link href="/dashboard/case-studies/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
-                        + Nuevo Caso
+                    <Link href="/dashboard/case-studies/new" className="btn-primary py-2 px-6 text-sm">
+                        + Crear
                     </Link>
                 </div>
             </header>
@@ -77,7 +77,7 @@ export default function CaseStudiesPage() {
                     <p className="text-sm text-neutral-400 max-w-[400px] mb-8">
                         Comienza documentando tu primer caso de éxito.
                     </p>
-                    <Link href="/dashboard/case-studies/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
+                    <Link href="/dashboard/case-studies/new" className="btn-primary py-2 px-6 text-sm">
                         Crear primer Caso
                     </Link>
                 </div>

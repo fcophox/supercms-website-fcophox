@@ -12,6 +12,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
 import { PostSkeleton } from "@/components/Skeleton";
+import DownloadResourceCard from "@/components/DownloadResourceCard";
 
 interface Article {
     id: string;
@@ -26,7 +27,11 @@ interface Article {
     status: string;
     tags?: string[];
     published_at?: string;
-    likes: number; // Added likes field
+    likes: number; 
+    download_title?: string;
+    download_description?: string;
+    download_url?: string;
+    download_type?: string;
 }
 
 export default function BlogPostClient() {
@@ -158,13 +163,24 @@ export default function BlogPostClient() {
                     {/* Featured Image */}
                     {article.image_url && (
                         <FadeInUp delay={0.3}>
-                            <div className="w-full aspect-[21/9] rounded-2xl overflow-hidden mb-12 border border-[#222]">
+                            <div className="w-full aspect-[21/9] rounded-2xl overflow-hidden mb-8 border border-[#222]">
                                 <img
                                     src={article.image_url}
                                     alt={title}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
+                        </FadeInUp>
+                    )}
+
+                    {/* Downloadable Resource (Moved under image) */}
+                    {article.download_url && (
+                        <FadeInUp delay={0.35}>
+                            <DownloadResourceCard 
+                                title={article.download_title || "Material Descargable"}
+                                description={article.download_description}
+                                url={article.download_url}
+                            />
                         </FadeInUp>
                     )}
 
@@ -212,6 +228,7 @@ export default function BlogPostClient() {
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </FadeInUp>
+
 
                     {/* Like Section */}
                     <FadeInUp delay={0.5}>

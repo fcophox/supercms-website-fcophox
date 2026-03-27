@@ -12,6 +12,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import ArticleLikeSection from "@/components/ArticleLikeSection";
 import { PostSkeleton } from "@/components/Skeleton";
+import DownloadResourceCard from "@/components/DownloadResourceCard";
 
 interface CaseStudy {
     id: string;
@@ -28,6 +29,10 @@ interface CaseStudy {
     tags?: string[];
     published_at?: string;
     likes?: number;
+    download_title?: string;
+    download_description?: string;
+    download_url?: string;
+    download_type?: string;
 }
 
 export default function CaseStudyClient() {
@@ -205,13 +210,24 @@ export default function CaseStudyClient() {
 
                     {caseStudy.image_url && (
                         <FadeInUp delay={0.3}>
-                            <div className="w-full rounded-2xl overflow-hidden mb-12 border border-[#222] aspect-video md:aspect-[21/9]">
+                            <div className="w-full rounded-2xl overflow-hidden mb-8 border border-[#222] aspect-video md:aspect-[21/9]">
                                 <img
                                     src={caseStudy.image_url}
                                     alt={title}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
+                        </FadeInUp>
+                    )}
+
+                    {/* Downloadable Resource (Moved under image) */}
+                    {caseStudy.download_url && (
+                        <FadeInUp delay={0.35}>
+                            <DownloadResourceCard 
+                                title={caseStudy.download_title || "Material Descargable"}
+                                description={caseStudy.download_description}
+                                url={caseStudy.download_url}
+                            />
                         </FadeInUp>
                     )}
 
@@ -259,6 +275,7 @@ export default function CaseStudyClient() {
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </FadeInUp>
+
 
                     {/* Like Section */}
                     <FadeInUp delay={0.5}>

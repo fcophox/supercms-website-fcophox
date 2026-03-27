@@ -51,15 +51,15 @@ export default function ArticlesPage() {
                     <p className="text-sm text-neutral-400">Administra tus publicaciones y contenido.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="bg-[#0a0a0a] py-2 px-4 rounded-md border border-neutral-800">
+                    <div className="bg-[#0a0a0a] py-3 px-4 rounded-full border border-neutral-800">
                         <Switch
                             checked={articlesVisible}
                             onChange={(checked) => updateSetting("articles_visible", checked)}
                             label={articlesVisible ? "Visible en web" : "Oculto en web"}
                         />
                     </div>
-                    <Link href="/dashboard/articles/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
-                        + Nuevo Artículo
+                    <Link href="/dashboard/articles/new" className="btn-primary py-2 px-6 text-sm">
+                        + Crear
                     </Link>
                 </div>
             </header>
@@ -77,7 +77,7 @@ export default function ArticlesPage() {
                     <p className="text-sm text-neutral-400 max-w-[400px] mb-8">
                         Comienza creando tu primer artículo. Aparecerá aquí una vez que publiques o guardes un borrador.
                     </p>
-                    <Link href="/dashboard/articles/new" className="bg-neutral-100 text-black hover:bg-neutral-200 transition-colors py-2 px-4 rounded-md text-sm font-medium">
+                    <Link href="/dashboard/articles/new" className="btn-primary py-2 px-6 text-sm">
                         Crear tu primer Artículo
                     </Link>
                 </div>

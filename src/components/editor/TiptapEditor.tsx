@@ -218,9 +218,7 @@ export default function TiptapEditor({ content, onChange }: { content?: string, 
                 display: 'flex',
                 gap: '0.25rem',
                 flexWrap: 'wrap',
-                background: '#09090b', // Solid background to hide content scrolling behind
-                position: 'sticky',
-                top: '100px', // Adjusted offset for fixed Navbar
+                background: '#09090b', // Solid background
                 zIndex: 40,
                 borderTopLeftRadius: '12px',
                 borderTopRightRadius: '12px',
@@ -296,8 +294,14 @@ export default function TiptapEditor({ content, onChange }: { content?: string, 
 
             </div>
 
-            {/* Editor Content */}
-            <div style={{ padding: '0.5rem' }}>
+            {/* Editor Content with internal scroll */}
+            <div style={{
+                maxHeight: '600px',
+                overflowY: 'auto',
+                padding: '0.5rem',
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(255,255,255,0.1) transparent'
+            }}>
                 <EditorContent editor={editor} />
             </div>
         </div>

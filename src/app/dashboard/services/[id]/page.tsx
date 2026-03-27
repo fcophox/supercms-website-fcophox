@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabaseClient";
 import ImageUploader from "@/components/ImageUploader";
 import Modal from "@/components/Modal";
 import TagInput from "@/components/TagInput";
+import { Switch } from "@/components/ui/Switch";
 
 import { use } from 'react';
 
@@ -35,6 +36,7 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
     const [loading, setLoading] = useState(true);
     const [language, setLanguage] = useState<'es' | 'en'>('es');
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
+    const [hasDownload, setHasDownload] = useState(false);
 
     // Downloadable Resource State
     const [downloadTitle, setDownloadTitle] = useState("");
@@ -94,6 +96,7 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
                 setDownloadDescription(data.download_description || "");
                 setDownloadUrl(data.download_url || "");
                 setDownloadType(data.download_type || "material");
+                setHasDownload(!!data.download_url || !!data.download_title);
             }
             setLoading(false);
         };
@@ -165,10 +168,10 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
                         published_at: publishedAt || null,
 
                         // New fields
-                        download_title: downloadTitle,
-                        download_description: downloadDescription,
-                        download_url: downloadUrl,
-                        download_type: downloadType
+                        download_title: hasDownload ? downloadTitle : null,
+                        download_description: hasDownload ? downloadDescription : null,
+                        download_url: hasDownload ? downloadUrl : null,
+                        download_type: hasDownload ? downloadType : null
                     })
                     .eq('id', id);
 
@@ -214,10 +217,10 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
                     published_at: publishedAt || null,
 
                     // New fields
-                    download_title: downloadTitle,
-                    download_description: downloadDescription,
-                    download_url: downloadUrl,
-                    download_type: downloadType
+                    download_title: hasDownload ? downloadTitle : null,
+                    download_description: hasDownload ? downloadDescription : null,
+                    download_url: hasDownload ? downloadUrl : null,
+                    download_type: hasDownload ? downloadType : null
                 })
                 .eq('id', id);
 
@@ -392,7 +395,7 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
     }
 
     return (
-        <div className="max-w-[900px] mx-auto">
+        <div className="max-w-[1600px] mx-auto flex flex-col min-h-full">
             <Modal
                 isOpen={modal.isOpen}
                 onClose={closeModal}
@@ -404,11 +407,11 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
 
             <header className="mb-8 flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                    <Link href="/dashboard/services" className="text-[var(--text-muted)] flex items-center text-xl p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+                    <Link href="/dashboard/services" className="text-[var(--text-muted)] flex items-center text-xl p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors w-12 h-12">
                         ←
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-bold text-white">
+                        <h1 className="text-2xl font-light text-white">
                             Editar Servicio
                         </h1>
                         <div className="text-xs text-[var(--text-muted)] flex items-center gap-2">
@@ -426,7 +429,7 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
                 <div className="flex gap-3">
                     <button
                         onClick={confirmDelete}
-                        className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-2 rounded-lg cursor-pointer transition-all flex items-center justify-center hover:bg-red-500/20"
+                        className="bg-red-500/10 border border-red-500/20 text-red-500 w-12 h-12 rounded-full cursor-pointer transition-all flex items-center justify-center hover:bg-red-500/20"
                         disabled={isSaving}
                         title="Eliminar Servicio"
                     >
@@ -442,225 +445,241 @@ export default function EditServicePage(props: { params: Promise<{ id: string }>
                 </div>
             </header>
 
-            <div className="flex flex-col gap-6">
-
-
-
-                {/* Shared Image Section */}
-                <div className="glass-panel p-6 rounded-xl">
-                    <ImageUploader
-                        value={imageUrl}
-                        onChange={setImageUrl}
-                    />
-                </div>
-
-                {/* Dynamic Content Section */}
-                <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
-
-                    {language === 'es' ? (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Nombre del Servicio..."
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="w-full bg-transparent border-none text-4xl font-bold text-white outline-none placeholder:text-white/20"
-                            />
-                            <div className="flex flex-col gap-2">
-                                <label className="text-[var(--text-muted)] text-sm">Slug (Español)</label>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_40%] gap-8 items-start flex-grow">
+                <div className="flex flex-col gap-6">
+                    {/* Dynamic Content Section */}
+                    <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
+                        {language === 'es' ? (
+                            <>
                                 <input
                                     type="text"
-                                    placeholder="url-amigable"
-                                    value={slug}
-                                    onChange={(e) => setSlug(e.target.value)}
-                                    className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                    placeholder="Nombre del Servicio..."
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    className="w-full bg-transparent border-none text-2xl font-light text-white outline-none placeholder:text-white/20"
                                 />
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Service Name..."
-                                value={titleEn}
-                                onChange={(e) => setTitleEn(e.target.value)}
-                                className="w-full bg-transparent border-none text-4xl font-bold text-white outline-none placeholder:text-white/20"
-                            />
-                            <div className="flex flex-col gap-2">
-                                <label className="text-[var(--text-muted)] text-sm">Slug (English)</label>
-                                <input
-                                    type="text"
-                                    placeholder="friendly-url"
-                                    value={slugEn}
-                                    onChange={(e) => setSlugEn(e.target.value)}
-                                    className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
-                        <div className="flex flex-col gap-2">
-                            <label className="text-[var(--text-muted)] text-sm">Categoría (Compartida)</label>
-                            <input
-                                type="text"
-                                placeholder="Ej: Consultoría"
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label className="text-[var(--text-muted)] text-sm">Fecha de Publicación</label>
-                            <input
-                                type="date"
-                                value={publishedAt}
-                                onChange={(e) => setPublishedAt(e.target.value)}
-                                className="input-field bg-black/20 border-none p-3 rounded-lg text-white dark:[color-scheme:dark]"
-                            />
-                        </div>
-                    </div>
-
-                    <TagInput
-                        tags={tags}
-                        onChange={setTags}
-                        placeholder="Escribe una etiqueta y presiona Enter..."
-                        label="Etiquetas Asociadas"
-                    />
-                </div>
-
-                {/* Downloadable Resource Section */}
-                <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
-                    <h3 className="text-lg font-light text-white flex items-center gap-2">
-                        <span>📥</span> Recurso Descargable (PDF)
-                    </h3>
-
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[var(--text-muted)] text-sm">Tipo de Recurso</label>
-                        <div className="flex gap-4 bg-black/20 p-2 rounded-lg">
-                            <label className="flex items-center gap-2 cursor-pointer text-white">
-                                <input
-                                    type="radio"
-                                    name="downloadType"
-                                    value="material"
-                                    checked={downloadType === 'material'}
-                                    onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
-                                />
-                                Material
-                            </label>
-                            <label className="flex items-center gap-2 cursor-pointer text-white">
-                                <input
-                                    type="radio"
-                                    name="downloadType"
-                                    value="banner"
-                                    checked={downloadType === 'banner'}
-                                    onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
-                                />
-                                Banner
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[var(--text-muted)] text-sm">Título del Documento</label>
-                        <input
-                            type="text"
-                            placeholder="Ej: Brochure del Servicio"
-                            value={downloadTitle}
-                            onChange={(e) => setDownloadTitle(e.target.value)}
-                            className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[var(--text-muted)] text-sm">Descripción Corta</label>
-                        <input
-                            type="text"
-                            placeholder="Breve descripción del contenido del PDF..."
-                            value={downloadDescription}
-                            onChange={(e) => setDownloadDescription(e.target.value)}
-                            className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[var(--text-muted)] text-sm">Archivo PDF</label>
-                        <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-dashed border-white/20 rounded-lg cursor-pointer text-[var(--text-muted)] transition-all hover:bg-white/10 hover:border-white/40">
-                                <span>📄 Examinar...</span>
-                                <input
-                                    type="file"
-                                    accept=".pdf"
-                                    onChange={handleFileUpload}
-                                    style={{ display: 'none' }}
-                                    disabled={isUploading}
-                                />
-                            </label>
-                            {isUploading && <span className="text-[var(--primary)] text-sm">Subiendo...</span>}
-                            {downloadUrl && (
-                                <div className="flex items-center gap-2 bg-green-500/10 px-3 py-2 rounded-md">
-                                    <span className="text-green-500 text-sm">✓ Archivo cargado</span>
-                                    <button
-                                        onClick={() => setDownloadUrl("")}
-                                        className="bg-none border-none text-red-500 cursor-pointer ml-2 hover:text-red-400"
-                                        title="Eliminar archivo"
-                                    >
-                                        ✕
-                                    </button>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Slug (Español)</label>
+                                    <input
+                                        type="text"
+                                        placeholder="url-amigable"
+                                        value={slug}
+                                        onChange={(e) => setSlug(e.target.value)}
+                                        className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                    />
                                 </div>
-                            )}
+                            </>
+                        ) : (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Service Name..."
+                                    value={titleEn}
+                                    onChange={(e) => setTitleEn(e.target.value)}
+                                    className="w-full bg-transparent border-none text-2xl font-light text-white outline-none placeholder:text-white/20"
+                                />
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Slug (English)</label>
+                                    <input
+                                        type="text"
+                                        placeholder="friendly-url"
+                                        value={slugEn}
+                                        onChange={(e) => setSlugEn(e.target.value)}
+                                        className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Language Switcher */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex gap-2 bg-black/20 p-1 rounded-lg">
+                            <button
+                                onClick={() => setLanguage('es')}
+                                className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'es' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
+                                    }`}
+                            >
+                                Español
+                            </button>
+                            <button
+                                onClick={() => setLanguage('en')}
+                                className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
+                                    }`}
+                            >
+                                English
+                            </button>
                         </div>
-                        {downloadUrl && (
-                            <div className="text-xs text-[var(--text-muted)] break-all">
-                                URL: {downloadUrl}
+
+                        {language === 'en' && (
+                            <button
+                                onClick={confirmTranslate}
+                                className="px-4 py-2 rounded-md border border-[var(--primary)] bg-violet-500/10 text-[var(--primary)] cursor-pointer text-sm hover:bg-violet-500/20"
+                            >
+                                ✨ Traducir desde Español
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Editor */}
+                    {language === 'es' ? (
+                        <TiptapEditor
+                            key="editor-es" // Force re-render on switch
+                            content={content}
+                            onChange={setContent}
+                        />
+                    ) : (
+                        <TiptapEditor
+                            key="editor-en"
+                            content={contentEn}
+                            onChange={setContentEn}
+                        />
+                    )}
+                </div>
+
+                <aside className="flex flex-col gap-6 sticky top-8">
+                    {/* Image & Metadata Section */}
+                    <div className="glass-panel p-6 rounded-xl flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-md font-light text-white flex items-center gap-2">
+                                <span>🖼️</span> Imagen de Portada
+                            </h3>
+                            <ImageUploader
+                                value={imageUrl}
+                                onChange={setImageUrl}
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-4 pt-6 border-t border-white/10">
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[var(--text-muted)] text-sm">Categoría (Compartida)</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ej: Consultoría"
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[var(--text-muted)] text-sm">Fecha de Publicación</label>
+                                <input
+                                    type="date"
+                                    value={publishedAt}
+                                    onChange={(e) => setPublishedAt(e.target.value)}
+                                    className="input-field bg-black/20 border-none p-3 rounded-lg text-white dark:[color-scheme:dark]"
+                                />
+                            </div>
+
+                            <TagInput
+                                tags={tags}
+                                onChange={setTags}
+                                placeholder="Escribe y presiona Enter..."
+                                label="Etiquetas Asociadas"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Downloadable Resource Section */}
+                    <div className="glass-panel p-6 rounded-xl flex flex-col gap-4">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-lg font-light text-white flex items-center gap-2">
+                                <span>📥</span>Descargable
+                            </h3>
+                            <Switch
+                                checked={hasDownload}
+                                onChange={setHasDownload}
+                                label=""
+                            />
+                        </div>
+
+                        {hasDownload && (
+                            <div className="flex flex-col gap-4 mt-4 pt-4 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300">
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Tipo de Recurso</label>
+                                    <div className="flex gap-4 bg-black/20 p-2 rounded-lg">
+                                        <label className="flex items-center gap-2 cursor-pointer text-white">
+                                            <input
+                                                type="radio"
+                                                name="downloadType"
+                                                value="material"
+                                                checked={downloadType === 'material'}
+                                                onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
+                                            />
+                                            Material
+                                        </label>
+                                        <label className="flex items-center gap-2 cursor-pointer text-white">
+                                            <input
+                                                type="radio"
+                                                name="downloadType"
+                                                value="banner"
+                                                checked={downloadType === 'banner'}
+                                                onChange={(e) => setDownloadType(e.target.value as "material" | "banner")}
+                                            />
+                                            Banner
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Título del Documento</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Ej: Brochure del Servicio"
+                                        value={downloadTitle}
+                                        onChange={(e) => setDownloadTitle(e.target.value)}
+                                        className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Descripción Corta</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Breve descripción del contenido del PDF..."
+                                        value={downloadDescription}
+                                        onChange={(e) => setDownloadDescription(e.target.value)}
+                                        className="input-field bg-black/20 border-none p-3 rounded-lg text-white"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[var(--text-muted)] text-sm">Archivo PDF</label>
+                                    <div className="flex items-center gap-4">
+                                        <label className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-dashed border-white/20 rounded-lg cursor-pointer text-[var(--text-muted)] transition-all hover:bg-white/10 hover:border-white/40">
+                                            <span>📄 Examinar...</span>
+                                            <input
+                                                type="file"
+                                                accept=".pdf"
+                                                onChange={handleFileUpload}
+                                                style={{ display: 'none' }}
+                                                disabled={isUploading}
+                                            />
+                                        </label>
+                                        {isUploading && <span className="text-[var(--primary)] text-sm">Subiendo...</span>}
+                                        {downloadUrl && (
+                                            <div className="flex items-center gap-2 bg-green-500/10 px-3 py-2 rounded-md">
+                                                <span className="text-green-500 text-sm">✓ Archivo cargado</span>
+                                                <button
+                                                    onClick={() => setDownloadUrl("")}
+                                                    className="bg-none border-none text-red-500 cursor-pointer ml-2 hover:text-red-400"
+                                                    title="Eliminar archivo"
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {downloadUrl && (
+                                        <div className="text-xs text-[var(--text-muted)] break-all">
+                                            URL: {downloadUrl}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
                     </div>
-                </div>
-
-                {/* Language Switcher */}
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-2 bg-black/20 p-1 rounded-lg">
-                        <button
-                            onClick={() => setLanguage('es')}
-                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'es' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
-                                }`}
-                        >
-                            Español
-                        </button>
-                        <button
-                            onClick={() => setLanguage('en')}
-                            className={`px-4 py-2 rounded-md border-none cursor-pointer font-medium transition-all ${language === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-transparent text-[var(--text-muted)] hover:text-white'
-                                }`}
-                        >
-                            English
-                        </button>
-                    </div>
-
-                    {language === 'en' && (
-                        <button
-                            onClick={confirmTranslate}
-                            className="px-4 py-2 rounded-md border border-[var(--primary)] bg-violet-500/10 text-[var(--primary)] cursor-pointer text-sm hover:bg-violet-500/20"
-                        >
-                            ✨ Traducir desde Español
-                        </button>
-                    )}
-                </div>
-
-                {/* Editor */}
-                {language === 'es' ? (
-                    <TiptapEditor
-                        key="editor-es" // Force re-render on switch
-                        content={content}
-                        onChange={setContent}
-                    />
-                ) : (
-                    <TiptapEditor
-                        key="editor-en"
-                        content={contentEn}
-                        onChange={setContentEn}
-                    />
-                )}
+                </aside>
             </div>
         </div>
     );

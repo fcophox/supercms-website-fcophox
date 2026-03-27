@@ -11,6 +11,7 @@ import { ArrowLeft, Tag, Calendar } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeInUp from "@/components/FadeInUp";
 import { PostSkeleton } from "@/components/Skeleton";
+import DownloadResourceCard from "@/components/DownloadResourceCard";
 
 interface Service {
     id: string;
@@ -25,6 +26,10 @@ interface Service {
     category?: string;
     tags?: string[];
     published_at?: string;
+    download_title?: string;
+    download_description?: string;
+    download_url?: string;
+    download_type?: string;
 }
 
 export default function ServiceClient() {
@@ -175,7 +180,7 @@ export default function ServiceClient() {
                                 aspectRatio: "21/9",
                                 borderRadius: "16px",
                                 overflow: "hidden",
-                                marginBottom: "3rem",
+                                marginBottom: "2rem",
                                 border: "1px solid #222"
                             }}>
                                 <img
@@ -184,6 +189,17 @@ export default function ServiceClient() {
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 />
                             </div>
+                        </FadeInUp>
+                    )}
+
+                    {/* Downloadable Resource (Moved under image) */}
+                    {service.download_url && (
+                        <FadeInUp delay={0.35}>
+                            <DownloadResourceCard 
+                                title={service.download_title || "Material Descargable"}
+                                description={service.download_description}
+                                url={service.download_url}
+                            />
                         </FadeInUp>
                     )}
 
@@ -231,6 +247,7 @@ export default function ServiceClient() {
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </FadeInUp>
+
 
                 </article>
             </main>
