@@ -12,13 +12,13 @@ export default function Footer() {
     return (
         <>
             <ContactCTA />
-            <footer className="w-full bg-[#09090b] border-t border-white/10 mt-auto">
+            <footer className="w-full bg-background border-t border-border mt-auto">
                 <div className="max-w-6xl mx-auto px-8 pt-16 pb-8">
                     <div className="grid grid-cols-1 md:grid-cols-[2.5fr_1fr_1fr] gap-16 mb-16">
                         {/* Left Column: Profile & Contact */}
                         <div className="flex flex-col gap-6">
                             <div className="flex items-center gap-4">
-                                <div className="relative w-[60px] h-[60px] rounded-full overflow-hidden bg-[#333]">
+                                <div className="relative w-[60px] h-[60px] rounded-full overflow-hidden bg-card">
                                     {/* Placeholder for avatar - using a generic person if no image */}
                                     <Image
                                         src="/francisco-avatar.png"
@@ -31,15 +31,15 @@ export default function Footer() {
                                         but we can assume avatar exists or use a default src */}
                                 </div>
                                 <div>
-                                    <h3 className="text-white font-bold text-[0.9rem] m-0">Francisco</h3>
-                                    <p className="text-[#a1a1aa] text-[0.8rem] my-1 opacity-70">
+                                    <h3 className="text-foreground font-bold text-[0.9rem] m-0">Francisco</h3>
+                                    <p className="text-muted text-[0.8rem] my-1 opacity-70">
                                         {t("footer.role")}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="mt-4 flex flex-col gap-3 items-start">
-                                <p className="text-[#a1a1aa] text-[0.9rem]">
+                                <p className="text-muted text-[0.9rem]">
                                     {t("footer.cta.text")}
                                 </p>
                                 <Link
@@ -54,20 +54,20 @@ export default function Footer() {
 
                         {/* Middle Column: Sitemap */}
                         <div className="opacity-70">
-                            <h4 className="text-white text-[0.8rem] font-bold mb-6 opacity-70">
+                            <h4 className="text-foreground text-[0.8rem] font-bold mb-6 opacity-70">
                                 {t("footer.sitemap")}
                             </h4>
                             <div className="flex flex-col gap-4">
-                                <Link href="/about" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.about")}</Link>
-                                <Link href="/methodology" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.methodology")}</Link>
-                                <Link href="/case-studies" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("cases.title")}</Link>
-                                <Link href="/blog" className="text-[#a1a1aa] no-underline text-[0.95rem] transition-colors duration-200 hover:text-white">{t("nav.blog")}</Link>
+                                <Link href="/about" className="text-muted no-underline text-[0.95rem] transition-colors duration-200 hover:text-foreground">{t("nav.about")}</Link>
+                                <Link href="/methodology" className="text-muted no-underline text-[0.95rem] transition-colors duration-200 hover:text-foreground">{t("nav.methodology")}</Link>
+                                <Link href="/case-studies" className="text-muted no-underline text-[0.95rem] transition-colors duration-200 hover:text-foreground">{t("cases.title")}</Link>
+                                <Link href="/blog" className="text-muted no-underline text-[0.95rem] transition-colors duration-200 hover:text-foreground">{t("nav.blog")}</Link>
                             </div>
                         </div>
 
                         {/* Right Column: Socials */}
                         <div className="opacity-70">
-                            <h4 className="text-white text-[0.8rem] font-bold mb-6 opacity-70">
+                            <h4 className="text-foreground text-[0.8rem] font-bold mb-6 opacity-70">
                                 {t("footer.socials")}
                             </h4>
                             <div className="flex flex-col gap-4">
@@ -82,7 +82,7 @@ export default function Footer() {
                                         href={social.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-[#a1a1aa] no-underline text-[0.95rem] flex items-center gap-2 transition-colors duration-200 hover:text-white"
+                                        className="text-muted no-underline text-[0.95rem] flex items-center gap-2 transition-colors duration-200 hover:text-foreground"
                                     >
                                         {social.name}
                                         <ExternalLink size={14} />
@@ -95,8 +95,8 @@ export default function Footer() {
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="border-t border-white/10 pt-8 flex justify-center items-center">
-                        <div className="flex items-center gap-3 text-[#a1a1aa] text-[0.7rem] opacity-35 font-medium">
+                    <div className="border-t border-border pt-8 flex justify-center items-center">
+                        <div className="flex items-center gap-3 text-muted text-[0.7rem] opacity-35 font-medium">
                             <Image
                                 src="/logotipo.svg"
                                 alt="Logo"

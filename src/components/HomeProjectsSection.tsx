@@ -179,14 +179,14 @@ export default function HomeProjectsSection() {
         <section className="w-full py-16 overflow-hidden select-none">
             <FadeInUp>
                 <div className="max-w-6xl mx-auto px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-white leading-tight text-left w-full md:max-w-[750px]">
+                    <h2 className="text-[clamp(1.2rem,4vw,2.2rem)] font-light text-foreground leading-tight text-left w-full md:max-w-[750px]">
                         {language === 'es'
                             ? "Una selección de proyectos digitales desde 2018 hasta hoy"
                             : "A selection of digital projects from 2018 to today"}
                     </h2>
                     <Link
                         href="/case-studies"
-                        className="hidden md:flex items-center gap-4 text-white no-underline font-semibold text-sm border-b border-white/20 pb-2 w-auto justify-start transition-all duration-200 hover:border-white hover:opacity-80 group"
+                        className="hidden md:flex items-center gap-4 text-foreground no-underline font-semibold text-sm border-b border-border pb-2 w-auto justify-start transition-all duration-200 hover:border-foreground hover:opacity-80 group"
                     >
                         {language === 'es' ? "Ver todos" : "Check all"}
                         <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -214,22 +214,22 @@ export default function HomeProjectsSection() {
                         [...Array(3)].map((_, index) => (
                             <div key={`skeleton-${index}`} className="snap-center lg:snap-align-none shrink-0 first:pl-0">
                                 <div className="w-[85vw] md:w-[600px] lg:w-[630px]">
-                                    <div className="bg-[#121214] border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] animate-pulse">
+                                    <div className="bg-card border border-border rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] animate-pulse">
                                         {/* Left Content Skeleton */}
                                         <div className="p-6 md:p-8 flex flex-col justify-center items-start w-full md:w-[45%] z-10 relative shrink-0">
-                                            <div className="w-24 h-6 bg-white/10 rounded-full mb-4"></div>
-                                            <div className="w-full h-8 bg-white/10 rounded mb-2"></div>
-                                            <div className="w-2/3 h-8 bg-white/10 rounded mb-6"></div>
+                                            <div className="w-24 h-6 bg-foreground/10 rounded-full mb-4"></div>
+                                            <div className="w-full h-8 bg-foreground/10 rounded mb-2"></div>
+                                            <div className="w-2/3 h-8 bg-foreground/10 rounded mb-6"></div>
 
-                                            <div className="mt-auto pt-6 border-t border-white/10 w-full hidden md:block">
+                                            <div className="mt-auto pt-6 border-t border-border w-full hidden md:block">
                                                 <div className="flex gap-2">
-                                                    <div className="w-16 h-6 bg-white/10 rounded-full"></div>
-                                                    <div className="w-20 h-6 bg-white/10 rounded-full"></div>
+                                                    <div className="w-16 h-6 bg-foreground/10 rounded-full"></div>
+                                                    <div className="w-20 h-6 bg-foreground/10 rounded-full"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         {/* Right Image Skeleton */}
-                                        <div className="w-full md:w-[55%] md:h-full bg-white/5 aspect-[16/9] md:aspect-auto"></div>
+                                        <div className="w-full md:w-[55%] md:h-full bg-foreground/5 aspect-[16/9] md:aspect-auto"></div>
                                     </div>
                                 </div>
                             </div>
@@ -252,24 +252,24 @@ export default function HomeProjectsSection() {
                                         className="block relative group no-underline draggable-link w-[85vw] md:w-[580px] lg:w-[670px] cursor-none"
                                         draggable={false}
                                     >
-                                        <div className="bg-[#09090b]/10 border border-white/5 rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] transition-all duration-500 hover:border-white/20">
+                                        <div className="bg-card/50 border border-border rounded-[1.4rem] overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] transition-all duration-500 hover:border-foreground/20">
 
                                             {/* Left Content */}
                                             <div className="p-6 md:p-8  flex flex-col justify-center items-start w-full md:w-[45%] z-10 relative shrink-0">
                                                 {project.category && (
-                                                    <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold bg-white/5 text-[0.7rem] text-zinc-400 tracking-wider">
+                                                    <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold bg-foreground/5 text-[0.7rem] text-muted tracking-wider">
                                                         {project.category}
                                                     </div>
                                                 )}
 
-                                                <h3 className="text-[clamp(1.25rem,3vw,1.2rem)] font-normal text-white mb-6 leading-tight group-hover:text-primary transition-colors text-left">
+                                                <h3 className="text-[clamp(1.25rem,3vw,1.2rem)] font-normal text-foreground mb-6 leading-tight group-hover:text-primary transition-colors text-left">
                                                     {title}
                                                 </h3>
 
-                                                <div className="mt-auto pt-6 border-t border-white/10 w-full hidden md:block">
+                                                <div className="mt-auto pt-6 border-t border-border w-full hidden md:block">
                                                     <div className="flex flex-wrap gap-2">
                                                         {project.tags?.slice(0, 3).map(tag => (
-                                                            <span key={tag} className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
+                                                            <span key={tag} className="px-2 py-1 rounded-full bg-foreground/5 border border-border text-xs text-muted font-medium">
                                                                 {tag}
                                                             </span>
                                                         ))}
@@ -285,7 +285,7 @@ export default function HomeProjectsSection() {
                                                             src={project.image_url}
                                                             alt={title}
                                                             fill
-                                                            className="object-cover object-top md:object-left-top md:rounded-l-[1.2rem] border-t md:border-t md:border-l md:border-b border-white/10 md:shadow-2xl pointer-events-none select-none transition-transform duration-500 ease-out group-hover:rotate-[-6deg]"
+                                                            className="object-cover object-top md:object-left-top md:rounded-l-[1.2rem] border-t md:border-t md:border-l md:border-b border-border md:shadow-2xl pointer-events-none select-none transition-transform duration-500 ease-out group-hover:rotate-[-6deg]"
                                                         />
                                                     </div>
                                                 ) : (
@@ -314,13 +314,13 @@ export default function HomeProjectsSection() {
                     <div className="flex gap-4">
                         <button
                             onClick={() => scroll('left')}
-                            className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-white/30 transition-all"
+                            className="w-12 h-12 rounded-full border border-border bg-foreground/5 flex items-center justify-center text-foreground hover:bg-foreground/10 hover:border-foreground/30 transition-all"
                         >
                             <ArrowLeft size={20} />
                         </button>
                         <button
                             onClick={() => scroll('right')}
-                            className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-white/30 transition-all"
+                            className="w-12 h-12 rounded-full border border-border bg-foreground/5 flex items-center justify-center text-foreground hover:bg-foreground/10 hover:border-foreground/30 transition-all"
                         >
                             <ArrowRight size={20} />
                         </button>
@@ -333,8 +333,8 @@ export default function HomeProjectsSection() {
                                 key={index}
                                 onClick={() => scrollToProject(index)}
                                 className={`transition-all duration-300 rounded-full ${activeIndex === index
-                                    ? "w-8 h-2 bg-white"
-                                    : "w-2 h-2 bg-white/20 hover:bg-white/40"
+                                    ? "w-8 h-2 bg-foreground"
+                                    : "w-2 h-2 bg-foreground/20 hover:bg-foreground/40"
                                     }`}
                                 aria-label={`Go to project ${index + 1}`}
                             />
@@ -349,7 +349,7 @@ export default function HomeProjectsSection() {
                     <FadeInUp>
                         <Link
                             href="/case-studies"
-                            className="inline-flex items-center gap-4 text-white no-underline font-semibold text-sm border-b border-white/20 pb-2 transition-all duration-200 hover:border-white hover:opacity-80 group"
+                            className="inline-flex items-center gap-4 text-foreground no-underline font-semibold text-sm border-b border-border pb-2 transition-all duration-200 hover:border-foreground hover:opacity-80 group"
                         >
                             {language === 'es' ? "Ver todos" : "Check all"}
                             <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -360,7 +360,7 @@ export default function HomeProjectsSection() {
 
             {/* Custom Mouse Cursor */}
             <motion.div
-                className="fixed top-0 left-0 w-[70px] h-[70px] rounded-full bg-[#1e1e20] shadow-2xl flex items-center justify-center pointer-events-none z-[100] border border-white/10"
+                className="fixed top-0 left-0 w-[70px] h-[70px] rounded-full bg-card shadow-2xl flex items-center justify-center pointer-events-none z-[100] border border-border"
                 style={{
                     x: cursorX,
                     y: cursorY,
@@ -372,7 +372,7 @@ export default function HomeProjectsSection() {
                 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-                <ArrowUpRight size={24} className="text-white" />
+                <ArrowUpRight size={24} className="text-foreground" />
             </motion.div>
         </section>
     );

@@ -20,7 +20,7 @@ export async function generateMetadata(
 
     if (!service) {
         return {
-            title: 'Servicio no encontrado | fcoPhox',
+            title: 'Servicio | fcoPhox',
         }
     }
 

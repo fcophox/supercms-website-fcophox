@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
@@ -110,33 +110,13 @@ export default function MethodologyHero() {
             </div>
 
             {/* Chronicle Section */}
-            <FadeInUp delay={0.2}>
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 items-end">
-                    {/* Left: Button */}
-                    <div className="relative group inline-block">
-                        <a
-                            href="#"
-                            onClick={(e) => e.preventDefault()}
-                            className="inline-flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-white/50 no-underline font-medium transition-all duration-200 bg-transparent cursor-not-allowed"
-                        >
-                            <Download size={18} />
-                            {t("methodology.hero.downloadCV")}
-                        </a>
-
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-[#18181b] border border-white/10 rounded-lg text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
-                            {t("methodology.hero.downloadCV.tooltip")}
-                            {/* Arrow */}
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#18181b]"></div>
-                        </div>
-                    </div>
-
-                    {/* Right: Text */}
-                    <div className="flex flex-col gap-6">
+            {/* <FadeInUp delay={0.2}>
+                <div>
+                    <div className="flex flex-col gap-6 text-center max-w-[70ch] mx-auto">
                         <h2 className="text-4xl font-light text-white leading-tight">
                             {t("methodology.hero.chronicleTitle")}
                         </h2>
-                        <p className="text-[#A1A1AA] text-lg leading-relaxed">
+                        <p className="text-[#A1A1AA] text-lg leading-relaxed text-center">
                             {t("methodology.hero.chronicleDesc").split(". ").map((sentence, index, array) => (
                                 <span key={index}>
                                     {sentence}{index < array.length - 1 ? ". " : ""}
@@ -146,7 +126,7 @@ export default function MethodologyHero() {
                         </p>
                     </div>
                 </div>
-            </FadeInUp>
+            </FadeInUp> */}
 
         </section>
     );

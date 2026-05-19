@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HomeProjectsSection from "@/components/HomeProjectsSection";
+import HomeProjectsSectionB from "@/components/HomeProjectsSectionB";
 import Footer from "@/components/Footer";
 import HomeBlogSection from "@/components/HomeBlogSection";
 import HomeLogosSection from "@/components/HomeLogosSection";
@@ -38,7 +39,8 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col items-center justify-center text-center pb-16">
         <Hero />
-        <HomeProjectsSection />
+        {/* <HomeProjectsSection /> */}
+        <HomeProjectsSectionB />
         <HomeLogosSection />
         <HomeBentoSection />
         <HomeBlogSection />

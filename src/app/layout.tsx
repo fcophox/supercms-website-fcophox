@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import BackgroundGradients from "@/components/BackgroundGradients";
 
 const sora = Sora({ subsets: ["latin"] });
@@ -34,15 +35,17 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={sora.className}>
-        <LanguageProvider>
-          <SiteSettingsProvider>
-            <BackgroundGradients />
-            <div className="relative z-10">
-              {children}
-            </div>
-            <Toaster position="bottom-right" theme="dark" />
-          </SiteSettingsProvider>
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <SiteSettingsProvider>
+              <BackgroundGradients />
+              <div className="relative z-10">
+                {children}
+              </div>
+              <Toaster position="bottom-right" theme="dark" />
+            </SiteSettingsProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

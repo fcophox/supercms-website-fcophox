@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { Linkedin, Github } from "lucide-react";
+import { Linkedin, Download } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -62,14 +62,22 @@ export default function AboutBio() {
                                 {t("about.bio.linkedin")}
                             </Link>
 
-                            <Link
-                                href="https://github.com/fcophox"
-                                target="_blank"
-                                className="bg-white/10 border border-white/5 rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
-                            >
-                                <Github size={20} />
-                                {t("about.bio.github")}
-                            </Link>
+                            {/* Download CV (Placeholder for now) */}
+                            <div className="relative group inline-block">
+                                <span
+                                    className="bg-white/5 border border-white/5 rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white/50 cursor-not-allowed text-[0.9rem] font-normal transition-all duration-200"
+                                >
+                                    <Download size={20} />
+                                    {t("about.bio.downloadCV")}
+                                </span>
+
+                                {/* Tooltip */}
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-[#18181b] border border-white/10 rounded-lg text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
+                                    {t("about.bio.downloadCV.tooltip")}
+                                    {/* Arrow */}
+                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#18181b]"></div>
+                                </div>
+                            </div>
 
                         </div>
 

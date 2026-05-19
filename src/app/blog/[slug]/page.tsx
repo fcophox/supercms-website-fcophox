@@ -20,7 +20,7 @@ export async function generateMetadata(
 
     if (!article) {
         return {
-            title: 'Artículo no encontrado | fcoPhox',
+            title: 'Artículo | fcoPhox',
         }
     }
 

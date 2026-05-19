@@ -116,6 +116,8 @@ const translations: Record<string, Record<Language, string>> = {
     "about.bio.mission": { es: "Colaboro con equipos, emprendedores y start-up en la creación, evaluación y mejora continua de productos digitales, asegurando que cada decisión tenga impacto medible en experiencia y usabilidad para el negocio.", en: "Collaborate with teams, entrepreneurs, and start-ups in the creation, evaluation, and continuous improvement of digital products, ensuring that each decision has measurable impact on experience and usability for the business." },
     "about.bio.linkedin": { es: "Visita mi LinkedIn", en: "Visit my LinkedIn" },
     "about.bio.github": { es: "GitHub", en: "GitHub" },
+    "about.bio.downloadCV": { es: "Descargar CV", en: "Download CV" },
+    "about.bio.downloadCV.tooltip": { es: "😜 Pronto, en creación...", en: "😜 Coming soon, in creation..." },
 
     "contact.title.line1": { es: "Construyamos lo que ", en: "Let's build what's " },
     "contact.title.highlight": { es: "sigue", en: "next" },
@@ -217,6 +219,39 @@ const translations: Record<string, Record<Language, string>> = {
 
     "cases.prev": { es: "Caso Anterior", en: "Previous Case" },
     "cases.next": { es: "Siguiente Caso", en: "Next Case" },
+
+    // Methodology FSEB Section
+    "methodology.fseb.title": { es: "Metodología", en: "Methodology" },
+    "methodology.fseb.subtitle": { es: "Full Stack Experience Builder (FSEB)", en: "Full Stack Experience Builder (FSEB)" },
+    "methodology.fseb.concept": { es: "Concepto", en: "Concept" },
+    "methodology.fseb.description": { es: "Enfoque de creación de productos digitales donde un solo profesional integra estrategia de producto, UX research, diseño de experiencia y construcción asistida por AI para llevar una idea desde su concepción hasta un producto funcional.", en: "The Full Stack Experience Builder is a digital product creation approach where a single professional practice integrates product strategy, UX research, experience design, technical architecture, and AI-assisted construction to take an idea from conception to a functional product." },
+    "methodology.fseb.results.title": { es: "Resultado para el cliente", en: "Outcome for the client" },
+    "methodology.fseb.result1": { es: "Reducir tiempo de ideación a producto", en: "Reduce ideation-to-product time" },
+    "methodology.fseb.result2": { es: "Validar ideas con MVP reales", en: "Validate ideas with real MVPs" },
+    "methodology.fseb.result3": { es: "Integrar negocio + UX + tecnología", en: "Integrate business + UX + technology" },
+    "methodology.fseb.result4": { es: "Crear productos listos para escalar", en: "Create products ready to scale" },
+
+    // Methodology Process Steps
+    "methodology.steps.1.title": { es: "Discover & Define", en: "Discover & Define" },
+    "methodology.steps.1.desc": { es: "Investigación profunda, análisis de datos y definición de la estrategia base del producto para asegurar el éxito.", en: "In-depth research, data analysis, and definition of the core product strategy to ensure success." },
+    "methodology.steps.2.title": { es: "Design & Build", en: "Design & Build" },
+    "methodology.steps.2.desc": { es: "Diseño UX/UI de alta fidelidad coordinado con el desarrollo ágil de un MVP funcional y escalable.", en: "High-fidelity UX/UI design coordinated with agile development of a functional and scalable MVP." },
+    "methodology.steps.3.title": { es: "Validate & Scale", en: "Validate & Scale" },
+    "methodology.steps.3.desc": { es: "Pruebas con usuarios reales, optimización CRO y preparación del producto para su crecimiento sostenido.", en: "User testing, CRO optimization, and preparing the product for sustained growth." },
+
+    // Methodology Principles
+    "methodology.principles.title": { es: "Principios de la metodología", en: "Methodology Principles" },
+    "methodology.principles.intro": { es: "Fundamentos que guían cada decisión en el ciclo de vida del producto.", en: "Fundamentals that guide every decision in the product lifecycle." },
+    "methodology.principles.p1.title": { es: "Experience First", en: "Experience First" },
+    "methodology.principles.p1.desc": { es: "Todo parte desde el problema del usuario y el valor de negocio, no desde la tecnología.", en: "Everything starts from the user's problem and business value, not from technology." },
+    "methodology.principles.p2.title": { es: "AI-Augmented Creation", en: "AI-Augmented Creation" },
+    "methodology.principles.p2.desc": { es: "La inteligencia artificial se usa como acelerador del proceso creativo, analítico y técnico.", en: "Artificial intelligence is used as an accelerator for the creative, analytical, and technical process." },
+    "methodology.principles.p3.title": { es: "Build to Learn", en: "Build to Learn" },
+    "methodology.principles.p3.desc": { es: "Las ideas se validan con prototipos funcionales, no solo con wireframes.", en: "Ideas are validated with functional prototypes, not just wireframes." },
+    "methodology.principles.p4.title": { es: "End-to-End Ownership", en: "End-to-End Ownership" },
+    "methodology.principles.p4.desc": { es: "El mismo profesional puede conceptualizar, diseñar y construir la solución.", en: "The same professional can conceptualize, design, and build the solution." },
+    "methodology.principles.p5.title": { es: "Continuous Product Evolution", en: "Continuous Product Evolution" },
+    "methodology.principles.p5.desc": { es: "Los productos se diseñan como sistemas vivos que evolucionan con datos.", en: "Products are designed as living systems that evolve with data." }
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {

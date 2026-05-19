@@ -25,7 +25,7 @@ export default function Navbar() {
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     return (
-        <nav className="fixed left-0 top-0 z-50 w-full bg-[#09090b]/80 backdrop-blur-md border-b border-white/5">
+        <nav className="fixed left-0 top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
             <div className="relative flex items-center justify-between px-8 py-6 max-w-6xl mx-auto w-full">
                 {/* Logo / Brand */}
                 {/* Logo / Brand - Group for hover effect */}
@@ -33,7 +33,7 @@ export default function Navbar() {
                     <div className="relative w-[42px] h-[42px] [perspective:1000px]">
                         <div className="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                             {/* Front Face (Logo) */}
-                            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-white/10 [backface-visibility:hidden]">
+                            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-foreground/10 [backface-visibility:hidden]">
                                 <Image
                                     src="/logotipo.svg"
                                     alt="Francisco Hormazábal Logo"
@@ -43,7 +43,7 @@ export default function Navbar() {
                                 />
                             </div>
                             {/* Back Face (Avatar) */}
-                            <div className="absolute inset-0 flex items-center justify-center rounded-full overflow-hidden bg-white/10 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                            <div className="absolute inset-0 flex items-center justify-center rounded-full overflow-hidden bg-foreground/10 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                                 <Image
                                     src="/francisco-avatar.png"
                                     alt="Francisco Hormazábal Avatar"
@@ -55,10 +55,10 @@ export default function Navbar() {
                         </div>
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-white font-bold text-[0.8rem] leading-[1.4]">
+                        <span className="text-foreground font-bold text-[0.8rem] leading-[1.4]">
                             Francisco Hormazábal
                         </span>
-                        <span className="text-[#a1a1aa] text-[0.7rem] opacity-70">
+                        <span className="text-muted text-[0.7rem] opacity-70">
                             UX Engineer & Product Design Consultant
                         </span>
                     </div>
@@ -69,7 +69,7 @@ export default function Navbar() {
                     {isLoading ? (
                         <div className="flex items-center gap-8">
                             {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="w-16 h-4 bg-white/10 rounded animate-pulse"></div>
+                                <div key={i} className="w-16 h-4 bg-foreground/10 rounded animate-pulse"></div>
                             ))}
                         </div>
                     ) : (
@@ -77,7 +77,7 @@ export default function Navbar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className={`no-underline text-[0.8rem] font-medium transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-[#a1a1aa] hover:text-white"
+                                className={`no-underline text-[0.8rem] font-medium transition-colors duration-200 ${pathname === link.href ? "text-foreground" : "text-muted hover:text-foreground"
                                     }`}
                             >
                                 {link.name}
@@ -91,7 +91,7 @@ export default function Navbar() {
                     {/* Language Switcher */}
                     <button
                         onClick={toggleLanguage}
-                        className="bg-transparent border-none text-white flex items-center gap-2 cursor-pointer text-[0.8rem] font-semibold hover:opacity-80 transition-opacity"
+                        className="bg-transparent border-none text-foreground flex items-center gap-2 cursor-pointer text-[0.8rem] font-semibold hover:opacity-80 transition-opacity"
                     >
                         <span className="text-[0.8rem]">文</span> {language.toUpperCase()}
                     </button>
@@ -99,7 +99,7 @@ export default function Navbar() {
                     {/* Contact Button */}
                     <Link
                         href="/contact"
-                        className="py-2.5 px-5 rounded-full border border-white/20 text-white no-underline text-[0.9rem] font-semibold flex items-center gap-2 transition-all duration-200 hover:bg-white/10"
+                        className="py-2.5 px-5 rounded-full border border-border text-foreground no-underline text-[0.9rem] font-semibold flex items-center gap-2 transition-all duration-200 hover:bg-foreground/10"
                     >
                         <span className="w-2 h-2 rounded-full bg-green-500 inline-block animate-status-pulse"></span>
                         {t("nav.contact")}
@@ -108,7 +108,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu Toggle Button */}
                 <button
-                    className="block md:hidden bg-transparent border-none text-white cursor-pointer z-[60]"
+                    className="block md:hidden bg-transparent border-none text-foreground cursor-pointer z-[60]"
                     onClick={toggleMenu}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -117,14 +117,14 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`fixed top-0 left-0 w-full h-[100dvh] bg-[#09090b] transition-transform duration-300 ease-in-out z-40 flex flex-col items-center justify-center ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                className={`fixed top-0 left-0 w-full h-[100dvh] bg-background transition-transform duration-300 ease-in-out z-40 flex flex-col items-center justify-center ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
                 <div className="flex flex-col items-center gap-8 p-6">
                     {isLoading ? (
                         <div className="flex flex-col items-center gap-8">
                             {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="w-32 h-6 bg-white/10 rounded animate-pulse"></div>
+                                <div key={i} className="w-32 h-6 bg-foreground/10 rounded animate-pulse"></div>
                             ))}
                         </div>
                     ) : (
@@ -133,7 +133,7 @@ export default function Navbar() {
                                 key={link.name}
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className={`no-underline text-2xl font-light transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/70"
+                                className={`no-underline text-2xl font-light transition-colors duration-200 ${pathname === link.href ? "text-foreground" : "text-foreground/70"
                                     }`}
                             >
                                 {link.name}
@@ -141,12 +141,12 @@ export default function Navbar() {
                         ))
                     )}
 
-                    <div className="h-px w-[100px] bg-white/10 my-4"></div>
+                    <div className="h-px w-[100px] bg-border my-4"></div>
 
                     {/* Mobile Language Switcher */}
                     <button
                         onClick={toggleLanguage}
-                        className="bg-white/10 border-none text-white py-3 px-6 rounded-full flex items-center gap-2 cursor-pointer text-base font-light"
+                        className="bg-foreground/10 border-none text-foreground py-3 px-6 rounded-full flex items-center gap-2 cursor-pointer text-base font-light"
                     >
                         <span className="text-base">文</span> {language.toUpperCase()}
                     </button>
@@ -155,7 +155,7 @@ export default function Navbar() {
                     <Link
                         href="/contact"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="py-3 px-10 rounded-full bg-white text-black no-underline text-base font-semibold flex items-center gap-2 mt-6 active:scale-95 transition-transform"
+                        className="py-3 px-10 rounded-full bg-foreground text-background no-underline text-base font-semibold flex items-center gap-2 mt-6 active:scale-95 transition-transform"
                     >
                         <span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block animate-pulse"></span>
                         {t("nav.contact")}

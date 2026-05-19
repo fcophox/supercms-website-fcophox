@@ -39,7 +39,7 @@ export default function Hero() {
                 </FadeInUp>
 
                 <FadeInUp delay={0.1}>
-                    <h1 className="text-[clamp(2.2rem,8vw,4.5rem)] font-light mb-6 leading-[1.1] text-white tracking-[-0.02em]">
+                    <h1 className="text-[clamp(2.2rem,8vw,4.5rem)] font-light mb-6 leading-[1.1] text-foreground tracking-[-0.02em]">
                         {t("hero.title.line1")} <br />
                         <span className="text-[#5b4eff]">{t("hero.title.highlight1")} </span>
                         <span className="text-[#5b4eff]">{t("hero.title.highlight2")}</span>
@@ -47,7 +47,7 @@ export default function Hero() {
                 </FadeInUp>
 
                 <FadeInUp delay={0.2}>
-                    <p className="text-[clamp(1rem,4vw,1.25rem)] text-[#a1a1aa] mb-12 leading-[1.6] max-w-[600px]">
+                    <p className="text-[clamp(1rem,4vw,1.25rem)] text-muted mb-12 leading-[1.6] max-w-[600px]">
                         {t("hero.description")}
                     </p>
                 </FadeInUp>
@@ -62,7 +62,7 @@ export default function Hero() {
                         <Link
                             href="https://www.linkedin.com/in/fcophox/"
                             target="_blank"
-                            className="w-full sm:w-auto justify-center bg-white/10 border border-white/5 rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-white no-underline text-[0.9rem] font-normal transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
+                            className="w-full sm:w-auto justify-center bg-foreground/10 border border-border rounded-full flex items-center gap-2 px-[1.25rem] py-[0.6rem] text-foreground no-underline text-[0.9rem] font-normal transition-all duration-200 hover:bg-foreground/15 hover:-translate-y-0.5"
                         >
                             <Linkedin size={20} />
                             <span>{t("about.bio.linkedin")}</span>

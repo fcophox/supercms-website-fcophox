@@ -20,7 +20,7 @@ export async function generateMetadata(
 
     if (!caseStudy) {
         return {
-            title: 'Caso de Estudio no encontrado | fcoPhox',
+            title: 'Caso de Estudio | fcoPhox',
         }
     }
 

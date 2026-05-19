@@ -42,7 +42,7 @@ export default function HomeBentoSection() {
                     {/* Top Left Card - Strategy */}
                     <FadeInUp
                         delay={0.1}
-                        className="col-span-1 md:col-span-2 bg-[#09090b]/50 text-left border border-white/5 hover:border-white/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between min-h-[300px] relative overflow-hidden group"
+                        className="col-span-1 md:col-span-2 bg-background/50 text-left border border-border hover:border-foreground/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between min-h-[300px] relative overflow-hidden group"
                     >
                         {/* Background SVG decoration */}
                         <div className="absolute inset-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none z-0 opacity-40">
@@ -55,17 +55,17 @@ export default function HomeBentoSection() {
                         </div>
 
                         <div className="flex flex-col gap-4 relative z-10">
-                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
+                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-foreground leading-tight text-left w-full max-w-[650px]">
                                 {t("home.bento.strategy.title")}
                             </h3>
-                            <p className="text-[#a1a1aa] leading-relaxed max-w-[50ch] text-[0.9rem]">
+                            <p className="text-muted leading-relaxed max-w-[50ch] text-[0.9rem]">
                                 {t("home.bento.strategy.desc")}
                             </p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 sm:gap-0 mb-12 mt-12 sm:pb-8 relative z-10 w-full group/steps sm:px-10">
                             {/* Connecting Line Base (Desktop) */}
-                            <div className="hidden sm:block absolute top-[31px] left-[72px] right-[72px] h-[1px] bg-white/10 border-t border-[#2a2b36] -z-10"></div>
+                            <div className="hidden sm:block absolute top-[31px] left-[72px] right-[72px] h-[1px] bg-foreground/10 border-t border-border -z-10"></div>
 
                             {/* Connecting Line Highlight (Desktop) */}
                             <div
@@ -74,7 +74,7 @@ export default function HomeBentoSection() {
                             ></div>
 
                             {/* Connecting Line Base (Mobile) */}
-                            <div className="block sm:hidden absolute left-[31px] top-[32px] bottom-[32px] w-[1px] bg-white/10 border-r border-[#2a2b36] -z-10"></div>
+                            <div className="block sm:hidden absolute left-[31px] top-[32px] bottom-[32px] w-[1px] bg-foreground/10 border-r border-border -z-10"></div>
 
                             {/* Connecting Line Highlight (Mobile) */}
                             <div
@@ -94,17 +94,17 @@ export default function HomeBentoSection() {
                                 return (
                                     <div key={step.id} className="flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-0 relative transition-all duration-500 w-full sm:w-16">
                                         <div className={`shrink-0 w-16 h-16 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 ${isActive
-                                            ? 'bg-[#1a1b24] border border-[#5b4eff]' + (isCurrent ? ' shadow-[0_0_30px_rgba(91,78,255,0.4)]' : ' shadow-[0_0_20px_rgba(91,78,255,0.1)]')
-                                            : 'bg-[#13141c] border border-[#2a2b36]'
+                                            ? 'bg-card border border-primary' + (isCurrent ? ' shadow-[0_0_30px_rgba(91,78,255,0.4)]' : ' shadow-[0_0_20px_rgba(91,78,255,0.1)]')
+                                            : 'bg-card border border-border'
                                             }`}>
-                                            <Icon className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#5b4eff]' : 'text-white/30'
+                                            <Icon className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-primary' : 'text-foreground/30'
                                                 }`} strokeWidth={1.5} />
                                         </div>
                                         <div className={`sm:absolute sm:top-[76px] sm:left-1/2 sm:-translate-x-1/2 px-4 py-1.5 rounded-full border text-[0.7rem] sm:text-[0.75rem] whitespace-nowrap transition-all duration-500 ${isCurrent
-                                            ? 'bg-[#5b4eff]/10 border-[#5b4eff]/50 text-white shadow-[0_0_15px_rgba(91,78,255,0.2)]'
+                                            ? 'bg-primary/10 border-primary/50 text-foreground shadow-[0_0_15px_rgba(91,78,255,0.2)]'
                                             : isActive
-                                                ? 'bg-transparent border-transparent text-[#5b4eff]'
-                                                : 'bg-transparent border-transparent text-white/30'
+                                                ? 'bg-transparent border-transparent text-primary'
+                                                : 'bg-transparent border-transparent text-foreground/30'
                                             }`}>
                                             {t(`home.bento.strategy.${step.id}`)}
                                         </div>
@@ -128,7 +128,7 @@ export default function HomeBentoSection() {
                     {/* Top Right Card - AI / Framework */}
                     <FadeInUp
                         delay={0.2}
-                        className="col-span-1 bg-[#09090b]/50 text-left border border-white/5 hover:border-white/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between min-h-[400px] relative overflow-hidden group"
+                        className="col-span-1 bg-background/50 text-left border border-border hover:border-foreground/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between min-h-[400px] relative overflow-hidden group"
                     >
                         {/* Background SVG decoration */}
                         <div className="absolute inset-0 group-hover:opacity-60 transition-opacity duration-5000 pointer-events-none z-0">
@@ -140,14 +140,14 @@ export default function HomeBentoSection() {
                             />
                         </div>
 
-                        <h3 className="text-[clamp(1.4rem,3vw,1.4rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
+                        <h3 className="text-[clamp(1.4rem,3vw,1.4rem)] font-light text-foreground leading-tight text-left w-full max-w-[650px]">
                             {t("home.bento.tools.text")}
                         </h3>
 
                         <div className="mt-auto flex flex-col gap-8 relative z-10">
                             {/* <Sparkles className="text-white w-8 h-8 opacity-90 transition-transform group-hover:scale-110 duration-300" strokeWidth={1.5} /> */}
 
-                            <Link href="/blog" className="inline-flex items-center gap-2 text-white/90 text-[0.95rem] font-medium hover:text-white transition-colors border-b border-white/20 hover:border-white/60 pb-0.5 w-fit">
+                            <Link href="/blog" className="inline-flex items-center gap-2 text-foreground/90 text-[0.95rem] font-medium hover:text-foreground transition-colors border-b border-border hover:border-foreground/60 pb-0.5 w-fit">
                                 {t("home.bento.tools.link")} <ArrowUpRight size={16} />
                             </Link>
                         </div>
@@ -156,7 +156,7 @@ export default function HomeBentoSection() {
                     {/* Bottom Left Card - Evolution / Services */}
                     <FadeInUp
                         delay={0.3}
-                        className="col-span-1 bg-[#09090b]/50 border border-white/5 hover:border-white/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col max-h-[440px] relative overflow-hidden group"
+                        className="col-span-1 bg-background/50 border border-border hover:border-foreground/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col max-h-[440px] relative overflow-hidden group"
                     >
                         {/* Background SVG decoration */}
                         <div className="absolute inset-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none z-0">
@@ -168,7 +168,7 @@ export default function HomeBentoSection() {
                             />
                         </div>
 
-                        <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
+                        <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-foreground leading-tight text-left w-full max-w-[650px]">
                             {t("home.bento.services.title")}
                         </h3>
 
@@ -195,7 +195,7 @@ export default function HomeBentoSection() {
                                 ].map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className="w-fit border border-white/10 rounded-xl px-4 py-2 text-[0.68rem] text-[#a1a1aa] bg-white/5 whitespace-normal leading-tight"
+                                        className="w-fit border border-border rounded-xl px-4 py-2 text-[0.68rem] text-muted bg-foreground/5 whitespace-normal leading-tight"
                                     >
                                         {t(item)}
                                     </div>
@@ -212,8 +212,8 @@ export default function HomeBentoSection() {
                                 animation: verticalScroll 10s linear infinite;
                             }
                             @keyframes fadeInTab {
-                                from { opacity: 0; transform: translateY(4px); }
-                                to { opacity: 1; transform: translateY(0); }
+                                from { opacity: 0; transform: translateY(4px); filter: blur(4px); }
+                                to { opacity: 1; transform: translateY(0); filter: blur(0); }
                             }
                             .animate-fade-in-tab {
                                 animation: fadeInTab 0.4s ease-out forwards;
@@ -224,18 +224,18 @@ export default function HomeBentoSection() {
                     {/* Bottom Right Card - Methodology */}
                     <FadeInUp
                         delay={0.4}
-                        className="col-span-1 overflow-hidden  md:col-span-2 bg-[#09090b]/50 border text-left border-white/5 hover:border-white/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between"
+                        className="col-span-1 overflow-hidden  md:col-span-2 bg-background/50 border text-left border-border hover:border-foreground/10 transition-colors duration-300 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between"
                     >
                         <div className="flex flex-col gap-4 mb-10">
-                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-white leading-tight text-left w-full max-w-[650px]">
+                            <h3 className="text-[clamp(1.4rem,3vw,1.6rem)] font-light text-foreground leading-tight text-left w-full max-w-[650px]">
                                 {t("home.bento.methodology.title")}
                             </h3>
-                            <p className="text-[#a1a1aa] leading-relaxed max-w-[50ch] text-[0.9rem]">
+                            <p className="text-muted leading-relaxed max-w-[50ch] text-[0.9rem]">
                                 {t("home.bento.methodology.desc")}
                             </p>
                         </div>
 
-                        <div className="bg-[#18181b]/50 border border-white/5 rounded-2xl p-6 pr-16 relative overflow-hidden left-20 -bottom-12 pb-10">
+                        <div className="bg-card/50 border border-border rounded-2xl p-6 pr-16 relative overflow-hidden left-20 -bottom-12 pb-10">
                             <div className="flex flex-wrap items-center gap-3 mb-6 relative z-10 ">
                                 {(["tab1", "tab2", "tab3", "tab4"] as const).map(tab => {
                                     const isActive = activeTab === tab;
@@ -245,23 +245,23 @@ export default function HomeBentoSection() {
                                             key={tab}
                                             onClick={() => setActiveTab(tab)}
                                             className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 border ${isActive
-                                                ? "border-[#5b4eff] text-white"
-                                                : "border-white/20 text-[#a1a1aa] hover:border-white/40 hover:text-white"
+                                                ? "border-primary text-foreground"
+                                                : "border-border text-muted hover:border-foreground/40 hover:text-foreground"
                                                 }`}
                                         >
-                                            <TabIcon size={16} className={`transition-colors duration-300 ${isActive ? "text-[#5b4eff]" : "text-white/50"}`} />
+                                            <TabIcon size={16} className={`transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground/50"}`} />
                                             {t(`home.bento.methodology.${tab}`)}
                                         </button>
                                     );
                                 })}
                             </div>
 
-                            <p key={activeTab} className="text-[#A1A1AA] text-[0.95rem] mb-6 relative z-10 min-h-[2.8rem] animate-fade-in-tab">
+                            <p key={activeTab} className="text-muted text-[0.95rem] mb-6 relative z-10 min-h-[2.8rem] animate-fade-in-tab">
                                 {t(`home.bento.methodology.${activeTab}.desc`)}
                             </p>
 
                             <div className="flex items-center justify-between relative z-10">
-                                <Link href="/methodology" className="inline-flex items-center gap-2 text-white/90 text-sm font-medium hover:text-white transition-colors border-b border-white/20 hover:border-white/60 pb-0.5 w-fit">
+                                <Link href="/methodology" className="inline-flex items-center gap-2 text-foreground/90 text-sm font-medium hover:text-foreground transition-colors border-b border-border hover:border-foreground/60 pb-0.5 w-fit">
                                     {t("home.bento.methodology.more")} <ArrowUpRight size={14} />
                                 </Link>
 
